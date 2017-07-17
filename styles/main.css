@@ -29,7 +29,7 @@ a {
 }
 
 header {
-    height: 200px;
+    min-height: 200px;
     padding: 10px;
     background-color: #470175;
 }
