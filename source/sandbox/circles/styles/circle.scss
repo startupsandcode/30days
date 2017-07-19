@@ -10,11 +10,11 @@ $strokeColor: #333;
 
 /* svg variables */
 $topPosition: 267%;
-$percent100: 0;
-$percent85: 35%;
-$percent75: 67%;
-$percent50: 132%;
-$percent25: 200%;
+$percent100: $topPosition * 0;
+$percent85: $topPosition * (1 - .85);
+$percent75: $topPosition * (1 - .75);
+$percent50: $topPosition * (1 - .50);
+$percent25: $topPosition * (1 - .25);
 
 /* Import the Google Font 'Noto Sans' */
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
