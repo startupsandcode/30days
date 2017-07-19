@@ -1,12 +1,28 @@
+/* color palette */
 $htmlColor: #e34f26;
+$cssColor: #0d84ce;
+$jsColor: #f0e040;
+$nodeColor: #83cd29;
+$bgColor: #ffffff;
+$chartColor: #999;
+$circleBorder: #f0f0f0;
+$strokeColor: #333;
+
+/* svg variables */
+$topPosition: 267%;
+$percent100: 0;
+$percent85: 35%;
+$percent75: 67%;
+$percent50: 132%;
+$percent25: 200%;
 
 /* Import the Google Font 'Noto Sans' */
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
 
 /* Container styles */
 body {
-  background-color: #fff;
-  color: #333;
+  background-color: $bgColor;
+  color: $strokeColor;
   font-family: 'Noto Sans', sans-serif;
 }
 
@@ -18,7 +34,7 @@ body {
 .chart {
   position: relative;
   display: inline-block;
-  color: #999;
+  color: $chartColor;
   font-size: 20px;
   text-align: center;
 }
@@ -27,7 +43,7 @@ body {
   padding: 50px 25px;
   width: 100px;
   height: 50px;
-  border: 20px solid #f0f0f0;
+  border: 20px solid $circleBorder;
   border-radius: 100px;
   line-height: 50px;
 }
@@ -36,7 +52,7 @@ body {
   position: absolute;
   max-width: 100px;
   max-height: 100px;
-  background: white;
+  background: $bgColor;
 }
 /* END Container styles */
 
@@ -56,7 +72,7 @@ body {
 }
 
 .css + svg .outer {
-  stroke: #0d84ce;
+  stroke: $cssColor;
 }
 
 .javascript {
@@ -67,7 +83,7 @@ body {
 }
 
 .javascript + svg .outer {
-  stroke: #f0e040;
+  stroke: $jsColor;
 }
 
 .node {
@@ -78,7 +94,7 @@ body {
 }
 
 .node + svg .outer {
-  stroke: #83cd29;
+  stroke: $nodeColor;
 }
 
 .chart svg {
@@ -89,9 +105,9 @@ body {
 
 .outer {
   fill: transparent;
-  stroke: #333;
+  stroke: $strokeColor;
   stroke-width: 20;
-  stroke-dasharray: 267%;
+  stroke-dasharray: $topPosition; //Starts at top
   transition: stroke-dashoffset 1s;
   -webkit-animation-play-state: running;
   
@@ -100,7 +116,7 @@ body {
 }
 
 .chart:hover .outer {
-  stroke-dashoffset: 267% !important;
+  stroke-dashoffset: $topPosition !important; //moves back to top
   -webkit-animation-play-state: paused;
 }
 /* END Circle colors and graphic positions */
@@ -108,25 +124,31 @@ body {
 
 /* Set the initial values for the animation */
 .chart[data-percent='100'] .outer {
-  stroke-dashoffset: 0;
+  stroke-dashoffset: $percent100;
   -webkit-animation: show100 2s;
   animation: show100 2s;
 }
 
+.chart[data-percent='85'] .outer {
+  stroke-dashoffset: $percent85;
+  -webkit-animation: show85 2s;
+  animation: show85 2s;
+}
+
 .chart[data-percent='75'] .outer {
-  stroke-dashoffset: 67%;
+  stroke-dashoffset: $percent75;
   -webkit-animation: show75 2s;
   animation: show75 2s;
 }
 
 .chart[data-percent='50'] .outer {
-  stroke-dashoffset: 200%;
+  stroke-dashoffset: $percent50;
   -webkit-animation: show50 2s;
   animation: show50 2s;
 }
 
 .chart[data-percent='25'] .outer {
-  stroke-dashoffset: 401;
+  stroke-dashoffset: $percent25;
   -webkit-animation: show25 2s;
   animation: show25 2s;
 }
@@ -135,81 +157,102 @@ body {
 /* Keyframes for the initial animation */
 @-webkit-keyframes show100 {
   from {
-    stroke-dashoffset: 537;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 0;
+    stroke-dashoffset: $percent100;
   }
 }
 
 @keyframes show100 {
   from {
-    stroke-dashoffset: 537;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 0;
+    stroke-dashoffset: $percent100;
+  }
+}
+
+
+@-webkit-keyframes show85 {
+  from {
+    stroke-dashoffset: $topPosition;
+  }
+  
+  to {
+    stroke-dashoffset: $percent85;
+  }
+}
+
+@keyframes show85 {
+  from {
+    stroke-dashoffset: $topPosition;
+  }
+  
+  to {
+    stroke-dashoffset: $percent85;
   }
 }
 
 @-webkit-keyframes show75 {
   from {
-    stroke-dashoffset: 267%;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 67%;
+    stroke-dashoffset: $percent75;
   }
 }
 
 @keyframes show75 {
   from {
-    stroke-dashoffset: 267%;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 67%;
+    stroke-dashoffset: $percent75;
   }
 }
 
 @-webkit-keyframes show50 {
   from {
-    stroke-dashoffset: 267%;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 200%;
+    stroke-dashoffset: $percent50;
   }
 }
 
 @keyframes show50 {
   from {
-    stroke-dashoffset: 267%;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 200%;
+    stroke-dashoffset: $percent50;
   }
 }
 
 @-webkit-keyframes show25 {
   from {
-    stroke-dashoffset: 537;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 401;
+    stroke-dashoffset: $percent25;
   }
 }
 
 @keyframes show25 {
   from {
-    stroke-dashoffset: 537;
+    stroke-dashoffset: $topPosition;
   }
   
   to {
-    stroke-dashoffset: 401;
+    stroke-dashoffset: $percent25;
   }
 }
 /* END Keyframes for the initial animation */
