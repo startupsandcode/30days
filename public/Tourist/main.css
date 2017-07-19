@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  text-align: center;
+  font-family: 'Sofia', 'sans-serif';
+  font-size: 15px;
+  color: #ffffff; }
+
+nav {
+  background-color: #aaa;
+  width: 100%;
+  height: 50px; }
+
+nav ul {
+  list-style: none; }
+
+nav ul li {
+  float: left;
+  padding: 15px 10px; }
+
+nav ul li:hover {
+  background-color: #8af; }
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  margin: 10px; }
+
+header {
+  margin: 0;
+  padding: 0; }
+
+.paralax {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; }
+
+.header {
+  height: 400px;
+  background-image: url("http://lorempixel.com/1280/1024/city/4/"); }
+
+h1 {
+  font-size: 3rem; }
+
+.content {
+  max-width: 1024px;
+  margin: 0 auto; }
+
+.panel {
+  padding: 100px 0;
+  margin: 0 auto; }
+
+.panel h3 {
+  margin: auto;
+  padding: 10px;
+  font-size: 2rem; }
+
+.primary {
+  background-color: #8af; }
+
+.secondary {
+  background-image: url("http://lorempixel.com/1280/1024/city/4/"); }
+
+.col {
+  border: solid 5px #888;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #8af; }
+
+.row {
+  margin: 0;
+  display: flex; }
+
+footer {
+  background-color: #000; }
+
+footer .row {
+  max-width: 1024px;
+  margin: 0 auto; }
+
+footer .col {
+  border: none;
+  margin: 10px auto; }
+
+@media (max-width: 768px) {
+  .row {
+    margin: 0;
+    display: flex;
+    flex-direction: column; } }
