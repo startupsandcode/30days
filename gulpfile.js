@@ -2,7 +2,7 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     connect = require('gulp-connect'),
-    src = './source/'
+    src = './src/'
     dest = './public/';
 
 gulp.task('sass', function () {
