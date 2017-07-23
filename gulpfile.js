@@ -29,6 +29,12 @@ gulp.task('scripts', function () {
         .pipe(connect.reload());
 });
 
+gulp.task('fonts', function(){
+    return gulp.src(src + '**/fonts/*.*')
+        .pipe(gulp.dest(dest))
+        .pipe(connect.reload());
+});
+
 gulp.task('connect', function () {
     connect.server({
         root: 'public',
@@ -42,4 +48,4 @@ gulp.task('watch', function () {
     gulp.watch([src + '**/*.html'], ['html']);
 });
 
-gulp.task('default', ['sass', 'html', 'scripts', 'images', 'connect', 'watch']);
+gulp.task('default', ['sass', 'html', 'scripts', 'fonts', 'images', 'connect', 'watch']);
