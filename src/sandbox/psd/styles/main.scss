@@ -1,0 +1,317 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+body,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+p,
+li,
+h1,
+h2,
+h3,
+h4 {
+    color: #4e4e4e;
+}
+
+body {
+    background: #f7f7f7;
+}
+
+.wrapper {
+    width: 96%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2%;
+}
+
+header {
+    background: #e5e5e5;
+    padding: 20px 0;
+    h1 {
+        margin: 0;
+        text-indent: -10000px;
+        background: url('../images/icon1.png') no-repeat;
+        width: 100px;
+        float: left;
+    }
+    nav {
+        float: right;
+        h2 {
+            line-height: 0;
+            margin: 0;
+            text-indent: -10000px;
+        }
+        li {
+            list-style-type: none;
+            float: left;
+            margin-left: 20px;
+            margin-top: 10px;
+            a {
+                text-decoration: none;
+                color: #4e4e4e;
+                text-transform: uppercase;
+                font-weight: bold;
+                &.current {
+                    color: #1abb9c;
+                }
+            }
+        }
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+#main-banner {
+    max-height: 500px;
+    overflow: hidden;
+    img {
+        width: 100%;
+    }
+}
+
+#selling-points {
+    margin-top: 60px;
+    li {
+        float: left;
+        width: 23%;
+        padding: 1%;
+        text-align: center;
+        list-style-type: none;
+        line-height: 1.6rem;
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+#latest-work {
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 2px solid #e4e4e4;
+    h2 {
+        text-transform: uppercase;
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+    li {
+        width: 32%;
+        float: left;
+        list-style-type: none;
+        &:nth-child(2) {
+            margin: 0 2%;
+        }
+    }
+    img {
+        width: 100%;
+    }
+    h3 {
+        margin-bottom: 0;
+    }
+    p {
+        line-height: 1.6em;
+        &.tags {
+            color: #bbb;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+#quote {
+    margin-top: 60px;
+    width: 60%;
+    padding: 40px 20%;
+    background: url('../images/quote.png') no-repeat center 20px;
+    background-color: #efefef;
+    color: #4e4e4e;
+    font-size: 20px;
+    line-height: 1.6em;
+}
+
+footer {
+    background: #202020;
+    padding: 30px 0;
+    border-top: 10px solid #151515;
+    h4 {
+        margin: 0;
+        color: #555;
+        text-transform: uppercase;
+        font-size: 18px;
+    }
+    ul {
+        float: left;
+        width: 25%;
+        list-style-type: none;
+    }
+    li {
+        color: #888;
+        width: 80%;
+        margin: 20px 0;
+        font-size: 14px;
+        line-height: 1.6em;
+        &.tw {
+            padding-left: 20px;
+            background: url('../images/twitter.png') no-repeat left 6px;
+        }
+    }
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+#copyright {
+    clear: both;
+    padding-top: 30px;
+    margin-top: 30px;
+    float: left;
+    border-top: 2px solid #333;
+    color: #999;
+    font-size: 14px;
+}
+
+
+/* media queries */
+
+@media screen and (max-width: 960px) {
+    #selling-points {
+        li {
+            width: 40%;
+            padding: 0 5%;
+            margin: 20px 0;
+        }
+    }
+    footer {
+        ul {
+            width: 50%;
+            &:nth-child(odd) {
+                clear: both;
+            }
+        }
+    }
+    #quote {
+        width: 90%;
+        padding: 40px 5%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        nav {
+            float: none;
+            li {
+                margin-left: 0;
+                width: 16.66%;
+                text-align: center;
+                font-size: 14px;
+            }
+        }
+        h1 {
+            &.logo {
+                float: none;
+                margin: 0 auto 15px;
+            }
+        }
+    }
+    #latest-work {
+        li {
+            width: 60%;
+            margin: 30px 20% !important;
+        }
+        h2 {
+            text-align: center;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #selling-points {
+        li {
+            width: 80%;
+            padding: 0 10%;
+            margin: 20px 0;
+        }
+    }
+    #latest-work {
+        li {
+            width: 80%;
+            margin: 30px 10% !important;
+        }
+    }
+    #quote {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    footer {
+        ul {
+            width: 100%;
+            float: none;
+            border-top: 2px solid #333;
+        }
+    }
+    header {
+        padding-bottom: 0;
+        nav {
+            ul{
+                height: 0;
+                overflow: hidden;
+                &.open{
+                    height: auto;
+                }
+            }
+
+            li {
+                float: none;
+                width: 100%;
+                margin: 0;
+                a {
+                    display: block;
+                    text-align: center;
+                    padding: 10px;
+                    color: #999;
+                    border-top: 1px solid #4f4f4f;
+                }
+            }
+            background: #555;
+        }
+        .wrapper {
+            padding: 0;
+            width: 100%;
+        }
+    }
+    #burger-nav {
+        width: 100%;
+        height: 40px;
+        cursor: pointer;
+    }
+    .box-shadow-menu {
+        position: relative;
+        padding-left: 1.25em;
+    }
+    .box-shadow-menu:before {
+        content: "";
+        position: absolute;
+        right: 1.5em;
+        top: 0.25em;
+        width: 1em;
+        height: 0.2em;
+        background: #999;
+        box-shadow: 0 0.45em 0 0 #999, 0 0.9em 0 0 #999;
+    }
+}
