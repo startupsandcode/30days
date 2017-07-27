@@ -1,8 +1,341 @@
 @import 'palette.scss';
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
 
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    color: $color1;
-    background-color: $color2;
+body,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+p,
+li,
+h1,
+h2,
+h3,
+h4 {
+    color: $color2;
+}
+
+body {
+    background: $color1;
+}
+
+.wrapper {
+    width: 96%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2%;
+}
+
+header {
+    background: $color3;
+    padding: 20px 0;
+    h1 {
+        margin: 0;
+        text-indent: -10000px;
+        background: url('../images/icon1.png') no-repeat;
+        width: 100px;
+        float: left;
+    }
+    nav {
+        float: right;
+        h2 {
+            line-height: 0;
+            margin: 0;
+            text-indent: -10000px;
+        }
+        li {
+            list-style-type: none;
+            float: left;
+            margin-left: 20px;
+            margin-top: 10px;
+            a {
+                text-decoration: none;
+                color: $color2;
+                text-transform: uppercase;
+                font-weight: bold;
+                &.current {
+                    color: $color4;
+                }
+            }
+        }
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+#main-banner {
+    max-height: 500px;
+    overflow: hidden;
+    img {
+        margin: 10px 40%;
+        width: 20%;
+        max-width: 400px;
+    }
+}
+
+#what-we-do {
+    h2 {
+        text-align: center;
+    }
+    margin-top: 60px;
+    background-color: $color3;
+    padding: 10px;
+    li {
+        float: left;
+        width: 23%;
+        padding: 1%;
+        text-align: center;
+        list-style-type: none;
+        line-height: 1.6rem;
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+#why-us {
+    background-color: $color1;
+    padding: 30px;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 2px solid $color2;
+    h2 {
+        text-transform: uppercase;
+        font-size: 20px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+    li {
+        width: 32%;
+        float: left;
+        list-style-type: none;
+        &:nth-child(2) {
+            margin: 0 2%;
+        }
+    }
+    img {
+        width: 100%;
+    }
+    h3 {
+        margin-bottom: 0;
+    }
+    p {
+        line-height: 1.6em;
+        &.tags {
+            color: $color4;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+#quote {
+    margin-top: 60px;
+    width: 60%;
+    padding: 40px 20%;
+    background: url('../images/quote.png') no-repeat center 20px;
+    background-color: $color3;
+    color: $color4;
+    font-size: 20px;
+    line-height: 1.6em;
+}
+
+footer {
+    background: $color1;
+    padding: 30px 0;
+    border-top: 10px solid $color4;
+    h4 {
+        margin: 0;
+        color: $color5;
+        text-transform: uppercase;
+        font-size: 18px;
+    }
+    ul {
+        float: left;
+        width: 25%;
+        list-style-type: none;
+    }
+    li {
+        color: $color2;
+        width: 80%;
+        margin: 20px 0;
+        font-size: 14px;
+        line-height: 1.6em;
+        &.tw {
+            padding-left: 20px;
+            background: url('../images/twitter.png') no-repeat left 6px;
+        }
+    }
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+#copyright {
+    clear: both;
+    padding-top: 30px;
+    margin-top: 30px;
+    float: left;
+    border-top: 2px solid $color2;
+    color: $color3;
+    font-size: 14px;
+}
+
+
+/* media queries */
+
+@media screen and (max-width: 960px) {
+    #what-we-do {
+        li {
+            width: 40%;
+            padding: 0 5%;
+            margin: 20px 0;
+        }
+    }
+    footer {
+        ul {
+            width: 50%;
+            &:nth-child(odd) {
+                clear: both;
+            }
+        }
+    }
+    #quote {
+        width: 90%;
+        padding: 40px 5%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #main-banner {
+        img {
+            margin: 10px 40%;
+            width: 25%;
+        }
+    }
+    header {
+        nav {
+            float: none;
+            li {
+                margin-left: 0;
+                width: 16.66%;
+                text-align: center;
+                font-size: 14px;
+            }
+        }
+        h1 {
+            &.logo {
+                float: none;
+                margin: 0 auto 15px;
+            }
+        }
+    }
+    #latest-work {
+        li {
+            width: 60%;
+            margin: 30px 20% !important;
+        }
+        h2 {
+            text-align: center;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #main-banner {
+        img {
+            margin: 10px 30%;
+            min-height: 100px;
+            min-width: 100px;
+            width: 50%;
+        }
+    }
+    #what-we-do {
+        li {
+            width: 80%;
+            padding: 0 10%;
+            margin: 20px 0;
+        }
+    }
+    #why-us {
+        li {
+            width: 80%;
+            margin: 30px 10% !important;
+        }
+    }
+    #quote {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    footer {
+        ul {
+            width: 100%;
+            float: none;
+            border-top: 2px solid $color4;
+        }
+    }
+    header {
+        padding-bottom: 0;
+        nav {
+            ul {
+                height: 0;
+                overflow: hidden;
+                &.open {
+                    height: auto;
+                }
+            }
+            li {
+                float: none;
+                width: 100%;
+                margin: 0;
+                a {
+                    display: block;
+                    text-align: center;
+                    padding: 10px;
+                    color: $color3;
+                    border-top: 1px solid $color4;
+                }
+            }
+            background: $color3;
+        }
+        .wrapper {
+            padding: 0;
+            width: 100%;
+        }
+    }
+    #burger-nav {
+        width: 100%;
+        height: 40px;
+        cursor: pointer;
+    }
+    .box-shadow-menu {
+        position: relative;
+        padding-left: 1.25em;
+    }
+    .box-shadow-menu:before {
+        content: "";
+        position: absolute;
+        right: 1.5em;
+        top: 0.25em;
+        width: 1em;
+        height: 0.2em;
+        background: $color3;
+        box-shadow: 0 0.45em 0 0 $color3, 0 0.9em 0 0 $color3;
+    }
 }
