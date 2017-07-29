@@ -1,6 +1,7 @@
 @import 'palette.scss';
 * {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: $color6;
 }
 
 body,
@@ -10,13 +11,11 @@ li {
     padding: 0;
 }
 
-p,
-li,
 h1,
 h2,
 h3,
 h4 {
-    color: $color2;
+    color: $color5;
 }
 
 body {
@@ -81,12 +80,13 @@ header {
 }
 
 #what-we-do {
-    h2 {
-        text-align: center;
-    }
     margin-top: 60px;
     background-color: $color3;
     padding: 10px;
+    border-radius: 40px;
+    h2 {
+        text-align: center;
+    }
     li {
         float: left;
         width: 23%;
@@ -170,14 +170,14 @@ footer {
         list-style-type: none;
     }
     li {
-        color: $color2;
+        color: $color6;
         width: 80%;
         margin: 20px 0;
         font-size: 14px;
         line-height: 1.6em;
         &.tw {
-            padding-left: 20px;
-            background: url('../images/twitter.png') no-repeat left 6px;
+            padding-left: 25px;
+            background: url('../images/twitter.png') no-repeat left 3px;
         }
     }
     &:after {
