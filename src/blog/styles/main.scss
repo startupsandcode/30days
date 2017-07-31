@@ -59,17 +59,23 @@ main {
     top: 100px;
 }
 
+.hide{
+    display: none;
+}
+
 .flip-container,
 .front,
 .back {
     width: 320px;
     height: 320px;
+    transition: all 2s ease;
 }
 
 .flip-container {
     background-color: $bgcolor;
     margin: 20px;
     float: left;
+    transition: all 2s ease;
     .front,
     .back {
         padding: 10px;
@@ -82,6 +88,19 @@ main {
         background-color: $color2;
         color: $color1;
         margin-left: -20px;
+    }
+    &.current{
+        position: absolute;
+        display: block;
+        top: 100px;
+        width: 90%;
+        opacity:1;
+        height: 500px;
+        z-index: -1;
+        .front, .back{
+            width: 90%;
+            height: 500px;
+        }
     }
 }
 

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>StickyNav</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/styles.css">
+
+
+    <script src="scripts/stickynav.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            new StickyNav({
+                nav: '#sticky',
+                offset: 80
+            });
+        });
+    </script>
+    <!-- end demo stuffs -->
+</head>
+
+<body>
+    <header class="condensed align-center">
+        <h1>StickyNav.</h1>
+    </header>
+    <nav class="mini-nav">
+        <div id="sticky" class="normal">
+            <nav data-autogenerate="true">
+                <ul></ul>
+            </nav>
+        </div>
+    </nav>
+    <main class="component left-rail">
+        <div class="container">
+            <section data-nav="About" id="about">
+                <h2>About</h2>
+                <p>Scrollify. Do things on scroll. 3KB minified + gzipped.</p>
+
+                <h3>What sorts of things?</h3>
+                <p>Well, whatever you want. Common effects such as parallax or toggling a class on/off are possible and bundled
+                    within. However, you may also easily create your own custom scroll function, and pass it in to Scrollify.
+                    The built-in effects include:
+                    <p>
+                        <ul class="bullets">
+                            <li><strong>Stick</strong>: sticks an element to a particular point and holds in there for a pre-defined
+                                number of pixels.</li>
+                            <li><strong>Parallax</strong>: move stuff on scroll. A subtle effect that transistions elements more
+                                slowly (or perhaps quickly) than the speed of the user-scroll.</li>
+                            <li><strong>Toggle</strong>: turn a CSS class on or off if the element crosses a particular threshold
+                                on the page.</li>
+                            <li><strong>Translate</strong>: translate an element along the X- or Y- axis.</li>
+                            <li><strong>Rotate</strong>: rotate an element via scroll.</li>
+                            <li><strong>Scale</strong>: scale an element.</li>
+                            <li><strong>Fade</strong>: change an element's opacity.</li>
+                        </ul>
+
+                        <h3>Robust</h3>
+                        <p>The effects work perfectly fine when scrolling in reverse as well, and after resizing the viewport,
+                            too!
+                        </p>
+
+                        <h3>Notes</h3>
+                        <p>Scrollify works by first calculating an element's position in the page so that it may be manipulated
+                            on scroll. It is important to note that as the page loads, this position may jump around as the
+                            DOM is constructed and images are loaded, etc. Therefore, it is important that Scrollify'd elements
+                            are not initialized until the page has finished loading all images and the DOM is stable.</p>
+
+                        <p>A note on implementation: Scrollify uses matrix transformations in its calculations -- in this way
+                            multiple element transforms may be stacked and animated on a single element (it is also a lot
+                            more efficient and speedy).</p>
+
+                        <p>If you're trying to Scrollify an element whose position on the page is dependant on assets loading
+                            above of it, you may wish to use
+                            <code class="language-javascript">window.addEventListener('load', ...)</code> rather than the
+                            more common
+                            <code class="language-javascript">window.addEventListener('DOMContentLoaded', ...)</code>.
+
+                            <!-- There is also a simple <a href="https://github.com/desandro/imagesloaded">imagesloaded.js</a> plugin included. -->
+        </div>
+        </section>
+
+        <section data-nav="Install" id="install">
+            <div class="container">
+                <h2>Install</h2>
+                <h3>npm</h3>
+                <pre><code class="language-javascript">npm install apatheticwes/scrollify</code></pre>
+
+                <h3>Github</h3>
+                <p><a href="https://github.com/apathetic/scrollify">Get it from Github</a></p>
+            </div>
+        </section>
+
+        <section data-nav="Requirements" id="requirements">
+            <div class="container">
+                <h2>Requirements</h2>
+                <p>None. Works fine without any frameworks.</p>
+            </div>
+        </section>
+
+        <section data-nav="Compatibility" id="compatibility">
+            <div class="container">
+                <h2>Compatibility</h2>
+                <ul class="bullets">
+                    <li>IE9+</li>
+                    <li>Firefox, Webkit, Opera</li>
+                </ul>
+            </div>
+        </section>
+
+        <section data-nav="Options" id="options">
+            <div class="container">
+                <h2>Options</h2>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">name</th>
+                            <th style="width: 50px;">type</th>
+                            <th>description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>el</td>
+                            <td>string | HTMLElement</td>
+                            <td>Reference to the DOM node of thing to scroll-ify</td>
+                        </tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section data-nav="Methods" id="methods">
+            <div class="container">
+                <h2>Methods</h2>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">name</th>
+                            <th style="width: 50px;">arguments</th>
+                            <th>description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>addScene</td>
+                            <td>start()<br> duration(Integer)
+                                <br> effects(Array)
+                            </td>
+                            <td> </td>
+                        </tr>
+                        <tr>
+                            <td>addEffect</td>
+                            <td>name(String|Function)<br> options(Object)
+                            </td>
+                            <td> </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+        </div>
+    </footer>
+
+</body>
+
+</html>

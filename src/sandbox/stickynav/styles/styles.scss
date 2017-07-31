@@ -1,0 +1,24 @@
+	main{
+		margin-top: 50px;
+	}
+
+
+header.condensed {
+		margin-bottom: 0;
+	}
+
+	#about{
+		margin-top: 50px;
+	}
+
+	#sticky {
+		height: 80px;
+		nav {
+			li {
+				float: left;
+			}
+		}
+		&.normal, &.sticky {
+			background-color: #2a2c2e;
+		}
+	}
