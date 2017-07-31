@@ -1,0 +1,176 @@
+@import 'flip.scss';
+$color1: hsla(140, 30%, 80%, 1);
+$color2: hsla(240, 50%, 70%, 1);
+$bgcolor: hsla(90, 30%, 90%, 1);
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: $color2;
+    background-color: $bgcolor;
+}
+
+.wrapper {
+    width: 96%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2%;
+}
+
+header {
+    background: $color1;
+    padding: 20px 0;
+    h1 {
+        margin: 0;
+        width: 100px;
+        float: left;
+    }
+    nav {
+        float: right;
+        h2 {
+            line-height: 0;
+            margin: 0;
+            text-indent: -10000px;
+        }
+        li {
+            list-style-type: none;
+            float: left;
+            margin-left: 20px;
+            margin-top: 10px;
+            a {
+                text-decoration: none;
+                color: #4e4e4e;
+                text-transform: uppercase;
+                font-weight: bold;
+                &.current {
+                    color: $color2;
+                }
+            }
+        }
+    }
+    &:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+}
+
+main {
+    position: relative;
+    top: 100px;
+}
+
+.flip-container,
+.front,
+.back {
+    width: 320px;
+    height: 320px;
+}
+
+.flip-container {
+    background-color: $bgcolor;
+    margin: 20px;
+    float: left;
+    .front,
+    .back {
+        padding: 10px;
+    }
+    .front {
+        background-color: $color1;
+        color: $color2;
+    }
+    .back {
+        background-color: $color2;
+        color: $color1;
+        margin-left: -20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        nav {
+            float: none;
+            li {
+                margin-left: 0;
+                width: 16.66%;
+                text-align: center;
+                font-size: 14px;
+            }
+        }
+        h1 {
+            &.logo {
+                float: none;
+                margin: 0 auto 15px;
+            }
+        }
+    }
+    .flip-container,
+    .front,
+    .back {
+        width: 90%;
+        height: 250px;
+        margin: 20px 5%;
+    }
+
+    .back{
+        margin-left: 0 !important;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    header {
+        padding-bottom: 0;
+        nav {
+            ul {
+                height: 0;
+                overflow: hidden;
+                margin: 0;
+                transition: height 2s;
+                &.open {
+                    height: auto;
+                }
+            }
+            li {
+                float: none;
+                width: 100%;
+                margin: 0;
+                a {
+                    display: block;
+                    text-align: center;
+                    padding: 10px;
+                    color: $color1;
+                    border-top: 1px solid $color2;
+                }
+            }
+            background: $color2;
+        }
+        .wrapper {
+            padding: 0;
+            width: 100%;
+        }
+    }
+    #burger-nav {
+        width: 100%;
+        height: 40px;
+        cursor: pointer;
+    }
+    .box-shadow-menu {
+        position: relative;
+        padding-left: 1.25em;
+    }
+    .box-shadow-menu:before {
+        content: "";
+        position: absolute;
+        right: 1.5em;
+        top: 0.25em;
+        width: 1em;
+        height: 0.2em;
+        background: $color1;
+        box-shadow: 0 0.45em 0 0 $color1, 0 0.9em 0 0 $color1;
+    }
+    .flip-container,
+    .front,
+    .back {
+        width: 90%;
+        height: 150px;
+    }
+}
