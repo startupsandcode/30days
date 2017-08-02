@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--META TAGS-->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+  <meta name="description" content="Virtual Drum Kit" />
+
+  <title>Virtual Drum Kit</title>
+
+  <!-- Bootstrap, Animate.css, Font Awesome, CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Merriweather|Oswald">
+
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css">
+
+  <link rel="stylesheet" href="./css/style.css">
+
+</head>
+<!--End Head Tags-->
+
+<!--BODY-->
+
+<body>
+
+  <section class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <p>Can You Play Like...</p>
+        </div>
+        <!--END col-md-6-->
+      </div>
+      <!--END Row-->
+    </div>
+    <!--END Container-Fluid-->
+  </section>
+  <!--END Section Header-->
+
+  <section class="drummers">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="drummer-list list-unstyled list-inline">
+            <li> Steve Adler (Guns N' Roses)</li>
+            <li>Meg White (The White Stripes)</li>
+            <li>Tommy Ramone (The Ramones)</li>
+          </ul>
+        </div>
+        <!--END Row-->
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="instructions">Click the letter on the keyboard that corresponds with the sound.<br>Try to create a rhythm.</p>
+        </div>
+        <!--END co1-md-12-->
+      </div>
+      <!--END Row-->
+    </div>
+    <!--END Container-Fluid-->
+  </section>
+  <!--END Directions-->
+
+  <section class="keys">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="keys">
+            <div data-key="65" class="key">
+              <kbd>A</kbd>
+              <span class="sound">clap</span>
+            </div>
+            <div data-key="83" class="key">
+              <kbd>S</kbd>
+              <span class="sound">hihat</span>
+            </div>
+            <div data-key="68" class="key">
+              <kbd>D</kbd>
+              <span class="sound">kick</span>
+            </div>
+            <div data-key="70" class="key">
+              <kbd>F</kbd>
+              <span class="sound">openhat</span>
+            </div>
+            <div data-key="71" class="key">
+              <kbd>G</kbd>
+              <span class="sound">boom</span>
+            </div>
+            <div data-key="72" class="key">
+              <kbd>H</kbd>
+              <span class="sound">ride</span>
+            </div>
+            <div data-key="74" class="key">
+              <kbd>J</kbd>
+              <span class="sound">snare</span>
+            </div>
+            <div data-key="75" class="key">
+              <kbd>K</kbd>
+              <span class="sound">tom</span>
+            </div>
+            <div data-key="76" class="key">
+              <kbd>L</kbd>
+              <span class="sound">tink</span>
+            </div>
+          </div>
+        </div>
+        <!--END col-md-12-->
+      </div>
+      <!--END Row-->
+    </div>
+    <!--END Container Fluid-->
+  </section>
+  <!--END Keys-->
+
+  <section class="audio">
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+  </section>
+
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

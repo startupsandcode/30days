@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CodeTap - Convert to front-end</title>
+        <meta content="Are you stuck in your current job with little hope for the better? Become a front-end developer with ease now." name="description">
+        <style>
+            .codetap-user-plus:before {
+                content: "\e973"
+            }
+
+            .codetap-switch:before {
+                content: "\e9b6"
+            }
+
+            .codetap-new-tab:before {
+                content: "\ea7e"
+            }
+
+            .codetap-embed2:before {
+                content: "\ea80"
+            }
+
+            .codetap-blogger:before {
+                content: "\eab7"
+            }
+
+            @font-face {
+                font-family: 'codetap';
+                src: url(/asset/font/codetap.ttf?vup6112) format("truetype"),url(/asset/font/codetap.woff?vup6112) format("woff"),url(/asset/font/codetap.svg?vup6112#codetap) format("svg");
+                font-weight: 400;
+                font-style: normal
+            }
+
+            [class*=" codetap-"],[class^=codetap-] {
+                font-family: 'codetap'!important;
+                speak: none;
+                font-style: normal;
+                font-weight: 400;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale
+            }
+
+            @font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local("Open Sans"),local("OpenSans"),url(https://fonts.gstatic.com/s/opensans/v13/K88pR3goAWT7BTt32Z01mxJtnKITppOI_IvcXXDNrsc.woff2) format("woff2");
+                unicode-range: U+0460-052F,U+20B4,U+2DE0-2DFF,U+A640-A69F
+            }
+
+            @font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local("Open Sans"),local("OpenSans"),url(https://fonts.gstatic.com/s/opensans/v13/RjgO7rYTmqiVp7vzi-Q5URJtnKITppOI_IvcXXDNrsc.woff2) format("woff2");
+                unicode-range: U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116
+            }
+
+            @font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local("Open Sans"),local("OpenSans"),url(https://fonts.gstatic.com/s/opensans/v13/LWCjsQkB6EMdfHrEVqA1KRJtnKITppOI_IvcXXDNrsc.woff2) format("woff2");
+                unicode-range: U+1F00-1FFF
+            }
+
+            @font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local("Open Sans"),local("OpenSans"),url(https://fonts.gstatic.com/s/opensans/v13/xozscpT2726on7jbcb_pAhJtnKITppOI_IvcXXDNrsc.woff2) format("woff2");
+                unicode-range: U+0370-03FF
+            }
+
+            @font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local("Open Sans"),local("OpenSans"),url(https://fonts.gstatic.com/s/opensans/v13/59ZRklaO5bWGqF5A9baEERJtnKITppOI_IvcXXDNrsc.woff2) format("woff2");
+                unicode-range: U+0102-0103,U+1EA0-1EF9,U+20AB
+            }
+
+            @font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local("Open Sans"),local("OpenSans"),url(https://fonts.gstatic.com/s/opensans/v13/u-WUoqrET9fUeobQW7jkRRJtnKITppOI_IvcXXDNrsc.woff2) format("woff2");
+                unicode-range: U+0100-024F,U+1E00-1EFF,U+20A0-20AB,U+20AD-20CF,U+2C60-2C7F,U+A720-A7FF
+            }
+
+            @font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                src: local("Open Sans"),local("OpenSans"),url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format("woff2");
+                unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2212,U+2215
+            }
+
+            .description-wrapper,.icon-wrapper,.navigation-wrapper,.title-wrapper {
+                width: 50%;
+                height: 50%;
+                position: relative
+            }
+
+            .description-content,.icon-content,.navigation-content,.title-content {
+                position: absolute;
+                top: .2rem;
+                left: .2rem;
+                right: .2rem;
+                bottom: .2rem;
+                border-radius: .2rem;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                overflow: hidden
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box
+            }
+
+            .content,body,html {
+                height: 100%
+            }
+
+            .content {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+                background-color: #000
+            }
+
+            .icon-wrapper {
+                -webkit-box-ordinal-group: 2;
+                -ms-flex-order: 1;
+                order: 1
+            }
+
+            .icon-content {
+                background-image: -webkit-radial-gradient(ellipse,#32afc5,#2b265e);
+                background-image: radial-gradient(ellipse,#32afc5,#2b265e)
+            }
+
+            .icon {
+                -webkit-transition: .3s;
+                transition: .3s;
+                -webkit-transition-delay: .2s;
+                transition-delay: .2s;
+                position: absolute;
+                -webkit-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+                left: -100%;
+                right: 100%;
+                font-size: 30vmin;
+                color: #fff;
+                text-align: center
+            }
+
+            .icon-title {
+                padding-right: .5rem
+            }
+
+            .icon-link {
+                color: #fff;
+                text-decoration: none;
+                text-align: center;
+                -webkit-transition: .2s;
+                transition: .2s;
+                position: absolute;
+                bottom: 1vmin;
+                right: 100%;
+                left: 100%;
+                font-size: 3.5vmin
+            }
+
+            .icon-link:hover {
+                color: #000
+            }
+
+            .title-wrapper {
+                -webkit-box-ordinal-group: 1;
+                -ms-flex-order: 0;
+                order: 0
+            }
+
+            .title-content {
+                background-image: -webkit-radial-gradient(ellipse,#917567,#282339);
+                background-image: radial-gradient(ellipse,#917567,#282339)
+            }
+
+            .title-label {
+                position: absolute;
+                -webkit-transition: .2s;
+                transition: .2s;
+                left: 100%;
+                right: -100%;
+                padding: 2vmin
+            }
+
+            h1,h2 {
+                color: #fff;
+                text-align: center
+            }
+
+            h1 {
+                font-size: 10vmin
+            }
+
+            h2 {
+                font-size: 5vmin
+            }
+
+            .description-wrapper {
+                -webkit-box-ordinal-group: 3;
+                -ms-flex-order: 2;
+                order: 2
+            }
+
+            .description-content {
+                background-image: -webkit-radial-gradient(ellipse,#e59654,#d12e49);
+                background-image: radial-gradient(ellipse,#e59654,#d12e49)
+            }
+
+            .description-paragraph {
+                position: absolute;
+                -webkit-transition: .2s;
+                transition: .2s;
+                -webkit-transition-delay: .1s;
+                transition-delay: .1s;
+                left: 100%;
+                right: -100%;
+                color: #fff;
+                font-size: 3.8vmin;
+                padding: 5vmin;
+                text-align: center
+            }
+
+            .navigation-input:nth-child(1):checked~.description-wrapper .description-paragraph:nth-child(1),.navigation-input:nth-child(1):checked~.icon-wrapper .icon-link:nth-of-type(1),.navigation-input:nth-child(1):checked~.icon-wrapper .icon:nth-child(1),.navigation-input:nth-child(1):checked~.title-wrapper .title-label:nth-child(1) {
+                -webkit-transform: rotate(0);
+                transform: rotate(0);
+                -webkit-transition-timing-function: ease-in;
+                transition-timing-function: ease-in;
+                left: 0;
+                right: 0
+            }
+
+            .navigation-input:nth-child(1):checked~.navigation-wrapper .navigation-label:nth-child(1) {
+                background-color: rgba(255,255,255,.5);
+                color: #000
+            }
+
+            .navigation-input:nth-child(2):checked~.description-wrapper .description-paragraph:nth-child(2),.navigation-input:nth-child(2):checked~.icon-wrapper .icon-link:nth-of-type(2),.navigation-input:nth-child(2):checked~.icon-wrapper .icon:nth-child(2),.navigation-input:nth-child(2):checked~.title-wrapper .title-label:nth-child(2) {
+                -webkit-transform: rotate(0);
+                transform: rotate(0);
+                -webkit-transition-timing-function: ease-in;
+                transition-timing-function: ease-in;
+                left: 0;
+                right: 0
+            }
+
+            .navigation-input:nth-child(2):checked~.navigation-wrapper .navigation-label:nth-child(2) {
+                background-color: rgba(255,255,255,.5);
+                color: #000
+            }
+
+            .navigation-input:nth-child(3):checked~.description-wrapper .description-paragraph:nth-child(3),.navigation-input:nth-child(3):checked~.icon-wrapper .icon-link:nth-of-type(3),.navigation-input:nth-child(3):checked~.icon-wrapper .icon:nth-child(3),.navigation-input:nth-child(3):checked~.title-wrapper .title-label:nth-child(3) {
+                -webkit-transform: rotate(0);
+                transform: rotate(0);
+                -webkit-transition-timing-function: ease-in;
+                transition-timing-function: ease-in;
+                left: 0;
+                right: 0
+            }
+
+            .navigation-input:nth-child(3):checked~.navigation-wrapper .navigation-label:nth-child(3) {
+                background-color: rgba(255,255,255,.5);
+                color: #000
+            }
+
+            .navigation-input:nth-child(4):checked~.description-wrapper .description-paragraph:nth-child(4),.navigation-input:nth-child(4):checked~.icon-wrapper .icon-link:nth-of-type(4),.navigation-input:nth-child(4):checked~.icon-wrapper .icon:nth-child(4),.navigation-input:nth-child(4):checked~.title-wrapper .title-label:nth-child(4) {
+                -webkit-transform: rotate(0);
+                transform: rotate(0);
+                -webkit-transition-timing-function: ease-in;
+                transition-timing-function: ease-in;
+                left: 0;
+                right: 0
+            }
+
+            .navigation-input:nth-child(4):checked~.navigation-wrapper .navigation-label:nth-child(4) {
+                background-color: rgba(255,255,255,.5);
+                color: #000
+            }
+
+            .navigation-label {
+                cursor: pointer;
+                border: .1vmin solid #fff;
+                border-radius: 1vmin;
+                margin: 1vmin 2vmin;
+                height: 40%;
+                width: 30%
+            }
+
+            .navigation-label:hover {
+                background-color: rgba(255,255,255,.5);
+                color: #000
+            }
+
+            .navigation-button {
+                border-bottom: .1vmin solid #fff
+            }
+
+            .navigation-button,.navigation-icon {
+                text-align: center;
+                padding: 1rem;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                height: 50%
+            }
+
+            .navigation-button {
+                font-size: 3vmin
+            }
+
+            .navigation-icon {
+                font-size: 5vmin
+            }
+
+            .navigation-input {
+                display: none
+            }
+
+            .navigation-wrapper {
+                -webkit-box-ordinal-group: 4;
+                -ms-flex-order: 3;
+                order: 3;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+                -webkit-box-align: stretch;
+                -ms-flex-align: stretch;
+                align-items: stretch;
+                -ms-flex-line-pack: stretch;
+                align-content: stretch
+            }
+
+            .navigation-content {
+                color: #fff;
+                background-image: -webkit-radial-gradient(ellipse,#82c0ab,#00021b);
+                background-image: radial-gradient(ellipse,#82c0ab,#00021b);
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <input class="navigation-input" type="radio" name="active" id="radio-0" checked="checked">
+            <input class="navigation-input" type="radio" name="active" id="radio-1">
+            <input class="navigation-input" type="radio" name="active" id="radio-2">
+            <input class="navigation-input" type="radio" name="active" id="radio-3">
+            <div class="title-wrapper">
+                <div class="title-content">
+                    <label class="title-label" for="radio-0">
+                        <h1>CodeTap</h1>
+                        <h2>Convert to front-end</h2>
+                    </label>
+                    <label class="title-label" for="radio-1">
+                        <h1>Pug Starter</h1>
+                        <h2>Start building websites like a PRO with little to no knowledge</h2>
+                    </label>
+                    <label class="title-label" for="radio-2">
+                        <h1>My Resume</h1>
+                        <h2>Your very first project that matter</h2>
+                    </label>
+                    <label class="title-label" for="radio-3">
+                        <h1>Quick Blog</h1>
+                        <h2>The starter recipe for multi-page websites</h2>
+                    </label>
+                </div>
+            </div>
+            <div class="description-wrapper">
+                <div class="description-content">
+                    <p class="description-paragraph">Are you stuck in your current job with little hope for the better? Become a front-end developer with ease now.</p>
+                    <p class="description-paragraph">All you need is some basic understanding of HTML and CSS to get started with your first projects or no knowledge at all</p>
+                    <p class="description-paragraph">Let's discover HTML and CSS together while building a fast, quick and ultra awesome resume</p>
+                    <p class="description-paragraph">Build your blog from scratch and be proud to be among the quickest and fastest in the world. There is no blog quicker than Quick Blog that we know of.</p>
+                </div>
+            </div>
+            <div class="icon-wrapper">
+                <div class="icon-content">
+                    <span class="icon">
+                        <span class="codetap-embed2"></span>
+                    </span>
+                    <span class="icon">
+                        <span class="codetap-switch"></span>
+                    </span>
+                    <span class="icon">
+                        <span class="codetap-user-plus"></span>
+                    </span>
+                    <span class="icon">
+                        <span class="codetap-blogger"></span>
+                    </span>
+                    <a class="icon-link" href="/codetap">
+                        <span class="icon-title">
+                            Click 
+                            <b>
+                                <i>CodeTap</i>
+                            </b>
+                            to visit
+                        </span>
+                        <span class="codetap-new-tab"></span>
+                    </a>
+                    <a class="icon-link" href="/pug-starter">
+                        <span class="icon-title">
+                            Click 
+                            <b>
+                                <i>Pug Starter</i>
+                            </b>
+                            to visit
+                        </span>
+                        <span class="codetap-new-tab"></span>
+                    </a>
+                    <a class="icon-link" href="/my-resume">
+                        <span class="icon-title">
+                            Click 
+                            <b>
+                                <i>My Resume</i>
+                            </b>
+                            to visit
+                        </span>
+                        <span class="codetap-new-tab"></span>
+                    </a>
+                    <a class="icon-link" href="/quick-blog">
+                        <span class="icon-title">
+                            Click 
+                            <b>
+                                <i>Quick Blog</i>
+                            </b>
+                            to visit
+                        </span>
+                        <span class="codetap-new-tab"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="navigation-wrapper">
+                <div class="navigation-content">
+                    <label class="navigation-label" for="radio-0">
+                        <div class="navigation-button">CodeTap</div>
+                        <div class="navigation-icon">
+                            <span class="codetap-embed2"></span>
+                        </div>
+                    </label>
+                    <label class="navigation-label" for="radio-1">
+                        <div class="navigation-button">Pug Starter</div>
+                        <div class="navigation-icon">
+                            <span class="codetap-switch"></span>
+                        </div>
+                    </label>
+                    <label class="navigation-label" for="radio-2">
+                        <div class="navigation-button">My Resume</div>
+                        <div class="navigation-icon">
+                            <span class="codetap-user-plus"></span>
+                        </div>
+                    </label>
+                    <label class="navigation-label" for="radio-3">
+                        <div class="navigation-button">Quick Blog</div>
+                        <div class="navigation-icon">
+                            <span class="codetap-blogger"></span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

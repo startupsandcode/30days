@@ -42,6 +42,11 @@ gulp.task('connect', function () {
     });
 });
 
+gulp.task('sandbox', function(){
+    return gulp.src(src + 'sandbox/drumkit/**/*.*')
+    .pipe(gulp.dest(dest + '/sandbox/drumkit'));
+});
+
 gulp.task('watch', function () {
     gulp.watch([src + '**/*.scss'], ['sass']);
     gulp.watch([src + '**/scripts/*.js'], ['scripts']);
