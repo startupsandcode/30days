@@ -1,0 +1,114 @@
+$bgcolor: #7501FC;
+$color: #ffffff;
+
+body{
+    background-color: $bgcolor;
+    color: $color;
+}
+
+.navigation-input{
+    height: 20px;
+    width: 20px;
+}
+
+.card{
+    width: 20%;
+    height: 200px;
+    margin: 1%;
+    padding: 10px;
+    float: left;
+    position: relative;
+    background-color: #7501AA;
+    box-shadow: -2px 2px 30px $color;
+    transition: all 0.5s;
+    
+    .title{
+        position: absolute;
+        left: -100%;
+        opacity: 0;
+        transform: rotate(90deg);
+        transition: all 0.5s;
+    }
+
+    .subtitle{
+        position: absolute;
+        top: -100%;
+        left: 10%;
+        opacity: 0;
+        transform: rotate(-90deg);
+        transition: all 0.5s;
+    }
+}
+
+.navigation-input{
+    display: none;
+}
+
+.navigation-input:nth-child(1):checked{
+    &~.card-wrapper{
+        .card:nth-child(1){
+            .title{
+                left: 10%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+            .subtitle{
+                top: 15%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.navigation-input:nth-child(2):checked{
+    &~.card-wrapper{
+        .card:nth-child(2){
+            .title{
+                left: 10%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+            .subtitle{
+                top: 15%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.navigation-input:nth-child(3):checked{
+    &~.card-wrapper{
+        .card:nth-child(3){
+            .title{
+                left: 10%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+            .subtitle{
+                top: 15%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.navigation-input:nth-child(4):checked{
+    &~.card-wrapper{
+        .card:nth-child(4){
+            .title{
+                left: 10%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+            .subtitle{
+                top: 15%;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+    }
+}
+
