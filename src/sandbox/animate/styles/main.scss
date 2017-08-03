@@ -11,9 +11,17 @@ body{
     width: 20px;
 }
 
+.card-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .card{
-    width: 20%;
     height: 200px;
+    width: 200px;
+    flex-wrap: wrap;
     margin: 1%;
     padding: 10px;
     float: left;
