@@ -1,9 +1,12 @@
-/* Fonts */
-@import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
+/* colors */
 @import 'palette';
 
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif|Quicksand:400,700');
+
+
 body {
-    font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+    font-family: 'Noto Serif', Arial, Helvetica, sans-serif;
     font-size: 18px;
     letter-spacing: 0.1em;
     color: $color3;
@@ -15,6 +18,9 @@ header {
     min-height: 200px;
     padding: 10px;
     background-color: $color1;
+    border-bottom: solid 1px $color2;
+    margin: 20px auto;
+    width: 80%;
 }
 
 section {
@@ -40,6 +46,16 @@ a {
     margin: 0 auto;
     padding: 10px;
     text-align: center;
+
+    h3{
+        font-size: 2em;
+        width: 100%;
+        text-align: center;
+        margin: 10px auto;
+    }
+    .divider{
+        width: 20%;
+    }
 }
 
 .sites {
