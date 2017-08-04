@@ -1,14 +1,12 @@
-$Indigo: #470175;
-$StTropaz: #265988;
-$Malibu: #4ACCFE;
-$Rose: #E80070;
-$Tundora:#494949;
-$White: #ffffff;
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
+@import 'palette';
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    background-color: $Indigo;
-    color: $White;
+    font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: $color3;
     margin: 0;
     padding: 0;
 }
@@ -16,7 +14,7 @@ body {
 header {
     min-height: 200px;
     padding: 10px;
-    background-color: $Indigo;
+    background-color: $color1;
 }
 
 section {
@@ -24,16 +22,17 @@ section {
 }
 
 section:nth-child(even) {
-    background-color: $StTropaz;
+    background-color: $color1;
+    color: $color3;
 }
 
 section:nth-child(odd) {
-    background-color: $Indigo;
+    background-color: $color1;
 }
 
 a {
     text-decoration: none;
-    color: $White;
+    color: $color1;
 }
 
 .content {
@@ -50,12 +49,13 @@ a {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
+    font-size: 0.8em;
 
     .siteWrapper {
         width: 100px;
         height: 100px;
         list-style-type: none;
-        background-color: $Malibu;
+        background-color: $color4;
         padding: 20px;
         margin: 5px;
         position: relative;
@@ -69,12 +69,12 @@ a {
             position: absolute;
         }
         &.notDone{
-            background-color: $Rose;
+            background-color: $color3;
         }
 
         &:hover{
             transform: scale(1.1);
-            color: $Indigo;
+            border-radius: 10px;
         }
     }
 }
