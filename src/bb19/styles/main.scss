@@ -132,6 +132,12 @@ article.hoh .flipper:before {
   color: #ffffff;
 }
 
+.evicted{
+  img{
+    filter: grayscale(100%);
+  }
+}
+
 @media screen and (max-width: 768px) {
   header nav {
     float: none;
