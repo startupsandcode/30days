@@ -71,34 +71,34 @@ section {
   flex-wrap: wrap;
 }
 
-article.nom .flipper {
+article.nom div.flipper {
   padding-bottom: 40px;
 }
 
-article.nom .flipper:before {
+article.nom div.flipper:before {
   content: 'NOM';
   color: #000;
   position: absolute;
   top: 20px;
 }
 
-article.pov .flipper:after {
+article.pov div.flipper:after {
   content: 'POV';
   color: #000;
 }
 
-article.hoh .flipper {
+article.hoh div.flipper {
   padding-bottom: 40px;
 }
 
-article.hoh .flipper:before {
+article.hoh div.flipper:before {
   content: 'HOH';
   color: #000;
   position: absolute;
   top: 20px;
 }
 
-.flipper {
+div.flipper {
   width: 120px;
   height: 120px;
   margin: 10px;
@@ -106,23 +106,27 @@ article.hoh .flipper:before {
   background-color: #bddbc7;
   position: relative;
   color: #52747a;
+
+  &:hover{
+    cursor: pointer;
+  }
 }
 
-.flipper img {
+div.flipper img {
   width: 100%;
   height: 100%;
 }
 
-.vote1 {
+div.vote1 {
   background-color: #AA41A4;
   color: #ffffff;
 }
 
-.vote2 {
+div.vote2 {
   background-color: #88A9F2;
 }
 
-.vote3 {
+div.vote3 {
   background-color: #38A9A2;
   color: #ffffff;
 }

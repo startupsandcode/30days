@@ -6,33 +6,41 @@ var setCount = function(e){
 
 var changeColor = function (e) {
     var classes = ['vote1', 'vote2'];
-    if ($(e.target.parentElement).hasClass('nom')){
+    var elm = e.target;
+    if (elm.nodeName == "IMG"){
+        elm = elm.parentElement;
+    }
+    if ($(elm.parentElement).hasClass('nom')){
         alert('Nominees cannot vote!');
         return;
     }
-    if ($(e.target.parentElement).hasClass('hoh')){
+    if ($(elm.parentElement).hasClass('hoh')){
         alert('HOH cannot vote except in a tie!');
         return;
     }
-    if ($(e.target).hasClass('vote1')){
-        $(e.target).removeClass('vote1');
-        $(e.target).addClass('vote2');
+    
+    if ($(elm).hasClass('vote1')){
+        $(elm).removeClass('vote1');
+        $(elm).addClass('vote2');
         setCount();
         return;
     }
-    if ($(e.target).hasClass('vote2')){
-        $(e.target).removeClass('vote2');
-        $(e.target).addClass('vote3');
+    if ($(elm).hasClass('vote2')){
+        $(elm).removeClass('vote2');
+        $(elm).addClass('vote3');
         setCount();
         return;
     }
-    if ($(e.target).hasClass('vote3')){
-        $(e.target).removeClass('vote3');
+    if ($(elm).hasClass('vote3')){
+        $(elm).removeClass('vote3');
         setCount();
         return;
     }
-    $(e.target).addClass('vote1');
+    $(elm).addClass('vote1');
     setCount();
+    return;
 }
 
-$('.flipper').on('click', changeColor);
+$('div.flipper').on('click', changeColor);
+
+
