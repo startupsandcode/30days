@@ -41,6 +41,6 @@ var changeColor = function (e) {
     return;
 }
 
-$('div.flipper').on('click', changeColor);
+$('.inHouse div.flipper').on('click', changeColor);
 
 
