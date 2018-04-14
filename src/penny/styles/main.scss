@@ -1,0 +1,523 @@
+@import url('palette.scss');
+/* GLOBAL STYLES
+==================================================================*/
+
+body {
+	overflow-x: hidden;
+}
+
+h1,h2,h3,h4,h5,h6 {
+}
+
+h4,h5,h6 {
+	color: #222;
+	font-family: "Open Sans", Arial, sans-serif;
+	font-weight: bold;
+}
+
+h5,h6 {
+	letter-spacing: 0.1em;
+	margin: 1em 0 3em;
+}
+
+a,
+a i,
+button {
+	transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-webkit-transition: all .5s ease;
+	-o-transition: all .5s ease;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+p {
+	margin: 0 0 1em;
+}
+
+hr {
+	border-top: 3px solid #eee;
+	margin: 30px 0;
+}
+
+/* ROWS
+==================================================================*/
+
+section {
+	display: block;
+	padding: 30px 0;
+}
+
+.clear {
+	clear: both;
+	display: table;
+	height: 0;
+	overflow: hidden;
+	width: 100%;
+}
+
+.row {
+	opacity: 0;
+	position: relative;
+}
+
+.no-fade,
+footer .row {
+	opacity: 1;
+}
+
+.btn-lg {
+	border-width: 2px;
+	font-size: 100%;
+	letter-spacing: 0.1em;
+	padding: 15px 30px;
+}
+
+/* NAV
+==================================================================*/
+
+.navbar {
+	box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.nav > li > a {
+	font-weight: bold;
+}
+
+.dropdown-menu {
+	border: 0;
+}
+
+/* BANNER
+==================================================================*/
+
+.tint {
+	background: rgba(0,0,0,0.2);
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 100;
+}
+
+.welcome {
+	color: #fff;
+	display: block;
+	margin: 0 auto;
+	position: absolute;
+	top: 33%;
+	width: 100%;
+	-webkit-transform: translateY(-33%);
+	-moz-transform: translateY(-33%);
+	-ms-transform: translateY(-33%);
+	-o-transform: translateY(-33%);
+	transform: translateY(-33%);
+}
+
+.welcome h1 {
+	color: #fff;
+	margin: 0 30px;
+}
+
+.welcome p {
+	font-size: 24px;
+	font-weight: 300;
+	margin: 1em 30px;
+	text-transform: uppercase;
+}
+
+.welcome i {
+	font-size: 60px;
+}
+
+/* BACKGROUNDS
+==================================================================*/
+
+.background1 {
+	background-color: #e75d5d;
+}
+
+.background2 {
+	background-color: #f1a733;
+}
+
+.background3 {
+	background-color: #5eb28f;
+}
+
+.background,
+.background h2,
+.background h3 {
+	color: #fff;	
+}
+
+.background-image {
+	background-image: url(../images/background.png);
+	background-position: bottom center;
+	background-repeat: repeat-x;
+}
+
+.btn-transparent {
+	border-color: #fff;
+	color: #fff;
+}
+
+.btn-transparent:hover {
+	border-color: #222;
+	color: #222;
+}
+
+/* ROOMS
+==================================================================*/
+
+#rooms {
+	bottom: 25px;
+	position: absolute;
+	width: 100%;
+	z-index: 200;
+}
+
+#rooms h3 {
+	color: #fff;
+}
+
+#rooms .box {
+	color: #fff;
+	padding: 60px 15px 15px;
+	position: relative;
+}
+
+#rooms .arrow {
+	bottom: -15px;
+	display: block;
+	height: 30px;
+	left: 50%;
+	margin-left: -15px;
+	position: absolute;
+	width: 30px;
+
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+#rooms .icon {
+	background: #fff;
+	height: 120px;
+	left: 50%;
+	margin-left: -60px;
+	padding: 15px;
+	position: absolute;
+	top: -60px;
+	width: 120px;
+}
+
+#rooms .icon img {
+	margin-top: 8px;
+}
+
+/* TABS
+==================================================================*/
+
+.nav-tabs > li {
+	float: none;
+	display: inline-block;
+}
+
+.nav-tabs > li > a {
+	font-weight: normal;
+}
+
+.tab-content > .tab-pane {
+	padding: 30px 0;
+}
+
+/* TESTIMONIALS
+==================================================================*/
+
+#testimonials blockquote {
+	border: 0;
+	margin: 0 50px;
+	padding: 0;
+}
+
+#testimonials blockquote small {
+	color: #fff;
+	font-size: 100%;
+	margin-top: 15px;
+}
+
+/* GALLERY
+==================================================================*/
+
+.gallery {
+	display: table;
+	list-style: none;
+	padding: 20px 0;
+}
+
+.gallery li {
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+}
+
+.gallery img {
+	width: 100%;
+}
+
+.gallery div {
+	background: rgba(0,0,0,0.3);
+	display: none;
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+.gallery i {
+	left: 50%;
+	margin: -21px 0 0 -17px;
+	position: absolute;
+	top: 50%;
+}
+
+.gallery a,
+.gallery a:hover {
+	color: #fff;
+}
+
+/* PRICE TABLES
+==================================================================*/
+
+.price-table {
+	list-style: none;
+	padding: 0;
+}
+
+.price-table li {
+	background: #fff;
+	border-bottom: 1px solid #ddd;
+	color: #888;
+	padding: 15px 30px;
+}
+
+.price-table .title,
+.price-table .price {
+	background: #222;
+	border: 0;
+	color: #fff;
+	font-weight: 800;
+	padding-bottom: 0;
+}
+
+.price-table .price {
+	font-size: 2.769em;
+	padding-top: 0;
+}
+
+.price-table .period {
+	background: #222;
+	border: 0;
+	padding-top: 0;
+}
+
+#map-canvas {
+	height: 300px;
+}
+
+/* BLOG
+==================================================================*/
+
+header {
+	margin-top: 90px;
+}
+
+header h1 {
+	color: #fff;
+	font-size: 36px;
+	margin: 1em 0;
+}
+
+.post {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 30px;
+	padding-bottom: 30px;
+}
+
+.entry-title {
+	color: #222;
+	font-family: "Open Sans", Arial, sans-serif;
+	font-size: 2em;
+	font-weight: 300;
+	margin-top: 0;
+	text-transform: uppercase;
+}
+
+.entry-meta {
+	color: #bbb;
+	padding-bottom: 30px;
+}
+
+.entry-meta span {
+	padding-right: 15px;	
+}
+
+.entry-meta i {
+	padding-right: 5px;
+}
+
+.entry-content {
+	margin-top: 10px;
+}
+
+.carousel-control i {
+	margin-top: -15px;
+	position: absolute;
+	top: 50%;
+}
+
+img.pull-left {
+	margin: 5px 15px 15px 0;
+}
+
+img.pull-right {
+	margin: 5px 0 15px 15px;
+}
+
+.item .post {
+	border: 0;
+	padding: 0 30px;
+}
+
+/* SIDEBAR
+==================================================================*/
+
+aside h5 {
+	color: #e75d5d;
+	letter-spacing: normal;
+	margin: 0 0 1em;
+}
+
+aside h5 i {
+	margin-right: 10px;
+}
+
+aside ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+aside a {
+	border-top: 1px solid #eee;
+	color: #888;
+	display: block;
+	padding: 10px 25px;
+	position: relative;
+}
+
+aside a:hover {
+	background: #f8f8f8;
+	color: #222;
+}
+
+aside a i {
+	position: absolute;
+	right: 25px;
+	top: 13px;
+}
+
+aside a:hover i {
+	right: 15px;
+}
+
+/* COMMENTS
+==================================================================*/
+
+.comments h3 {
+	margin-bottom: 30px;
+}
+
+.comments h5 {
+	letter-spacing: normal;
+}
+
+.media, .media .media {
+	border-top: 1px solid #eee;
+	margin-top: 30px;
+	padding-top: 30px;
+}
+
+/* FOOTER
+==================================================================*/
+
+footer {
+	background: #222;
+	padding: 30px 0;
+}
+
+footer p a {
+	color: #fff;
+}
+
+footer p a:hover {
+	color: #ccc;
+}
+
+footer ul {
+	list-style: none;
+	padding: 1em 0 0 0;
+}
+
+footer li {
+	display: inline-block;
+	padding: 0 10px;
+}
+
+/* MOBILE STYLES
+==================================================================*/
+
+@media (max-width: 767px) {
+
+	.welcome {
+		top: 50%;
+	}
+
+	.welcome h1 {
+		font-size: 36px;
+	}
+
+	.welcome p {
+		font-size: 18px;
+	}
+
+	#rooms {
+		bottom: auto;
+		position: relative;
+	}
+
+	#rooms .col-sm-4 {
+		padding: 0;
+	}
+
+	#rooms .box {
+		padding-top: 150px;
+	}
+
+	#rooms .icon {
+		top: 30px;
+	}
+
+	#rooms .arrow {
+		display: none;
+	}
+
+	.item .post {
+		padding: 0;
+	}
+}
