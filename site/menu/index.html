@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ember & Oak — wood-fired seasonal restaurant. Browse the menu, search dishes, and build your order.">
+<title>Ember &amp; Oak — Wood-Fired Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ember:#e0632f; --ember-deep:#a83c14; --char:#221a14; --char2:#2e241b;
+    --cream:#f7efe3; --cream-dim:#e9dcc6; --gold:#d9a441; --smoke:#8a7a64;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;background:var(--char);color:var(--cream);min-height:100vh}
+  .backlink{position:fixed;top:14px;left:14px;z-index:200;background:rgba(34,26,20,.9);
+    color:var(--gold);text-decoration:none;font-weight:600;font-size:.85rem;padding:.55rem .9rem;
+    border:1px solid rgba(217,164,65,.4);border-radius:999px;backdrop-filter:blur(6px);transition:.2s}
+  .backlink:hover{background:var(--gold);color:var(--char)}
+  header.hero{position:relative;padding:5.5rem 1.5rem 3rem;text-align:center;overflow:hidden;
+    background:radial-gradient(1200px 400px at 50% -80px,rgba(224,99,47,.35),transparent 60%),
+    linear-gradient(180deg,#2b1f15 0%,#221a14 100%)}
+  header.hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;
+    background-image:radial-gradient(2px 2px at 20% 30%,var(--gold),transparent),
+    radial-gradient(2px 2px at 70% 60%,var(--ember),transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%,var(--cream),transparent),
+    radial-gradient(2px 2px at 85% 20%,var(--ember),transparent)}
+  .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:var(--gold);margin-bottom:.8rem}
+  h1{font-family:'Fraunces',serif;font-size:clamp(2.6rem,7vw,4.6rem);font-weight:700;line-height:1.05}
+  h1 em{color:var(--ember);font-style:italic}
+  .tagline{margin-top:.9rem;color:var(--cream-dim);max-width:34rem;margin-inline:auto;font-size:1.02rem}
+  .controls{max-width:60rem;margin:0 auto;padding:1.5rem 1.25rem 0;position:relative;z-index:5}
+  .searchwrap{position:relative;max-width:34rem;margin:0 auto}
+  .searchwrap input{width:100%;padding:.95rem 3rem .95rem 1.2rem;border-radius:999px;border:1px solid rgba(217,164,65,.35);
+    background:var(--char2);color:var(--cream);font-size:1rem;outline:none;transition:.2s}
+  .searchwrap input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,164,65,.2)}
+  .searchwrap .icon{position:absolute;right:1.1rem;top:50%;transform:translateY(-50%);font-size:1.15rem;opacity:.7}
+  .tabs{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1.1rem}
+  .tabs button{background:transparent;border:1px solid rgba(247,239,227,.25);color:var(--cream);
+    padding:.55rem 1.2rem;border-radius:999px;font-weight:600;font-size:.88rem;cursor:pointer;transition:.2s}
+  .tabs button:hover{border-color:var(--gold);color:var(--gold)}
+  .tabs button.active{background:var(--ember);border-color:var(--ember);color:#fff}
+  main{max-width:60rem;margin:0 auto;padding:1.5rem 1.25rem 6rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:1.1rem}
+  .dish{background:var(--char2);border:1px solid rgba(247,239,227,.08);border-radius:1.1rem;padding:1.25rem;
+    display:flex;flex-direction:column;gap:.55rem;transition:transform .2s,border-color .2s;position:relative;overflow:hidden}
+  .dish:hover{transform:translateY(-3px);border-color:rgba(217,164,65,.45)}
+  .dish .cat{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  .dish h3{font-family:'Fraunces',serif;font-size:1.25rem}
+  .dish p{color:var(--cream-dim);font-size:.92rem;line-height:1.55;flex:1}
+  .dish .row{display:flex;align-items:center;justify-content:space-between;margin-top:.4rem}
+  .price{font-family:'Fraunces',serif;font-size:1.25rem;color:var(--gold);font-weight:600}
+  .addbtn{background:var(--ember);color:#fff;border:none;border-radius:999px;padding:.55rem 1.15rem;
+    font-weight:600;font-size:.88rem;cursor:pointer;transition:.2s}
+  .addbtn:hover{background:var(--ember-deep);transform:scale(1.04)}
+  .addbtn:active{transform:scale(.97)}
+  .empty{text-align:center;color:var(--smoke);padding:3rem 1rem;font-size:1.05rem;grid-column:1/-1}
+  /* cart */
+  .cartbtn{position:fixed;bottom:1.25rem;right:1.25rem;z-index:150;background:var(--ember);color:#fff;border:none;
+    border-radius:999px;padding:1rem 1.5rem;font-size:1rem;font-weight:700;cursor:pointer;
+    box-shadow:0 10px 30px rgba(224,99,47,.4);transition:.2s}
+  .cartbtn:hover{background:var(--ember-deep);transform:translateY(-2px)}
+  .count{background:#fff;color:var(--ember);border-radius:999px;padding:.1rem .55rem;margin-left:.4rem;font-size:.85rem}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:160;opacity:0;pointer-events:none;transition:.25s}
+  .overlay.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;height:100dvh;width:min(24rem,92vw);background:var(--char2);z-index:170;
+    transform:translateX(105%);transition:transform .3s ease;display:flex;flex-direction:column;
+    border-left:1px solid rgba(217,164,65,.25)}
+  .drawer.open{transform:translateX(0)}
+  .drawer header{padding:1.25rem;border-bottom:1px solid rgba(247,239,227,.1);display:flex;justify-content:space-between;align-items:center}
+  .drawer header h2{font-family:'Fraunces',serif;font-size:1.4rem}
+  .closebtn{background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;opacity:.7}
+  .closebtn:hover{opacity:1}
+  .items{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.8rem}
+  .line{display:flex;gap:.8rem;align-items:center;background:rgba(247,239,227,.04);border-radius:.8rem;padding:.7rem .8rem}
+  .line .nm{flex:1;font-size:.92rem}
+  .line .nm small{display:block;color:var(--smoke)}
+  .qty{display:flex;align-items:center;gap:.5rem}
+  .qty button{width:1.7rem;height:1.7rem;border-radius:50%;border:1px solid rgba(247,239,227,.3);background:none;
+    color:var(--cream);cursor:pointer;font-weight:700}
+  .qty button:hover{border-color:var(--gold);color:var(--gold)}
+  .foot{padding:1.25rem;border-top:1px solid rgba(247,239,227,.1)}
+  .totalrow{display:flex;justify-content:space-between;font-family:'Fraunces',serif;font-size:1.3rem;margin-bottom:1rem}
+  .checkout{width:100%;background:var(--gold);color:var(--char);border:none;border-radius:.8rem;padding:.95rem;
+    font-weight:700;font-size:1rem;cursor:pointer;transition:.2s}
+  .checkout:hover{filter:brightness(1.1)}
+  .toast{position:fixed;bottom:1.25rem;left:50%;transform:translate(-50%,120px);background:var(--gold);color:var(--char);
+    padding:.8rem 1.4rem;border-radius:999px;font-weight:600;z-index:180;transition:transform .3s}
+  .toast.show{transform:translate(-50%,0)}
+  .cartempty{text-align:center;color:var(--smoke);padding:2.5rem 0}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+
+<header class="hero">
+  <div class="kicker">Wood-fired · Seasonal · Est. 2016</div>
+  <h1>Ember <em>&amp;</em> Oak</h1>
+  <p class="tagline">Everything on our menu kisses oak fire before it meets your table. Search a craving, tap a dish, build your feast.</p>
+</header>
+
+<div class="controls">
+  <div class="searchwrap">
+    <input id="search" type="search" placeholder="Search dishes — try “smoke”, “cheese”, “chocolate”…" autocomplete="off" aria-label="Search dishes">
+    <span class="icon">🔍</span>
+  </div>
+  <div class="tabs" id="tabs" role="tablist">
+    <button data-cat="All" class="active">All</button>
+    <button data-cat="Appetizers">Appetizers</button>
+    <button data-cat="Mains">Mains</button>
+    <button data-cat="Desserts">Desserts</button>
+    <button data-cat="Drinks">Drinks</button>
+  </div>
+</div>
+
+<main><div class="grid" id="grid"></div></main>
+
+<button class="cartbtn" id="cartbtn">🧺 Your Order <span class="count" id="count">0</span></button>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Your order">
+  <header><h2>Your Order</h2><button class="closebtn" id="closebtn" aria-label="Close cart">✕</button></header>
+  <div class="items" id="items"></div>
+  <div class="foot">
+    <div class="totalrow"><span>Total</span><span id="total">$0.00</span></div>
+    <button class="checkout" id="checkout">Send to Kitchen 🔥</button>
+  </div>
+</aside>
+<div class="toast" id="toast">Sent to the kitchen! 🔥</div>
+
+<script>
+const MENU = [
+  {id:1, name:"Charred Sourdough & Smoked Butter", cat:"Appetizers", price:9,
+   desc:"Thick-cut sourdough kissed by oak coals, served with butter smoked over applewood and flaky sea salt."},
+  {id:2, name:"Ember-Roasted Beets", cat:"Appetizers", price:13,
+   desc:"Candy beets buried in hot coals, whipped goat cheese, pistachio dukkah, sherry glaze."},
+  {id:3, name:"Oak-Smoked Trout Dip", cat:"Appetizers", price:14,
+   desc:"House-smoked rainbow trout folded with crème fraîche, chives, and lemon; grilled flatbread for scooping."},
+  {id:4, name:"Crispy Calamari, Calabrian Chili", cat:"Appetizers", price:15,
+   desc:"Buttermilk-fried calamari tossed with Calabrian chili honey, charred lemon, and parsley."},
+  {id:5, name:"Fire-Grilled Ribeye", cat:"Mains", price:42,
+   desc:"28-day dry-aged ribeye over white oak, rosemary-thyme butter, bone-marrow jus, watercress."},
+  {id:6, name:"Cedar-Plank Salmon", cat:"Mains", price:32,
+   desc:"Faroe Island salmon roasted on cedar, miso-brown butter, charred scallions, sesame."},
+  {id:7, name:"Smoked Half Chicken", cat:"Mains", price:27,
+   desc:"Brined overnight, smoked low and slow, finished over flame; pan drippings gravy and ember potatoes."},
+  {id:8, name:"Wild Mushroom Rigatoni", cat:"Mains", price:24,
+   desc:"Hand-cut rigatoni, roasted maitake and porcini cream, aged parmesan, thyme, truffle oil."},
+  {id:9, name:"Oak-Fired Flatbread, Nduja", cat:"Mains", price:19,
+   desc:"Blistered 48-hour dough, spicy nduja, fior di latte, basil, hot honey drizzle."},
+  {id:10, name:"Lamb Chops al Mattone", cat:"Mains", price:38,
+   desc:"Brick-pressed lamb chops, smoked eggplant purée, pomegranate molasses, mint gremolata."},
+  {id:11, name:"Burnt Basque Cheesecake", cat:"Desserts", price:12,
+   desc:"Caramelized top, molten center, macerated plums, and a whisper of smoked sea salt."},
+  {id:12, name:"Dark Chocolate Budino", cat:"Desserts", price:11,
+   desc:"70% Valrhona custard, olive oil, Maldon salt, torched meringue shards."},
+  {id:13, name:"Campfire S'mores Pot", cat:"Desserts", price:10,
+   desc:"Warm chocolate ganache, house marshmallow torched tableside, graham crumble for dipping."},
+  {id:14, name:"Smoked Old Fashioned", cat:"Drinks", price:14,
+   desc:"Bourbon, demerara, black walnut bitters — finished under a cloche of oak smoke."},
+  {id:15, name:"Blood Orange Spritz", cat:"Drinks", price:12,
+   desc:"Blood orange, aperitivo, prosecco, charred rosemary sprig. Bright, bitter, bubbly."},
+  {id:16, name:"Sparkling Apple Cider (n/a)", cat:"Drinks", price:7,
+   desc:"Orchard-pressed cider over ice with cinnamon smoke and a dried apple wheel."},
+];
+const money = n => "$" + n.toFixed(2);
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem("ember_cart") || "{}"); } catch(e){ cart = {}; }
+let activeCat = "All";
+
+const grid = document.getElementById("grid"),
+      search = document.getElementById("search"),
+      tabs = document.getElementById("tabs");
+
+function save(){ localStorage.setItem("ember_cart", JSON.stringify(cart)); }
+function cartQty(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+function cartTotal(){ return Object.entries(cart).reduce((s,[id,q])=>{
+  const d = MENU.find(m=>m.id==id); return s + (d ? d.price*q : 0); }, 0); }
+
+function renderMenu(){
+  const q = search.value.trim().toLowerCase();
+  const list = MENU.filter(d =>
+    (activeCat==="All" || d.cat===activeCat) &&
+    (!q || (d.name+" "+d.desc).toLowerCase().includes(q)));
+  grid.innerHTML = list.length ? list.map(d=>`
+    <article class="dish">
+      <span class="cat">${d.cat}</span>
+      <h3>${d.name}</h3>
+      <p>${d.desc}</p>
+      <div class="row">
+        <span class="price">${money(d.price)}</span>
+        <button class="addbtn" data-add="${d.id}">Add +</button>
+      </div>
+    </article>`).join("")
+    : `<div class="empty">🔥 Nothing on the fire matches “${search.value.trim()}”. Try another craving.</div>`;
+}
+function renderCart(){
+  const ids = Object.keys(cart);
+  document.getElementById("count").textContent = cartQty();
+  const box = document.getElementById("items");
+  if(!ids.length){ box.innerHTML = `<div class="cartempty">Your basket is empty.<br>Add something delicious. 🍽️</div>`; }
+  else box.innerHTML = ids.map(id=>{
+    const d = MENU.find(m=>m.id==id); if(!d) return "";
+    return `<div class="line">
+      <div class="nm">${d.name}<small>${money(d.price)} each</small></div>
+      <div class="qty">
+        <button data-dec="${id}" aria-label="Remove one">−</button>
+        <span>${cart[id]}</span>
+        <button data-inc="${id}" aria-label="Add one">+</button>
+      </div>
+    </div>`; }).join("");
+  document.getElementById("total").textContent = money(cartTotal());
+}
+
+grid.addEventListener("click", e=>{
+  const b = e.target.closest("[data-add]"); if(!b) return;
+  const id = b.dataset.add; cart[id] = (cart[id]||0)+1; save(); renderCart();
+  b.textContent = "Added ✓"; setTimeout(()=>b.textContent="Add +", 900);
+});
+document.getElementById("items").addEventListener("click", e=>{
+  const inc = e.target.closest("[data-inc]"), dec = e.target.closest("[data-dec]");
+  if(inc){ cart[inc.dataset.inc]++; }
+  else if(dec){ const id=dec.dataset.dec; cart[id]--; if(cart[id]<=0) delete cart[id]; }
+  else return; save(); renderCart();
+});
+search.addEventListener("input", renderMenu);
+tabs.addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  activeCat = b.dataset.cat;
+  tabs.querySelectorAll("button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); renderMenu();
+});
+
+const drawer = document.getElementById("drawer"), overlay = document.getElementById("overlay");
+function setDrawer(open){ drawer.classList.toggle("open",open); overlay.classList.toggle("open",open); }
+document.getElementById("cartbtn").onclick = ()=>setDrawer(true);
+document.getElementById("closebtn").onclick = ()=>setDrawer(false);
+overlay.onclick = ()=>setDrawer(false);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") setDrawer(false); });
+
+document.getElementById("checkout").onclick = ()=>{
+  if(!cartQty()){ alert("Your basket is empty — add a dish first!"); return; }
+  cart = {}; save(); renderCart(); setDrawer(false);
+  const t = document.getElementById("toast");
+  t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2600);
+};
+
+renderMenu(); renderCart();
+</script>
+</body>
+</html>

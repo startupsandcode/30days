@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A parallax scrolling demo — five depth layers drifting at different speeds over a gradient mountain landscape.">
+<title>Drift — A Parallax Scrolling Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Outfit',sans-serif;background:#0d1026;color:#f2f4ff;overflow-x:hidden}
+  .backlink{position:fixed;top:14px;left:14px;z-index:300;background:rgba(13,16,38,.85);
+    color:#9fd8ff;text-decoration:none;font-weight:600;font-size:.85rem;padding:.55rem .9rem;
+    border:1px solid rgba(159,216,255,.4);border-radius:999px;backdrop-filter:blur(6px);transition:.2s}
+  .backlink:hover{background:#9fd8ff;color:#0d1026}
+
+  /* ---------- parallax stage ---------- */
+  .stage{position:relative;height:220vh;overflow:hidden}
+  .layer{position:absolute;inset:-10% 0;will-change:transform;pointer-events:none}
+  .sky{background:linear-gradient(180deg,#070a1d 0%,#1b2350 38%,#7a3b6e 62%,#f2a35e 78%,#ffd9a0 88%)}
+  .stars{position:absolute;inset:0}
+  .star{position:absolute;background:#fff;border-radius:50%;animation:tw 3s infinite ease-in-out}
+  @keyframes tw{50%{opacity:.25}}
+  .sun{position:absolute;left:50%;top:34%;width:11rem;height:11rem;transform:translate(-50%,-50%);
+    border-radius:50%;background:radial-gradient(circle,#fff7d6 0%,#ffd98a 35%,#ff9d5c 70%,rgba(255,157,92,0) 100%);
+    box-shadow:0 0 90px 30px rgba(255,180,100,.45)}
+  .ridge{position:absolute;bottom:0;left:-5%;width:110%}
+  .ridge svg{display:block;width:100%;height:auto}
+  .mist{position:absolute;left:0;right:0;height:16rem;
+    background:linear-gradient(180deg,transparent,rgba(240,220,255,.16),transparent);filter:blur(6px)}
+
+  .herotitle{position:absolute;top:44vh;left:0;right:0;text-align:center;z-index:50;pointer-events:none}
+  .herotitle h1{font-size:clamp(3rem,10vw,6.5rem);font-weight:700;letter-spacing:.12em;
+    text-shadow:0 6px 40px rgba(0,0,0,.5)}
+  .herotitle p{color:#e8ddff;letter-spacing:.35em;text-transform:uppercase;font-size:.85rem;margin-top:.6rem}
+  .scrollhint{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:50;color:#fff;
+    font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;animation:bob 2s infinite ease-in-out}
+  @keyframes bob{50%{transform:translate(-50%,10px)}}
+
+  /* legend */
+  .legend{position:fixed;right:14px;top:14px;z-index:300;background:rgba(10,13,30,.82);
+    border:1px solid rgba(159,216,255,.25);border-radius:.9rem;padding:.8rem 1rem;font-size:.78rem;
+    backdrop-filter:blur(8px);max-width:12.5rem}
+  .legend h3{font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:#9fd8ff;margin-bottom:.5rem}
+  .legend div{display:flex;align-items:center;gap:.5rem;margin:.3rem 0;color:#c9d2f5}
+  .swatch{width:.8rem;height:.8rem;border-radius:50%;flex:none}
+  @media(max-width:640px){.legend{display:none}}
+
+  /* ---------- content sections ---------- */
+  .content{position:relative;z-index:60;background:#0d1026;margin-top:-1px}
+  section.block{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:5rem 1.5rem;
+    position:relative;overflow:hidden}
+  .card{max-width:38rem;text-align:center;opacity:0;transform:translateY(50px);
+    transition:opacity .8s ease,transform .8s ease}
+  .card.in{opacity:1;transform:none}
+  .card .num{font-size:.8rem;letter-spacing:.4em;color:#9fd8ff;text-transform:uppercase}
+  .card h2{font-size:clamp(1.8rem,5vw,2.8rem);margin:.8rem 0 1rem;font-weight:600}
+  .card p{color:#b9c1e8;line-height:1.8;font-size:1.02rem;font-weight:300}
+  .card .speedtag{display:inline-block;margin-top:1.2rem;background:rgba(159,216,255,.1);
+    border:1px solid rgba(159,216,255,.3);color:#9fd8ff;border-radius:999px;padding:.45rem 1.1rem;
+    font-size:.82rem;font-weight:600}
+  .b1{background:linear-gradient(180deg,#0d1026,#141a3d)}
+  .b2{background:linear-gradient(180deg,#141a3d,#2a1f4d)}
+  .b3{background:linear-gradient(180deg,#2a1f4d,#4d2440)}
+  .b4{background:linear-gradient(180deg,#4d2440,#0d1026)}
+  footer{text-align:center;padding:3rem 1rem;color:#6f78a8;font-size:.85rem;background:#0d1026}
+  footer b{color:#9fd8ff}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+
+<div class="legend" aria-label="Parallax layer legend">
+  <h3>Layers</h3>
+  <div><span class="swatch" style="background:#7a86ff"></span>Stars · ×0.05</div>
+  <div><span class="swatch" style="background:#ffd98a"></span>Sun · ×0.15</div>
+  <div><span class="swatch" style="background:#5b4a8a"></span>Far ridge · ×0.30</div>
+  <div><span class="swatch" style="background:#3a2f63"></span>Near ridge · ×0.55</div>
+  <div><span class="swatch" style="background:#e8ddff"></span>Mist · ×0.80</div>
+</div>
+
+<div class="stage" id="stage">
+  <div class="layer sky" data-f="0.02"></div>
+  <div class="layer" data-f="0.05"><div class="stars" id="stars"></div></div>
+  <div class="layer" data-f="0.15"><div class="sun"></div></div>
+  <div class="layer" data-f="0.30">
+    <div class="ridge" style="bottom:6rem">
+      <svg viewBox="0 0 1200 320" preserveAspectRatio="none" style="height:22rem">
+        <path d="M0,320 L0,220 L120,120 L240,200 L360,80 L480,190 L600,140 L720,210 L840,100 L960,190 L1080,150 L1200,220 L1200,320 Z" fill="#5b4a8a"/>
+        <path d="M360,80 L410,130 L360,160 L310,130 Z M840,100 L890,150 L840,180 L790,150 Z" fill="#efe9ff" opacity=".8"/>
+      </svg>
+    </div>
+  </div>
+  <div class="layer" data-f="0.55">
+    <div class="ridge" style="bottom:-2rem">
+      <svg viewBox="0 0 1200 320" preserveAspectRatio="none" style="height:20rem">
+        <path d="M0,320 L0,250 L150,150 L300,240 L450,130 L600,250 L760,170 L920,260 L1070,180 L1200,250 L1200,320 Z" fill="#3a2f63"/>
+      </svg>
+    </div>
+  </div>
+  <div class="layer" data-f="0.80"><div class="mist" style="bottom:8rem"></div></div>
+  <div class="layer" data-f="0.95"><div class="mist" style="bottom:1rem"></div></div>
+
+  <div class="herotitle" id="herotitle">
+    <h1>DRIFT</h1>
+    <p>scroll to travel deeper</p>
+  </div>
+  <div class="scrollhint">↓ scroll ↓</div>
+</div>
+
+<div class="content">
+  <section class="block b1"><div class="card">
+    <div class="num">Layer 01 — Sky</div><h2>The backdrop barely moves</h2>
+    <p>The gradient sky is the slowest layer in the scene, drifting at just 2% of your scroll speed. Because it moves almost not at all, everything in front of it feels like it's racing forward — that's the whole trick of parallax: relative motion creates depth.</p>
+    <span class="speedtag">translateY = scrollY × 0.02</span>
+  </div></section>
+  <section class="block b2"><div class="card">
+    <div class="num">Layer 02 — Stars &amp; Sun</div><h2>Mid-distance objects drift gently</h2>
+    <p>Stars twinkle at 5% speed and the low sun sinks at 15%. They're far away, so they lag behind your scroll — exactly how distant mountains seem to crawl past a car window while roadside fences whip by.</p>
+    <span class="speedtag">translateY = scrollY × 0.05 … 0.15</span>
+  </div></section>
+  <section class="block b3"><div class="card">
+    <div class="num">Layer 03 — Mountain ridges</div><h2>Two ridges, two speeds</h2>
+    <p>The far purple ridge slides at 30%, the nearer indigo ridge at 55%. Stacked SVG silhouettes with different factors sell the illusion that one range sits miles behind the other — no WebGL required.</p>
+    <span class="speedtag">translateY = scrollY × 0.30 / 0.55</span>
+  </div></section>
+  <section class="block b4"><div class="card">
+    <div class="num">Layer 04 — Mist &amp; content</div><h2>Foreground rushes past</h2>
+    <p>Wisps of valley mist sweep by at 80–95% of scroll speed, nearly keeping up with you. Meanwhile these very cards fade and rise into view via IntersectionObserver — parallax for the scenery, reveals for the story.</p>
+    <span class="speedtag">translateY = scrollY × 0.80 … 0.95</span>
+  </div></section>
+  <footer>Built with vanilla JS · <b>scrollY × factor</b> · IntersectionObserver reveals · zero images</footer>
+</div>
+
+<script>
+(function(){
+  // starfield
+  const box = document.getElementById("stars");
+  let html = "";
+  for(let i=0;i<130;i++){
+    const x=(Math.random()*100).toFixed(2), y=(Math.random()*55).toFixed(2),
+          s=(Math.random()*2.4+1).toFixed(1), d=(Math.random()*3).toFixed(2);
+    html += `<span class="star" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px;animation-delay:${d}s"></span>`;
+  }
+  box.innerHTML = html;
+
+  // parallax
+  const layers = document.querySelectorAll(".layer[data-f]");
+  const hero = document.getElementById("herotitle");
+  const stage = document.getElementById("stage");
+  let ticking = false;
+  function update(){
+    ticking = false;
+    const y = window.scrollY;
+    const max = stage.offsetHeight - window.innerHeight;
+    const c = Math.min(y, max);
+    layers.forEach(l => { l.style.transform = `translateY(${c * parseFloat(l.dataset.f)}px)`; });
+    hero.style.transform = `translateY(${c * 0.45}px)`;
+    hero.style.opacity = Math.max(0, 1 - c / (max * 0.55));
+  }
+  window.addEventListener("scroll", ()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } }, {passive:true});
+  update();
+
+  // reveals
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, {threshold:0.25});
+  document.querySelectorAll(".card").forEach(c=>io.observe(c));
+})();
+</script>
+</body>
+</html>

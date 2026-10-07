@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FixIt Mobile — we come to you. Pick your device and issue for an instant repair quote, then book your visit.">
+<title>FixIt Mobile — Phone Repair That Comes to You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b1220;--panel:#141d33;--panel2:#1b2742;--acc:#22d3ee;--acc2:#a78bfa;
+    --txt:#eef2ff;--dim:#94a3b8;--ok:#34d399;--line:rgba(148,163,184,.16)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:
+    radial-gradient(900px 400px at 80% -50px,rgba(167,139,250,.15),transparent 60%),
+    radial-gradient(700px 400px at 10% 0%,rgba(34,211,238,.12),transparent 60%),var(--bg);
+    color:var(--txt);min-height:100vh}
+  .backlink{position:fixed;top:14px;left:14px;z-index:200;background:rgba(11,18,32,.85);
+    color:var(--acc);text-decoration:none;font-weight:600;font-size:.85rem;padding:.55rem .9rem;
+    border:1px solid rgba(34,211,238,.35);border-radius:999px;backdrop-filter:blur(6px);transition:.2s}
+  .backlink:hover{background:var(--acc);color:var(--bg)}
+  .wrap{max-width:44rem;margin:0 auto;padding:4.5rem 1.25rem 5rem}
+  header{text-align:center;margin-bottom:2rem}
+  .logo{font-size:2.4rem}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.9rem,5vw,2.7rem);margin:.5rem 0}
+  h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--dim);max-width:30rem;margin:0 auto;line-height:1.6}
+  /* stepper */
+  .steps{display:flex;justify-content:center;gap:.4rem;margin:2rem 0 2.2rem;list-style:none}
+  .steps li{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--dim);font-weight:600}
+  .steps .dot{width:2rem;height:2rem;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;
+    font-size:.85rem;transition:.25s;background:var(--panel)}
+  .steps li.done .dot{background:var(--ok);border-color:var(--ok);color:#06281d}
+  .steps li.now .dot{border-color:var(--acc);color:var(--acc);box-shadow:0 0 0 4px rgba(34,211,238,.15)}
+  .steps li.now{color:var(--txt)}
+  .steps .bar{width:2.5rem;height:2px;background:var(--line);margin:0 .35rem}
+  .steps li.done + li .bar, .steps li .bar.fill{background:var(--ok)}
+  /* panels */
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:1.25rem;padding:1.75rem;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);display:none;animation:fade .35s ease}
+  .panel.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .panel h2{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;margin-bottom:.4rem}
+  .panel .hint{color:var(--dim);font-size:.92rem;margin-bottom:1.2rem}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:.9rem}
+  .card{background:var(--panel2);border:2px solid var(--line);border-radius:1rem;padding:1.2rem 1rem;cursor:pointer;
+    text-align:center;transition:.2s}
+  .card:hover{border-color:var(--acc);transform:translateY(-3px)}
+  .card.sel{border-color:var(--acc);background:rgba(34,211,238,.08);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
+  .card .emoji{font-size:2.2rem;display:block;margin-bottom:.5rem}
+  .card .t{font-weight:600;font-size:.95rem}
+  .card .d{color:var(--dim);font-size:.8rem;margin-top:.3rem}
+  /* price */
+  .quote{margin-top:1.4rem;background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(167,139,250,.1));
+    border:1px dashed rgba(34,211,238,.4);border-radius:1rem;padding:1.3rem;text-align:center;display:none}
+  .quote.show{display:block;animation:fade .35s ease}
+  .quote .lbl{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  .quote .amt{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:700;margin:.3rem 0;
+    background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .quote .meta{color:var(--dim);font-size:.88rem}
+  .nav{display:flex;justify-content:space-between;margin-top:1.6rem;gap:.8rem}
+  button.btn{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#06121f;border:none;border-radius:.8rem;
+    padding:.9rem 1.6rem;font-weight:700;font-size:1rem;cursor:pointer;transition:.2s}
+  button.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+  button.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+  button.ghost{background:none;border:1px solid var(--line);color:var(--dim);border-radius:.8rem;
+    padding:.9rem 1.4rem;font-weight:600;cursor:pointer}
+  button.ghost:hover{color:var(--txt);border-color:var(--dim)}
+  /* form */
+  form .field{margin-bottom:1.1rem}
+  label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;color:var(--dim)}
+  input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:.7rem;color:var(--txt);
+    padding:.85rem 1rem;font-size:1rem;outline:none;transition:.2s;font-family:inherit}
+  input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+  .summary{background:var(--panel2);border-radius:.9rem;padding:1rem 1.2rem;margin-bottom:1.3rem;font-size:.92rem;line-height:1.7}
+  .summary b{color:var(--acc)}
+  /* confirmation */
+  .confirm{text-align:center;padding:1rem 0}
+  .confirm .big{font-size:3.5rem;animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .confirm h2{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;margin:.8rem 0 .4rem}
+  .ref{display:inline-block;background:rgba(52,211,153,.1);border:1px dashed var(--ok);color:var(--ok);
+    font-family:'Space Grotesk',monospace;font-size:1.3rem;font-weight:700;letter-spacing:.12em;
+    padding:.7rem 1.4rem;border-radius:.8rem;margin:1rem 0}
+  .confirm p{color:var(--dim);line-height:1.7;max-width:26rem;margin:0 auto}
+  .badges{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-top:1.6rem}
+  .badges span{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:.5rem 1rem;
+    font-size:.8rem;color:var(--dim)}
+  .err{color:#f87171;font-size:.82rem;margin-top:.35rem;display:none}
+  @media(max-width:520px){.steps .bar{width:1.2rem}.steps li .lbl{display:none}}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+<div class="wrap">
+  <header>
+    <div class="logo">🔧📱</div>
+    <h1>FixIt <span>Mobile</span></h1>
+    <p class="sub">Cracked screen? Dead battery? Our certified techs come to your home or office — most repairs done in under an hour.</p>
+  </header>
+
+  <ol class="steps" id="steps">
+    <li data-s="1" class="now"><span class="dot">1</span><span class="lbl">Device</span></li><li><span class="bar"></span></li>
+    <li data-s="2"><span class="dot">2</span><span class="lbl">Issue &amp; Price</span></li><li><span class="bar"></span></li>
+    <li data-s="3"><span class="dot">3</span><span class="lbl">Book</span></li>
+  </ol>
+
+  <!-- STEP 1 -->
+  <section class="panel show" id="p1">
+    <h2>Which device needs help?</h2>
+    <p class="hint">Pick your phone — pricing adjusts automatically.</p>
+    <div class="cards" id="deviceCards"></div>
+    <div class="nav"><span></span><button class="btn" id="to2" disabled>Continue →</button></div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="panel" id="p2">
+    <h2>What's wrong with it?</h2>
+    <p class="hint">Select the issue — your instant quote appears below. All parts OEM-grade, 90-day warranty.</p>
+    <div class="cards" id="issueCards"></div>
+    <div class="quote" id="quote">
+      <div class="lbl">Your instant quote</div>
+      <div class="amt" id="quoteAmt">$0</div>
+      <div class="meta" id="quoteMeta"></div>
+    </div>
+    <div class="nav">
+      <button class="ghost" data-back="1">← Back</button>
+      <button class="btn" id="to3" disabled>Book Repair →</button>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="panel" id="p3">
+    <h2>Book your visit</h2>
+    <p class="hint">A tech comes to you — no shipping, no waiting rooms.</p>
+    <div class="summary" id="summary"></div>
+    <form id="bookForm" novalidate>
+      <div class="field">
+        <label for="fname">Full name</label>
+        <input id="fname" type="text" placeholder="Ada Lovelace" autocomplete="name">
+        <div class="err" id="e-name">Please enter your name.</div>
+      </div>
+      <div class="field">
+        <label for="fphone">Phone number</label>
+        <input id="fphone" type="tel" placeholder="(555) 123-4567" autocomplete="tel">
+        <div class="err" id="e-phone">Enter a valid phone number (7+ digits).</div>
+      </div>
+      <div class="field">
+        <label for="fdate">Preferred date</label>
+        <input id="fdate" type="date">
+        <div class="err" id="e-date">Pick a date (today or later).</div>
+      </div>
+      <div class="nav">
+        <button type="button" class="ghost" data-back="2">← Back</button>
+        <button type="submit" class="btn">Confirm Booking 🔧</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- CONFIRMATION -->
+  <section class="panel" id="p4">
+    <div class="confirm">
+      <div class="big">🎉</div>
+      <h2>You're booked!</h2>
+      <div class="ref" id="refNum">FX-000000</div>
+      <p id="confirmText"></p>
+      <div class="badges"><span>✅ 90-day warranty</span><span>⏱️ ~60 min repair</span><span>💳 Pay after service</span></div>
+      <div class="nav" style="justify-content:center"><button class="ghost" id="again">Book another repair</button></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const DEVICES = [
+  {id:"iphone15", name:"iPhone 15", emoji:"📱", sub:"Apple · 6.1″"},
+  {id:"galaxy24", name:"Galaxy S24", emoji:"🤖", sub:"Samsung · 6.2″"},
+  {id:"pixel9",   name:"Pixel 9",   emoji:"📸", sub:"Google · 6.3″"},
+];
+const ISSUES = [
+  {id:"screen",  name:"Cracked Screen", emoji:"🪟", sub:"Glass + display swap"},
+  {id:"battery",name:"Battery",        emoji:"🔋", sub:"Won't hold charge"},
+  {id:"port",   name:"Charging Port",  emoji:"🔌", sub:"Loose / not charging"},
+  {id:"water",  name:"Water Damage",   emoji:"💧", sub:"Deep clean + diagnostics"},
+];
+const PRICES = {
+  iphone15: {screen:189, battery:99,  port:79,  water:129},
+  galaxy24: {screen:169, battery:89,  port:69,  water:119},
+  pixel9:   {screen:159, battery:85,  port:65,  water:109},
+};
+const state = {device:null, issue:null};
+
+const $ = id => document.getElementById(id);
+function renderCards(list, elId, key){
+  $(elId).innerHTML = list.map(x=>`
+    <div class="card${state[key]===x.id?" sel":""}" data-id="${x.id}" data-key="${key}" role="button" tabindex="0">
+      <span class="emoji">${x.emoji}</span><span class="t">${x.name}</span><div class="d">${x.sub}</div>
+    </div>`).join("");
+}
+function bindCards(elId){
+  $(elId).addEventListener("click", e=>{
+    const c = e.target.closest(".card"); if(!c) return;
+    state[c.dataset.key] = c.dataset.id;
+    $(elId).querySelectorAll(".card").forEach(x=>x.classList.toggle("sel", x===c));
+    refresh();
+  });
+  $(elId).addEventListener("keydown", e=>{
+    if(e.key==="Enter"||e.key===" "){ const c=e.target.closest(".card"); if(c) c.click(); e.preventDefault(); }
+  });
+}
+function price(){ return (state.device && state.issue) ? PRICES[state.device][state.issue] : 0; }
+function devName(){ return DEVICES.find(d=>d.id===state.device).name; }
+function issName(){ return ISSUES.find(i=>i.id===state.issue).name; }
+
+function setStep(n){
+  [1,2,3].forEach(i=>$("p"+i).classList.toggle("show", i===n));
+  $("p4").classList.toggle("show", n===4);
+  document.querySelectorAll("#steps li[data-s]").forEach(li=>{
+    const s = +li.dataset.s;
+    li.classList.toggle("done", s<n || (n===4&&s<=3));
+    li.classList.toggle("now", s===n);
+  });
+  const bars = document.querySelectorAll("#steps .bar");
+  bars.forEach((b,i)=> b.classList.toggle("fill", (i+1)<n || n===4));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function refresh(){
+  $("to2").disabled = !state.device;
+  const has = state.device && state.issue;
+  $("to3").disabled = !has;
+  const q = $("quote");
+  if(has){
+    q.classList.add("show");
+    $("quoteAmt").textContent = "$"+price();
+    $("quoteMeta").textContent = `${devName()} · ${issName()} — parts & labor included, ~60 min on-site`;
+  } else q.classList.remove("show");
+}
+
+renderCards(DEVICES,"deviceCards","device");
+renderCards(ISSUES,"issueCards","issue");
+bindCards("deviceCards"); bindCards("issueCards");
+
+$("to2").onclick = ()=> setStep(2);
+$("to3").onclick = ()=>{
+  $("summary").innerHTML = `<b>${devName()}</b> — ${issName()} repair<br>Total due on completion: <b>$${price()}</b>`;
+  const d = $("fdate");
+  d.min = new Date().toISOString().split("T")[0];
+  setStep(3);
+};
+document.querySelectorAll("[data-back]").forEach(b=> b.onclick = ()=> setStep(+b.dataset.back));
+
+$("bookForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const name = $("fname").value.trim();
+  const phone = $("fphone").value.replace(/\D/g,"");
+  const date = $("fdate").value;
+  const today = new Date().toISOString().split("T")[0];
+  const okName = name.length >= 2;
+  const okPhone = phone.length >= 7;
+  const okDate = date && date >= today;
+  $("e-name").style.display = okName?"none":"block";
+  $("e-phone").style.display = okPhone?"none":"block";
+  $("e-date").style.display = okDate?"none":"block";
+  if(!(okName&&okPhone&&okDate)) return;
+  const ref = "FX-" + Math.random().toString(36).slice(2,8).toUpperCase();
+  $("refNum").textContent = ref;
+  const nice = new Date(date+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  $("confirmText").innerHTML =
+    `Thanks, <b>${name}</b>! A certified tech will visit you on <b>${nice}</b> ` +
+    `to repair your <b>${devName()}</b> (${issName().toLowerCase()}, $${price()}). ` +
+    `We'll text ${$("fphone").value.trim()} the morning of your appointment.`;
+  setStep(4);
+});
+$("again").onclick = ()=>{
+  state.device = state.issue = null;
+  renderCards(DEVICES,"deviceCards","device"); renderCards(ISSUES,"issueCards","issue");
+  $("bookForm").reset(); refresh(); setStep(1);
+};
+refresh();
+</script>
+</body>
+</html>

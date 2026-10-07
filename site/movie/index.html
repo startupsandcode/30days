@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Starfall Protocol — official trailer. Watch the exclusive teaser on our custom-built player. In theaters March 2027.">
+<title>Starfall Protocol — Official Trailer | The Premiere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#05070f;--panel:#0b0f1d;--gold:#e8c15a;--txt:#eef1ff;--dim:#8b93b8;--acc:#5aa8e8}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+  .backlink{position:fixed;top:14px;left:14px;z-index:200;background:rgba(5,7,15,.85);
+    color:var(--gold);text-decoration:none;font-weight:600;font-size:.85rem;padding:.55rem .9rem;
+    border:1px solid rgba(232,193,90,.4);border-radius:999px;backdrop-filter:blur(6px);transition:.2s}
+  .backlink:hover{background:var(--gold);color:#05070f}
+  .wrap{max-width:56rem;margin:0 auto;padding:4.5rem 1.25rem 4rem}
+  header{text-align:center;margin-bottom:1.8rem}
+  .kicker{letter-spacing:.4em;text-transform:uppercase;font-size:.72rem;color:var(--gold);margin-bottom:.7rem}
+  h1{font-family:'Cinzel',serif;font-size:clamp(2.2rem,6vw,3.6rem);letter-spacing:.06em}
+  .tag{color:var(--dim);margin-top:.5rem;font-size:.95rem}
+  /* player */
+  .player{background:#000;border:1px solid rgba(232,193,90,.25);border-radius:1rem;overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(90,168,232,.08)}
+  .stage{position:relative;aspect-ratio:16/9;background:#000}
+  canvas{width:100%;height:100%;display:block}
+  .bigplay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);
+    border:none;cursor:pointer;transition:.25s}
+  .bigplay.hide{opacity:0;pointer-events:none}
+  .bigplay span{width:5.5rem;height:5.5rem;border-radius:50%;background:rgba(232,193,90,.95);color:#05070f;
+    display:grid;place-items:center;font-size:2rem;padding-left:.35rem;box-shadow:0 0 40px rgba(232,193,90,.5)}
+  .controls{background:rgba(8,10,20,.95);padding:.7rem .9rem;user-select:none}
+  .seek{position:relative;height:.55rem;background:#222a45;border-radius:999px;cursor:pointer;margin-bottom:.65rem}
+  .seek .fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg,var(--acc),var(--gold));
+    border-radius:999px}
+  .seek .knob{position:absolute;top:50%;left:0%;width:.95rem;height:.95rem;border-radius:50%;background:#fff;
+    transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,255,255,.6)}
+  .row{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+  .cbtn{background:none;border:none;color:var(--txt);font-size:1.25rem;cursor:pointer;width:2.4rem;height:2.4rem;
+    border-radius:.6rem;display:grid;place-items:center;transition:.15s}
+  .cbtn:hover{background:rgba(255,255,255,.1)}
+  .time{font-variant-numeric:tabular-nums;font-size:.85rem;color:var(--dim);min-width:7.5rem}
+  .spacer{flex:1}
+  .vol{display:flex;align-items:center;gap:.45rem}
+  .vol input{width:5.5rem;accent-color:var(--gold);cursor:pointer}
+  .speed{background:#1a2138;border:1px solid rgba(232,193,90,.3);color:var(--gold);border-radius:.5rem;
+    padding:.4rem .55rem;font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit}
+  /* content */
+  .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:1.5rem;margin-top:2rem}
+  .card{background:var(--panel);border:1px solid rgba(139,147,184,.18);border-radius:1rem;padding:1.5rem}
+  .card h2{font-family:'Cinzel',serif;color:var(--gold);font-size:1.25rem;letter-spacing:.05em;margin-bottom:.8rem}
+  .card p{line-height:1.75;color:#c9cfe8;font-size:.96rem}
+  .cast{list-style:none;margin-top:.4rem}
+  .cast li{display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid rgba(139,147,184,.12);font-size:.93rem}
+  .cast li:last-child{border:none}
+  .cast .who{color:var(--dim);font-style:italic}
+  .shows{display:grid;gap:.6rem;margin-top:.4rem}
+  .show{display:flex;justify-content:space-between;align-items:center;background:#111830;border-radius:.7rem;
+    padding:.75rem 1rem;font-size:.9rem;border:1px solid transparent;transition:.2s;cursor:pointer}
+  .show:hover{border-color:var(--gold)}
+  .show .t{font-weight:600}
+  .show .f{color:var(--dim);font-size:.82rem}
+  .note{margin-top:2rem;text-align:center;color:var(--dim);font-size:.85rem}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+<div class="wrap">
+  <header>
+    <div class="kicker">The Premiere presents</div>
+    <h1>STARFALL PROTOCOL</h1>
+    <p class="tag">Official teaser trailer · In theaters March 12, 2027</p>
+  </header>
+
+  <div class="player" id="player">
+    <div class="stage">
+      <canvas id="screen" width="960" height="540"></canvas>
+      <button class="bigplay" id="bigplay" aria-label="Play trailer"><span>▶</span></button>
+    </div>
+    <div class="controls">
+      <div class="seek" id="seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="fill" id="fill"></div><div class="knob" id="knob"></div>
+      </div>
+      <div class="row">
+        <button class="cbtn" id="playbtn" aria-label="Play/Pause">▶</button>
+        <div class="time"><span id="tcur">0:00</span> / <span id="tdur">0:45</span></div>
+        <div class="vol"><span style="font-size:1rem">🔊</span><input type="range" id="vol" min="0" max="100" value="80" aria-label="Volume"></div>
+        <div class="spacer"></div>
+        <select class="speed" id="speed" aria-label="Playback speed">
+          <option value="0.5">0.5×</option><option value="1" selected>1×</option>
+          <option value="1.5">1.5×</option><option value="2">2×</option>
+        </select>
+        <button class="cbtn" id="fsbtn" aria-label="Fullscreen">⛶</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>SYNOPSIS</h2>
+      <p>When a dead star begins broadcasting a signal in a language no one taught it, disgraced pilot <b>Mara Voss</b> is drafted for a one-way mission: cross the Veil, find the source, and decide whether humanity answers back. But the Protocol was never about first contact — it was about containment. As her crew unravels one by one, Mara discovers the signal isn't coming <i>from</i> the star. It's coming from <i>inside</i> her ship.</p>
+      <p style="margin-top:.9rem">Directed by <b>Elena Vasquez</b> · 2h 18m · Sci-Fi / Thriller · Rated PG-13</p>
+    </div>
+    <div class="card">
+      <h2>STARRING</h2>
+      <ul class="cast">
+        <li>Zoe Adedeji <span class="who">as Mara Voss</span></li>
+        <li>Marcus Chen <span class="who">as Dr. Ilya Sato</span></li>
+        <li>Priya Raman <span class="who">as Cmdr. Okafor</span></li>
+        <li>Tomás Herrera <span class="who">as “Static”</span></li>
+        <li>June Park <span class="who">as The Signal (voice)</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.5rem">
+    <h2>SHOWTIMES — GRAND REX CINEMA</h2>
+    <div class="shows" id="shows"></div>
+  </div>
+
+  <p class="note">🎬 This trailer is 100% canvas-drawn — no video files were harmed in the making of this page.</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+const cv = document.getElementById("screen"), ctx = cv.getContext("2d");
+const W = cv.width, H = cv.height, DUR = 45; // seconds
+let t = 0, playing = false, speed = 1, volume = 0.8, last = 0;
+
+/* --- scene assets --- */
+const stars = Array.from({length:220},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,tw:Math.random()*6.28}));
+function ease(p){return p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;}
+function card(text,sub,p0,p1){
+  const p=(t-p0)/(p1-p0); if(p<0||p>1) return;
+  const a = p<.12? p/.12 : p>.88? (1-p)/.12 : 1;
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.fillStyle="rgba(0,0,0,.45)"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#e8c15a"; ctx.textAlign="center";
+  ctx.font="700 54px Cinzel, serif";
+  ctx.fillText(text, W/2, H/2 - (sub?14:0));
+  if(sub){ ctx.font="400 22px Inter, sans-serif"; ctx.fillStyle="#8b93b8"; ctx.fillText(sub, W/2, H/2+44); }
+  ctx.restore();
+}
+function drawStars(dt){
+  ctx.fillStyle="#05070f"; ctx.fillRect(0,0,W,H);
+  stars.forEach(s=>{
+    const tw = .5+.5*Math.sin(dt*2+s.tw);
+    ctx.globalAlpha = .35+.6*tw; ctx.fillStyle="#fff";
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.29); ctx.fill();
+  });
+  ctx.globalAlpha=1;
+}
+function planet(x,y,r,c1,c2,rings){
+  const g=ctx.createRadialGradient(x-r*.4,y-r*.4,r*.2,x,y,r);
+  g.addColorStop(0,c1); g.addColorStop(1,c2);
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,6.29); ctx.fill();
+  if(rings){ ctx.strokeStyle="rgba(232,193,90,.55)"; ctx.lineWidth=6;
+    ctx.beginPath(); ctx.ellipse(x,y,r*1.6,r*.45,-.4,0,6.29); ctx.stroke(); }
+}
+function ship(x,y,s,tilt){
+  ctx.save(); ctx.translate(x,y); ctx.rotate(tilt||0); ctx.scale(s,s);
+  ctx.fillStyle="#cfd6ee";
+  ctx.beginPath(); ctx.moveTo(34,0); ctx.lineTo(-22,-14); ctx.lineTo(-12,0); ctx.lineTo(-22,14); ctx.closePath(); ctx.fill();
+  ctx.fillStyle="#5aa8e8"; ctx.beginPath(); ctx.arc(6,-2,6,0,6.29); ctx.fill();
+  const f = 8+Math.random()*14;
+  const g = ctx.createLinearGradient(-24,0,-44,0);
+  g.addColorStop(0,"rgba(232,193,90,.95)"); g.addColorStop(1,"rgba(232,193,90,0)");
+  ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(-22,-6); ctx.lineTo(-24-f*2.4,0); ctx.lineTo(-22,6); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+/* --- timeline: t in seconds --- */
+function frame(dt){
+  drawStars(dt);
+  if(t<6){ // 0-6: drifting stars, title reveal
+    const p=t/6; ctx.save(); ctx.globalAlpha=Math.min(1,p*1.4);
+    ctx.fillStyle="#eef1ff"; ctx.textAlign="center";
+    ctx.font="400 20px Inter, sans-serif";
+    ctx.fillText("A SIGNAL FROM A DEAD STAR", W/2, H/2-70);
+    ctx.font="700 72px Cinzel, serif"; ctx.fillStyle="#e8c15a";
+    ctx.fillText("STARFALL", W/2, H/2+20);
+    ctx.font="700 34px Cinzel, serif"; ctx.fillStyle="#5aa8e8";
+    ctx.fillText("PROTOCOL", W/2, H/2+70);
+    ctx.restore();
+  } else if(t<14){ // 6-14: ship flies past ringed planet
+    const p=(t-6)/8;
+    planet(W*.72,H*.42,110,"#c98a4b","#5c2f14",true);
+    planet(W*.16,H*.78,42,"#7fa8c9","#233a55",false);
+    ship(-80+p*(W+220), H*.55+Math.sin(p*9)*22, 1.5, -.06+Math.sin(p*6)*.03);
+    if(p>.55) card("SHE CROSSED THE VEIL", null, 6, 14);
+  } else if(t<22){ // 14-22: warp / chase
+    const p=(t-14)/8;
+    ctx.strokeStyle="rgba(255,255,255,.5)"; ctx.lineWidth=2;
+    for(let i=0;i<40;i++){
+      const sx=((i*173)%W), sy=((i*97)%H);
+      const len=30+p*220;
+      ctx.globalAlpha=.25+p*.6;
+      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx-len,sy); ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+    ship(W*.4,H*.5,2,-.1);
+    ship(W*.75-p*300,H*.3,1.1,.15);
+    card("SOMETHING FOLLOWED HER BACK", null, 14, 22);
+  } else if(t<30){ // 22-30: red alert, ship dodging debris
+    const p=(t-22)/8;
+    const pulse=.5+.5*Math.sin(dt*8);
+    ctx.fillStyle=`rgba(200,30,30,${.08+.1*pulse})`; ctx.fillRect(0,0,W,H);
+    for(let i=0;i<26;i++){
+      const dx=((i*211)%W)-p*180, dy=((i*131)%H)+Math.sin(dt*3+i)*14;
+      ctx.fillStyle="#5a5f78"; ctx.save(); ctx.translate(dx,dy); ctx.rotate(i+dt);
+      ctx.fillRect(-9,-6,18,12); ctx.restore();
+    }
+    ship(W*.5+Math.sin(p*14)*90, H*.5+Math.cos(p*11)*70, 1.6, Math.sin(p*10)*.25);
+    card("THE PROTOCOL WAS NEVER ABOUT CONTACT", null, 22, 30);
+  } else if(t<38){ // 30-38: approaching the signal — bright core
+    const p=(t-30)/8;
+    const cx=W/2, cy=H/2, cr=40+p*160;
+    const g=ctx.createRadialGradient(cx,cy,10,cx,cy,cr);
+    g.addColorStop(0,"rgba(232,193,90,.9)"); g.addColorStop(.5,"rgba(90,168,232,.35)"); g.addColorStop(1,"rgba(90,168,232,0)");
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,cr,0,6.29); ctx.fill();
+    ship(W*.2,H*.65+p*40,1.3,-.2);
+    if(p>.5) card("IT WAS ABOUT CONTAINMENT", null, 30, 38);
+  } else { // 38-45: final title
+    drawStars(dt);
+    ctx.save(); ctx.globalAlpha=Math.min(1,(t-38)/1.5);
+    ctx.fillStyle="#eef1ff"; ctx.textAlign="center";
+    ctx.font="700 80px Cinzel, serif"; ctx.fillStyle="#e8c15a";
+    ctx.fillText("STARFALL PROTOCOL", W/2, H/2-10);
+    ctx.font="400 24px Inter, sans-serif"; ctx.fillStyle="#8b93b8";
+    ctx.fillText("IN THEATERS MARCH 12, 2027", W/2, H/2+48);
+    ctx.restore();
+  }
+  // letterbox
+  ctx.fillStyle="#000"; ctx.fillRect(0,0,W,54); ctx.fillRect(0,H-54,W,54);
+}
+
+/* --- player wiring --- */
+const playbtn=$("playbtn"), bigplay=$("bigplay"), seek=$("seek"), fill=$("fill"), knob=$("knob");
+const fmt=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;
+$("tdur").textContent=fmt(DUR);
+function setPlaying(v){
+  playing=v;
+  playbtn.textContent=v?"⏸":"▶";
+  bigplay.classList.toggle("hide",v||t>0);
+}
+function tick(now){
+  const dt=Math.min(.05,(now-last)/1000||0); last=now;
+  if(playing){ t+=dt*speed; if(t>=DUR){ t=DUR; setPlaying(false); } }
+  frame(playing? t : t); // draw current frame always (dt drives twinkle)
+  const pct=(t/DUR*100);
+  fill.style.width=pct+"%"; knob.style.left=pct+"%";
+  seek.setAttribute("aria-valuenow",Math.round(pct));
+  $("tcur").textContent=fmt(t);
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+playbtn.onclick=()=>setPlaying(!playing);
+bigplay.onclick=()=>setPlaying(true);
+cv.addEventListener("click",()=>setPlaying(!playing));
+function scrub(e){
+  const r=seek.getBoundingClientRect();
+  const p=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));
+  t=p*DUR; if(t>=DUR) setPlaying(false);
+}
+let dragging=false;
+seek.addEventListener("pointerdown",e=>{dragging=true;seek.setPointerCapture(e.pointerId);scrub(e);});
+seek.addEventListener("pointermove",e=>{if(dragging)scrub(e);});
+seek.addEventListener("pointerup",()=>dragging=false);
+seek.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight")t=Math.min(DUR,t+5);
+  if(e.key==="ArrowLeft")t=Math.max(0,t-5);
+});
+$("vol").addEventListener("input",e=>{volume=e.target.value/100;});
+$("speed").addEventListener("change",e=>{speed=parseFloat(e.target.value);});
+$("fsbtn").onclick=()=>{
+  const pl=$("player");
+  if(document.fullscreenElement)document.exitFullscreen();
+  else if(pl.requestFullscreen)pl.requestFullscreen();
+};
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+  if(e.code==="Space"){e.preventDefault();setPlaying(!playing);}
+  if(e.key==="m"){const v=$("vol");v.value=v.value>0?0:80;v.dispatchEvent(new Event("input"));}
+});
+
+/* --- showtimes --- */
+const SHOWS=[
+  ["10:30 AM","2D · Standard"],["1:15 PM","IMAX"],["4:00 PM","2D · Standard"],
+  ["7:30 PM","Dolby Atmos"],["10:45 PM","IMAX · Late show"],
+];
+$("shows").innerHTML=SHOWS.map(s=>`
+  <div class="show" role="button" tabindex="0"><span class="t">${s[0]}</span><span class="f">${s[1]}</span><span>🎟️</span></div>`).join("");
+document.querySelectorAll(".show").forEach(el=>{
+  const pick=()=>{document.querySelectorAll(".show").forEach(x=>x.style.borderColor="transparent");
+    el.style.borderColor="#e8c15a"; el.querySelector(".f").textContent="✓ Selected — see you there!";};
+  el.addEventListener("click",pick);
+  el.addEventListener("keydown",e=>{if(e.key==="Enter")pick();});
+});
+})();
+</script>
+</body>
+</html>
