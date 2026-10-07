@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Sunday Stack — one email, every Sunday. Five ideas that made the week worth it. Join 12,000+ curious readers.">
+<title>The Sunday Stack — One Email, Every Sunday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#1c1917;--paper:#faf6ef;--accent:#e4572e;--gold:#d9a441;--sage:#5c6b4f;--err:#c0352b}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+  .backlink{position:fixed;top:12px;left:12px;z-index:9999;background:#1c1917;color:#faf6ef;text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s}
+  .backlink:hover{transform:translateY(-2px)}
+  header.hero{max-width:760px;margin:0 auto;padding:96px 24px 40px;text-align:center}
+  .kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:16px}
+  h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.6rem,7vw,4.5rem);line-height:1.05;letter-spacing:-.02em}
+  h1 em{font-style:italic;color:var(--accent)}
+  .lede{font-size:clamp(1.02rem,2.4vw,1.25rem);color:#57534e;margin:20px auto 8px;max-width:560px}
+  .form-wrap{max-width:520px;margin:32px auto 0;background:#fff;border:2px solid var(--ink);border-radius:18px;padding:28px;box-shadow:8px 8px 0 var(--ink)}
+  .form-row{display:flex;gap:10px;flex-wrap:wrap}
+  label.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  input[type=email]{flex:1;min-width:220px;padding:14px 16px;font-size:16px;border:2px solid #d6d3d1;border-radius:12px;font-family:inherit;transition:border-color .2s}
+  input[type=email]:focus{outline:none;border-color:var(--ink)}
+  input[type=email].invalid{border-color:var(--err);background:#fef2f0;animation:shake .3s}
+  @keyframes shake{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+  button[type=submit]{padding:14px 24px;font-size:16px;font-weight:700;background:var(--accent);color:#fff;border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:transform .15s,background .2s;white-space:nowrap}
+  button[type=submit]:hover{background:#c94723;transform:translateY(-2px)}
+  .error-msg{display:none;color:var(--err);font-size:14px;font-weight:600;margin-top:10px}
+  .error-msg.show{display:block}
+  .fineprint{font-size:13px;color:#78716c;margin-top:14px}
+  .count{margin-top:18px;font-size:14px;color:#78716c}
+  .count strong{color:var(--ink);font-size:18px}
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:9998}
+  .success{display:none;text-align:center;padding:12px 0 4px}
+  .success.show{display:block}
+  .success h2{font-family:'Fraunces',serif;font-size:2rem;margin-bottom:8px}
+  .success p{color:#57534e}
+  main{max-width:1100px;margin:0 auto;padding:40px 24px 90px}
+  h2.section-title{font-family:'Fraunces',serif;font-size:clamp(1.7rem,4vw,2.4rem);text-align:center;margin:60px 0 10px}
+  .section-sub{text-align:center;color:#78716c;margin-bottom:36px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+  .card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:26px;box-shadow:6px 6px 0 rgba(28,25,23,.12);transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 rgba(28,25,23,.16)}
+  .card .issue{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .card h3{font-family:'Fraunces',serif;font-size:1.45rem;margin:8px 0 4px}
+  .card .date{font-size:13px;color:#a8a29e;margin-bottom:14px}
+  .card ul{list-style:none}
+  .card li{padding:8px 0 8px 28px;position:relative;font-size:15px}
+  .card li::before{content:'✦';position:absolute;left:2px;color:var(--accent)}
+  .quote{background:var(--ink);color:var(--paper);border-radius:18px;padding:44px 32px;text-align:center;max-width:760px;margin:80px auto 0}
+  .quote p{font-family:'Fraunces',serif;font-size:clamp(1.2rem,3vw,1.7rem);font-style:italic}
+  .quote cite{display:block;margin-top:14px;font-style:normal;font-size:14px;color:#d6d3d1}
+  footer{text-align:center;padding:36px 20px;color:#a8a29e;font-size:13px}
+  @media(max-width:520px){.form-wrap{padding:20px}.form-row{flex-direction:column}button[type=submit]{width:100%}}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+<canvas id="confetti"></canvas>
+
+<header class="hero">
+  <div class="kicker">A weekly newsletter</div>
+  <h1>The Sunday <em>Stack</em></h1>
+  <p class="lede">Five ideas that made the week worth it — delivered every Sunday morning with your coffee. Read by engineers, founders, and the professionally curious.</p>
+  <div class="form-wrap" id="formWrap">
+    <form id="signup" novalidate>
+      <div class="form-row">
+        <label class="sr" for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+        <button type="submit">Stack me in</button>
+      </div>
+      <p class="error-msg" id="errMsg" role="alert"></p>
+      <p class="fineprint">Free forever. No spam, unsubscribe anytime, your inbox stays yours.</p>
+    </form>
+    <div class="success" id="success">
+      <h2>You're on the list 🎉</h2>
+      <p>First stack lands in your inbox this Sunday at 8:00 AM ET.</p>
+    </div>
+  </div>
+  <div class="count"><strong id="subCount">12,483</strong> curious readers already stacking Sundays</div>
+</header>
+
+<main>
+  <h2 class="section-title">Fresh from the archives</h2>
+  <p class="section-sub">Three recent issues, so you know exactly what you're signing up for.</p>
+  <div class="cards">
+    <article class="card">
+      <div class="issue">Issue #142</div>
+      <h3>The Slow Build Advantage</h3>
+      <div class="date">October 4, 2026</div>
+      <ul>
+        <li>Why boring consistency beats brilliant sprints (with data)</li>
+        <li>The 3-note morning ritual used by two Pulitzer winners</li>
+        <li>Tool of the week: a notebook app that finally gets out of the way</li>
+      </ul>
+    </article>
+    <article class="card">
+      <div class="issue">Issue #141</div>
+      <h3>Attention Is a Budget</h3>
+      <div class="date">September 27, 2026</div>
+      <ul>
+        <li>A founder's audit: where 40 hours of "busy" actually went</li>
+        <li>The psychology of the unread notification badge</li>
+        <li>One question to ask before saying yes to anything</li>
+      </ul>
+    </article>
+    <article class="card">
+      <div class="issue">Issue #140</div>
+      <h3>Systems for Mortals</h3>
+      <div class="date">September 20, 2026</div>
+      <ul>
+        <li>Build a personal wiki in 20 minutes (no apps required)</li>
+        <li>The "two-list" method for taming an overflowing todo list</li>
+        <li>What a 100-year-old gardener taught me about compounding</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="quote">
+    <p>"The only newsletter I read start to finish. It feels like a friend who reads everything so you don't have to."</p>
+    <cite>— Maya R., reader since Issue #3</cite>
+  </div>
+</main>
+
+<footer>© 2026 The Sunday Stack · Written by humans, every Sunday · No trackers, just ideas</footer>
+
+<script>
+(function(){
+  var form = document.getElementById('signup'),
+      email = document.getElementById('email'),
+      errMsg = document.getElementById('errMsg'),
+      success = document.getElementById('success'),
+      countEl = document.getElementById('subCount'),
+      count = parseInt(localStorage.getItem('stackCount') || '12483', 10);
+  countEl.textContent = count.toLocaleString();
+
+  var re = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  var errors = {
+    empty: 'Your email is missing — we can\u2019t stack Sundays without it.',
+    invalid: 'That doesn\u2019t look like a real email address. Try again?'
+  };
+
+  function validate(){
+    var v = email.value.trim();
+    if(!v){ return {ok:false, msg:errors.empty}; }
+    if(!re.test(v)){ return {ok:false, msg:errors.invalid}; }
+    return {ok:true};
+  }
+  function showError(msg){
+    email.classList.add('invalid');
+    errMsg.textContent = msg;
+    errMsg.classList.add('show');
+  }
+  function clearError(){
+    email.classList.remove('invalid');
+    errMsg.classList.remove('show');
+  }
+  email.addEventListener('input', function(){
+    if(validate().ok){ clearError(); }
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var r = validate();
+    if(!r.ok){
+      showError(r.msg);
+      email.focus();
+      return;
+    }
+    clearError();
+    form.style.display = 'none';
+    success.classList.add('show');
+    count++;
+    localStorage.setItem('stackCount', String(count));
+    countEl.textContent = count.toLocaleString();
+    confettiBurst();
+  });
+
+  function confettiBurst(){
+    var c = document.getElementById('confetti'),
+        ctx = c.getContext('2d');
+    c.width = innerWidth; c.height = innerHeight;
+    var colors = ['#e4572e','#d9a441','#5c6b4f','#1c1917','#4f8fbf','#c0352b'];
+    var parts = [];
+    for(var i=0;i<160;i++){
+      parts.push({
+        x: innerWidth/2, y: innerHeight*0.35,
+        vx: (Math.random()-0.5)*16,
+        vy: Math.random()*-14 - 3,
+        s: Math.random()*9+4,
+        r: Math.random()*Math.PI*2,
+        vr: (Math.random()-0.5)*0.3,
+        c: colors[i%colors.length],
+        life: 110 + Math.random()*50
+      });
+    }
+    var frames = 0;
+    (function tick(){
+      ctx.clearRect(0,0,c.width,c.height);
+      var alive = false;
+      parts.forEach(function(p){
+        if(frames < p.life){
+          alive = true;
+          p.x += p.vx; p.y += p.vy; p.vy += 0.35; p.r += p.vr;
+          p.vx *= 0.99;
+          ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r);
+          ctx.fillStyle = p.c; ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.62);
+          ctx.restore();
+        }
+      });
+      frames++;
+      if(alive) requestAnimationFrame(tick);
+      else ctx.clearRect(0,0,c.width,c.height);
+    })();
+  }
+})();
+</script>
+</body>
+</html>

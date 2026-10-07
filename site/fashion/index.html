@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Atelier Noir — the Autumn 2026 lookbook. Twelve looks across the Noir, Ivory, and Rouge collections.">
+<title>Atelier Noir — Autumn 2026 Lookbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#0e0c0a;color:#ece5d8;min-height:100vh}
+  .backlink{position:fixed;top:12px;left:12px;z-index:1001;background:rgba(236,229,216,.1);color:#ece5d8;border:1px solid rgba(236,229,216,.3);text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;backdrop-filter:blur(6px)}
+  .backlink:hover{background:rgba(236,229,216,.2)}
+  header{padding:100px 24px 30px;text-align:center;max-width:900px;margin:0 auto}
+  .maison{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:#a89468;margin-bottom:14px}
+  h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,8vw,5.2rem);font-weight:500;letter-spacing:.04em}
+  h1 i{font-style:italic;color:#c9b384}
+  .season{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:#7d7462;margin-top:10px}
+  .lede{max-width:560px;margin:18px auto 0;color:#9a9184;font-weight:300;font-size:15px}
+  .filters{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:36px 0 10px;padding:0 20px}
+  .filters button{background:transparent;border:1px solid rgba(236,229,216,.35);color:#ece5d8;font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:11px 24px;border-radius:999px;cursor:pointer;transition:all .25s}
+  .filters button:hover{border-color:#ece5d8}
+  .filters button.active{background:#ece5d8;color:#0e0c0a;border-color:#ece5d8}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px;max-width:1200px;margin:0 auto;padding:40px 24px 100px}
+  .look{cursor:pointer;background:#161310;border-radius:6px;overflow:hidden;transition:transform .3s,box-shadow .3s;border:1px solid rgba(236,229,216,.08)}
+  .look:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(0,0,0,.55)}
+  .look.hide{display:none}
+  .swatch{height:300px;position:relative;display:flex;align-items:flex-end;justify-content:center}
+  .swatch .silhouette{width:120px;height:220px;margin-bottom:28px;position:relative}
+  .swatch .badge{position:absolute;top:14px;left:14px;font-size:10px;letter-spacing:3px;text-transform:uppercase;background:rgba(14,12,10,.55);color:#ece5d8;padding:6px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+  .look .info{padding:20px 22px 24px}
+  .look h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500}
+  .look .col{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#a89468;margin-top:4px}
+  .look .price{margin-top:8px;font-size:14px;color:#c9b384;letter-spacing:1px}
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(8,6,5,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+  .overlay.open{display:flex}
+  .modal{background:#161310;border:1px solid rgba(236,229,216,.15);border-radius:10px;max-width:680px;width:100%;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;animation:rise .35s ease}
+  @keyframes rise{from{transform:translateY(30px);opacity:0}}
+  .modal .mswatch{min-height:420px}
+  .modal .mbody{padding:36px 34px}
+  .modal .mbody .col{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#a89468}
+  .modal h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:500;margin:8px 0 14px}
+  .modal p.desc{font-size:14.5px;color:#b7ad9c;font-weight:300;line-height:1.75;margin-bottom:20px}
+  .spec{margin-bottom:14px}
+  .spec .k{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7d7462;margin-bottom:6px}
+  .spec .v{font-size:14px;color:#ece5d8}
+  .hexes{display:flex;gap:8px;margin-top:6px}
+  .hex{width:34px;height:34px;border-radius:50%;border:2px solid rgba(236,229,216,.25);cursor:pointer;position:relative}
+  .hex:hover::after{content:attr(data-hex);position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-size:10px;background:#0e0c0a;padding:3px 8px;border-radius:6px;white-space:nowrap;border:1px solid rgba(236,229,216,.2)}
+  .mprice{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:#c9b384;margin:18px 0 4px}
+  .close{position:absolute;top:16px;right:22px;font-size:28px;color:#ece5d8;background:none;border:none;cursor:pointer;line-height:1}
+  .modalwrap{position:relative}
+  footer{text-align:center;padding:30px;font-size:12px;color:#5f584c;letter-spacing:2px}
+  @media(max-width:640px){.modal{grid-template-columns:1fr}.modal .mswatch{min-height:220px}}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+
+<header>
+  <div class="maison">Maison de Couture</div>
+  <h1>Atelier <i>Noir</i></h1>
+  <div class="season">Autumn — Winter 2026</div>
+  <p class="lede">Twelve looks, three collections. Shadow, bone, and blood — cut in Paris, worn everywhere.</p>
+</header>
+
+<nav class="filters" id="filters" aria-label="Filter by collection">
+  <button data-f="all" class="active">All</button>
+  <button data-f="noir">Noir</button>
+  <button data-f="ivory">Ivory</button>
+  <button data-f="rouge">Rouge</button>
+</nav>
+
+<main class="grid" id="grid"></main>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true">
+  <div class="modalwrap">
+    <button class="close" id="closeBtn" aria-label="Close">&times;</button>
+    <div class="modal" id="modal"></div>
+  </div>
+</div>
+
+<footer>ATELIER NOIR · PARIS · EST. 1987</footer>
+
+<script>
+(function(){
+  var looks = [
+    {n:"Minuit", c:"noir", p:2890, f:"Double-faced wool crepe, silk lining", d:"A floor-sweeping column coat with hand-set seams and a storm collar that stands on its own.", pal:["#0a0a0c","#1c1c22","#3a3a44"], grad:"linear-gradient(160deg,#050507,#23232b 55%,#0c0c10)"},
+    {n:"Encre", c:"noir", p:1740, f:"Japanese technical twill, bonded seams", d:"Sharp-shouldered suiting with a liquid drape — tailoring that behaves like evening wear.", pal:["#101014","#26262e","#54545e"], grad:"linear-gradient(150deg,#0b0b0e,#2a2a33 60%,#141418)"},
+    {n:"Corbeau", c:"noir", p:980, f:"Featherweight cashmere knit", d:"A sculptural turtleneck with exaggerated sleeves, knitted in one seamless piece.", pal:["#0d0d0f","#222228","#6b6b75"], grad:"radial-gradient(circle at 30% 20%,#2c2c35,#0a0a0c 70%)"},
+    {n:"Sépia", c:"noir", p:2150, f:"Vegetable-tanned leather, matte finish", d:"An asymmetric moto jacket, hand-burnished so no two panels catch light the same way.", pal:["#151312","#2e2a26","#57493d"], grad:"linear-gradient(140deg,#100e0c,#33291f 55%,#17130f)"},
+    {n:"Os", c:"ivory", p:1980, f:"Double silk satin, hand-rolled hems", d:"A bias-cut slip dress that moves like poured milk. The house signature, reissued.", pal:["#f5efe2","#e3d7bf","#b8a886"], grad:"linear-gradient(160deg,#faf5e9,#e8dcc2 55%,#cfc0a1)"},
+    {n:"Craie", c:"ivory", p:1320, f:"Brushed alpaca, unlined", d:"An oversized chalk coat with raw edges — softness worn like armor.", pal:["#f2ede4","#d9d2c4","#a89f8d"], grad:"radial-gradient(circle at 70% 30%,#fbf7ee,#d8cfbc 70%)"},
+    {n:"Porcelaine", c:"ivory", p:2650, f:"Duchess satin, boned bodice", d:"A sculpted evening gown with a single architectural shoulder. Seats sold separately.", pal:["#f8f4ec","#e0d6c4","#9d917c"], grad:"linear-gradient(150deg,#fbf8f1,#e2d7c1 60%,#c4b696)"},
+    {n:"Ivoire", c:"ivory", p:860, f:"Organic cotton poplin, mother-of-pearl buttons", d:"The perfect white shirt, cut slightly long, with cuffs that mean business.", pal:["#ffffff","#ece7db","#c9c0ad"], grad:"linear-gradient(160deg,#ffffff,#e9e4d6 60%,#d3c9b4)"},
+    {n:"Sang", c:"rouge", p:3100, f:"Velvet devoré, silk chiffon", d:"A blood-red opera coat with a twelve-foot train. Not for the faint of occasion.", pal:["#7a0f16","#b01e28","#e05a5a"], grad:"linear-gradient(160deg,#4d080d,#a11a24 55%,#5c0b11)"},
+    {n:"Braises", c:"rouge", p:1490, f:"Sequin mesh, hand-embroidered", d:"A second-skin top embroidered with ten thousand embers. Catches every light in the room.", pal:["#8c1414","#d43a2e","#f4a259"], grad:"radial-gradient(circle at 40% 30%,#e0523c,#7c1216 75%)"},
+    {n:"Cerise", c:"rouge", p:1890, f:"Lacquered taffeta, crinoline", d:"A cocktail dress with a skirt engineered to spin — tested on actual dance floors.", pal:["#a41225","#d7263d","#ff7b8a"], grad:"linear-gradient(150deg,#7e0e1d,#cf2233 60%,#8c101f)"},
+    {n:"Rouille", c:"rouge", p:1120, f:"Washed cupro, raw silk trim", d:"A rust-toned wrap dress that ties three ways. The one you'll reach for daily.", pal:["#8a3b1f","#c25e2e","#e8a06a"], grad:"linear-gradient(140deg,#5f2812,#b6542a 55%,#743a1c)"}
+  ];
+
+  var grid = document.getElementById('grid'),
+      overlay = document.getElementById('overlay'),
+      modal = document.getElementById('modal'),
+      closeBtn = document.getElementById('closeBtn');
+
+  function silhouetteSVG(){ return '<svg class="silhouette" viewBox="0 0 120 220" aria-hidden="true"><ellipse cx="60" cy="40" rx="16" ry="20" fill="rgba(255,255,255,.28)"/><path d="M44 62 Q60 54 76 62 L84 130 Q88 170 78 210 L42 210 Q32 170 36 130 Z" fill="rgba(255,255,255,.16)"/><path d="M44 62 L30 150 M76 62 L90 150" stroke="rgba(255,255,255,.28)" stroke-width="6" stroke-linecap="round"/></svg>'; }
+
+  function cardHTML(l, i){
+    return '<article class="look" data-i="' + i + '" data-c="' + l.c + '" tabindex="0" role="button" aria-label="View ' + l.n + '">' +
+      '<div class="swatch" style="background:' + l.grad + '"><span class="badge">' + l.c + '</span>' + silhouetteSVG() + '</div>' +
+      '<div class="info"><h3>' + l.n + '</h3><div class="col">' + l.c + ' collection</div><div class="price">$' + l.p.toLocaleString() + '</div></div></article>';
+  }
+  grid.innerHTML = looks.map(cardHTML).join('');
+
+  // filter
+  document.getElementById('filters').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    this.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+    b.classList.add('active');
+    var f = b.dataset.f;
+    grid.querySelectorAll('.look').forEach(function(card){
+      card.classList.toggle('hide', f !== 'all' && card.dataset.c !== f);
+    });
+  });
+
+  // modal
+  function openModal(i){
+    var l = looks[i];
+    var hexes = l.pal.map(function(h){ return '<span class="hex" data-hex="' + h + '" style="background:' + h + '"></span>'; }).join('');
+    modal.innerHTML =
+      '<div class="mswatch" style="background:' + l.grad + '"></div>' +
+      '<div class="mbody"><div class="col">' + l.c + ' · Look ' + (i+1) + ' of 12</div>' +
+      '<h2>' + l.n + '</h2><p class="desc">' + l.d + '</p>' +
+      '<div class="spec"><div class="k">Fabric</div><div class="v">' + l.f + '</div></div>' +
+      '<div class="spec"><div class="k">Palette — hover a swatch</div><div class="hexes">' + hexes + '</div></div>' +
+      '<div class="mprice">$' + l.p.toLocaleString() + '</div>' +
+      '<div class="spec"><div class="k">Atelier</div><div class="v">Made to order in Paris · 3 weeks</div></div></div>';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  grid.addEventListener('click', function(e){
+    var card = e.target.closest('.look'); if(card) openModal(+card.dataset.i);
+  });
+  grid.addEventListener('keydown', function(e){
+    var card = e.target.closest('.look');
+    if(card && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); openModal(+card.dataset.i); }
+  });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+})();
+</script>
+</body>
+</html>

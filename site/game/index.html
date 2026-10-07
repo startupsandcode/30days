@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bonk the moles! A 30-second whack-a-mole frenzy — how fast are your reflexes?">
+<title>Bonk! — Whack-a-Mole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#7ec850 0%,#5da33c 60%,#4a8a30 100%);min-height:100vh;color:#2d1f10;user-select:none;overflow-x:hidden}
+  .backlink{position:fixed;top:12px;left:12px;z-index:9999;background:#2d1f10;color:#fff8e7;text-decoration:none;font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+  .backlink:hover{transform:translateY(-2px)}
+  .wrap{max-width:640px;margin:0 auto;padding:70px 20px 60px;text-align:center}
+  h1{font-family:'Fredoka',sans-serif;font-size:clamp(2.6rem,8vw,4rem);color:#fff8e7;text-shadow:0 4px 0 rgba(45,31,16,.35);letter-spacing:1px}
+  h1 .mole-emoji{display:inline-block;animation:bob 1.6s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+  .sub{color:#f4e9c8;font-weight:600;margin:6px 0 24px}
+  .hud{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .pill{background:#fff8e7;border-radius:999px;padding:10px 22px;font-weight:700;font-size:17px;box-shadow:0 4px 0 rgba(45,31,16,.25);min-width:130px}
+  .pill small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a6d3f}
+  .pill span{font-size:24px;font-variant-numeric:tabular-nums}
+  #timePill.low span{color:#d33;animation:pulse .5s infinite alternate}
+  @keyframes pulse{to{transform:scale(1.25)}}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:480px;margin:0 auto}
+  .hole{position:relative;height:128px;cursor:pointer}
+  .mound{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:92%;height:56px;background:radial-gradient(ellipse at center,#8a5a33 0%,#6b4226 70%,#4e2f1a 100%);border-radius:50%;box-shadow:inset 0 -8px 14px rgba(0,0,0,.35)}
+  .opening{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:64%;height:40px;background:#1d1209;border-radius:50%;overflow:hidden}
+  .mole{position:absolute;bottom:22px;left:50%;transform:translate(-50%,100%);font-size:56px;line-height:1;transition:transform .16s ease-out;pointer-events:none;filter:drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+  .hole.up .mole{transform:translate(-50%,-6px)}
+  .hole.bonked .mole{transform:translate(-50%,-6px) scaleY(.55) rotate(8deg);filter:grayscale(.4) drop-shadow(0 4px 4px rgba(0,0,0,.3))}
+  .bonk{position:absolute;left:50%;top:10px;transform:translateX(-50%);font-family:'Fredoka',sans-serif;font-weight:700;font-size:26px;color:#fff;text-shadow:0 2px 0 #d33;opacity:0;pointer-events:none}
+  .hole.bonked .bonk{animation:floatUp .5s ease-out}
+  @keyframes floatUp{0%{opacity:1;transform:translate(-50%,0) scale(.6)}100%{opacity:0;transform:translate(-50%,-46px) scale(1.2)}}
+  #startBtn{margin-top:30px;font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;letter-spacing:1px;color:#fff;background:#e4572e;border:none;border-radius:999px;padding:16px 56px;cursor:pointer;box-shadow:0 6px 0 #a83a1c,0 10px 20px rgba(0,0,0,.25);transition:transform .1s}
+  #startBtn:active{transform:translateY(4px);box-shadow:0 2px 0 #a83a1c}
+  #startBtn:disabled{opacity:.55;cursor:default}
+  .msg{min-height:34px;margin-top:18px;font-family:'Fredoka',sans-serif;font-size:20px;color:#fff8e7}
+  .rules{max-width:480px;margin:26px auto 0;background:rgba(255,248,231,.92);border-radius:16px;padding:18px 22px;text-align:left;font-size:14px;box-shadow:0 6px 0 rgba(45,31,16,.2)}
+  .rules li{margin:6px 0 6px 18px}
+  @media(max-width:420px){.hole{height:104px}.mole{font-size:44px}}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+
+<div class="wrap">
+  <h1><span class="mole-emoji">🐹</span> BONK! <span class="mole-emoji">🔨</span></h1>
+  <p class="sub">The moles are loose. You have 30 seconds. Bring the hammer.</p>
+
+  <div class="hud">
+    <div class="pill" id="timePill"><small>Time</small><span id="time">30</span></div>
+    <div class="pill"><small>Score</small><span id="score">0</span></div>
+    <div class="pill"><small>Best</small><span id="best">0</span></div>
+  </div>
+
+  <div class="grid" id="grid" aria-label="Whack-a-mole grid"></div>
+
+  <button id="startBtn">Start Bonking</button>
+  <div class="msg" id="msg">Tap Start, then bonk every mole you see!</div>
+
+  <ul class="rules">
+    <li>🐹 Each bonked mole = <b>+1 point</b></li>
+    <li>⚡ Moles get <b>faster</b> as the clock runs down</li>
+    <li>🏆 Your best score is saved between visits</li>
+  </ul>
+</div>
+
+<script>
+(function(){
+  var grid = document.getElementById('grid'),
+      startBtn = document.getElementById('startBtn'),
+      scoreEl = document.getElementById('score'),
+      timeEl = document.getElementById('time'),
+      bestEl = document.getElementById('best'),
+      timePill = document.getElementById('timePill'),
+      msg = document.getElementById('msg');
+
+  var BEST_KEY = 'bonkBest';
+  var best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10);
+  bestEl.textContent = best;
+
+  var holes = [];
+  for(var i = 0; i < 9; i++){
+    var h = document.createElement('div');
+    h.className = 'hole';
+    h.innerHTML = '<div class="opening"></div><div class="mound"></div><div class="mole">🐹</div><div class="bonk">+1</div>';
+    grid.appendChild(h);
+    holes.push(h);
+  }
+
+  var score = 0, timeLeft = 30, playing = false,
+      popTimer = null, clockTimer = null, lastHole = -1;
+
+  function randHole(){
+    var i;
+    do { i = Math.floor(Math.random() * holes.length); } while(i === lastHole);
+    lastHole = i;
+    return holes[i];
+  }
+  function popMole(){
+    if(!playing) return;
+    var hole = randHole();
+    hole.classList.add('up');
+    // difficulty ramps: up-time shrinks as timeLeft shrinks
+    var upTime = 350 + (timeLeft / 30) * 750 + Math.random() * 200;
+    setTimeout(function(){
+      hole.classList.remove('up', 'bonked');
+      if(playing) popMole();
+    }, upTime);
+  }
+  function startClock(){
+    clockTimer = setInterval(function(){
+      timeLeft--;
+      timeEl.textContent = timeLeft;
+      timePill.classList.toggle('low', timeLeft <= 10);
+      if(timeLeft <= 0) endGame();
+    }, 1000);
+  }
+  function startGame(){
+    if(playing) return;
+    playing = true;
+    score = 0; timeLeft = 30;
+    scoreEl.textContent = '0';
+    timeEl.textContent = '30';
+    timePill.classList.remove('low');
+    startBtn.disabled = true;
+    startBtn.textContent = 'Bonking…';
+    msg.textContent = 'Go go go! 🔨';
+    holes.forEach(function(h){ h.classList.remove('up','bonked'); });
+    startClock();
+    popMole();
+  }
+  function endGame(){
+    playing = false;
+    clearInterval(clockTimer);
+    holes.forEach(function(h){ h.classList.remove('up','bonked'); });
+    startBtn.disabled = false;
+    startBtn.textContent = 'Bonk Again';
+    var newBest = score > best;
+    if(newBest){
+      best = score;
+      localStorage.setItem(BEST_KEY, String(best));
+      bestEl.textContent = best;
+    }
+    msg.textContent = score === 0 ? 'No moles bonked… they send their regards. 🐹'
+      : newBest ? '🏆 NEW BEST! ' + score + ' bonks!' 
+      : 'Time! You bonked ' + score + ' mole' + (score === 1 ? '' : 's') + '.';
+  }
+  holes.forEach(function(hole){
+    hole.addEventListener('pointerdown', function(){
+      if(!playing || !hole.classList.contains('up') || hole.classList.contains('bonked')) return;
+      hole.classList.add('bonked');
+      score++;
+      scoreEl.textContent = score;
+    });
+  });
+  startBtn.addEventListener('click', startGame);
+})();
+</script>
+</body>
+</html>

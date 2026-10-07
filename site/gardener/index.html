@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fern & Field — a plant catalog and your personal garden tracker. Add plants, water them, keep them happy.">
+<title>Fern &amp; Field — Plant Catalog &amp; Garden Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--leaf:#2f6b3a;--leaf-d:#1f4a26;--cream:#f7f4ec;--ink:#23301f;--red:#c0392b;--green:#3d8b4f;--amber:#c07a1e}
+  body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6}
+  .backlink{position:fixed;top:12px;left:12px;z-index:9999;background:var(--leaf-d);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+  .backlink:hover{background:var(--leaf)}
+  header.hero{text-align:center;padding:88px 24px 30px;background:linear-gradient(180deg,#dcecd2,#f7f4ec)}
+  .kicker{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--leaf);font-weight:700}
+  h1{font-family:'Fraunces',serif;font-size:clamp(2.6rem,7vw,4.2rem);font-weight:700;margin:10px 0 6px}
+  .lede{color:#5a6653;max-width:560px;margin:0 auto}
+  main{max-width:1100px;margin:0 auto;padding:10px 24px 90px}
+  h2.sec{font-family:'Fraunces',serif;font-size:1.9rem;margin:44px 0 6px;display:flex;align-items:center;gap:10px}
+  .sec-sub{color:#7a8471;font-size:14px;margin-bottom:22px}
+  .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+  .plant{background:#fff;border-radius:16px;padding:24px;border:1px solid #e4ddcb;box-shadow:0 4px 14px rgba(35,48,31,.06);transition:transform .2s}
+  .plant:hover{transform:translateY(-4px)}
+  .art{font-size:58px;text-align:center;margin-bottom:10px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.12))}
+  .plant h3{font-family:'Fraunces',serif;font-size:1.3rem;text-align:center}
+  .latin{text-align:center;font-style:italic;font-size:12.5px;color:#8b937f;margin-bottom:12px}
+  .needs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+  .tag{font-size:12px;background:#eef3e6;border:1px solid #d7e2c6;border-radius:999px;padding:4px 12px;font-weight:600;color:var(--leaf-d)}
+  .waterline{text-align:center;font-size:13px;color:#7a8471;margin:8px 0 14px}
+  .addbtn{display:block;width:100%;padding:11px;border:none;border-radius:10px;background:var(--leaf);color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:background .2s}
+  .addbtn:hover{background:var(--leaf-d)}
+  .addbtn.added{background:#cfe3c8;color:var(--leaf-d);cursor:default}
+  /* garden */
+  .garden{background:#fff;border-radius:18px;border:2px solid var(--leaf-d);padding:28px;box-shadow:6px 6px 0 rgba(47,107,58,.15)}
+  .garden.empty{text-align:center;color:#8b937f;padding:44px 28px}
+  .gplant{display:flex;align-items:center;gap:18px;padding:16px;border-radius:14px;margin-bottom:14px;border:2px solid transparent;background:#fbfaf5}
+  .gplant .art{font-size:46px;margin:0}
+  .gplant .ginfo{flex:1;min-width:0}
+  .gplant h3{font-family:'Fraunces',serif;font-size:1.2rem}
+  .gplant .status{font-size:13px;margin-top:2px}
+  .badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:999px;padding:4px 12px;margin-top:6px}
+  .gplant.happy{border-color:#bfe0c4;background:#f2f9f0}
+  .gplant.happy .badge{background:#d9edd9;color:var(--leaf-d)}
+  .gplant.thirsty{border-color:#f0c98a;background:#fdf6e8}
+  .gplant.thirsty .badge{background:#f7dfae;color:#8a5a12}
+  .gplant.overdue{border-color:#e8a89f;background:#fdf0ee}
+  .gplant.overdue .badge{background:#f2c4bd;color:#96271b}
+  .gbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .waterbtn{padding:10px 18px;border:none;border-radius:10px;background:#3d8b4f;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px}
+  .waterbtn:hover{background:#2f6b3a}
+  .rmbtn{padding:10px 14px;border:1px solid #d8d2c0;background:transparent;border-radius:10px;cursor:pointer;font-family:inherit;font-size:14px;color:#8b937f}
+  .rmbtn:hover{color:var(--red);border-color:var(--red)}
+  footer{text-align:center;padding:34px;color:#9aa08e;font-size:13px}
+  @media(max-width:520px){.gplant{flex-wrap:wrap}.gbtns{width:100%}}
+</style>
+</head>
+<body>
+<a class="backlink" href="../">← 30 Sites</a>
+
+<header class="hero">
+  <div class="kicker">Plant people welcome</div>
+  <h1>Fern &amp; Field</h1>
+  <p class="lede">A catalog of forgiving houseplants, plus a tiny garden tracker that nags you — lovingly — when someone needs a drink.</p>
+</header>
+
+<main>
+  <h2 class="sec">🌱 The Catalog</h2>
+  <p class="sec-sub">Eight plants ranked by how hard they are to kill. Spoiler: the snake plant could survive you.</p>
+  <div class="catalog" id="catalog"></div>
+
+  <h2 class="sec">🪴 My Garden <span id="gcount" style="font-size:1.1rem;color:#7a8471"></span></h2>
+  <p class="sec-sub">Water a plant to stamp today's date. We track the rest — a badge appears when thirst is near.</p>
+  <div class="garden" id="garden"></div>
+</main>
+
+<footer>Fern &amp; Field · Water your plants, water your friendships · © 2026</footer>
+
+<script>
+(function(){
+  var plants = [
+    {id:'monstera', n:'Monstera Deliciosa', latin:'Monstera deliciosa', e:'🌿', light:'Bright indirect', water:'Moderate', days:7, note:'The Instagram icon. Splits its leaves when happy.'},
+    {id:'fiddle', n:'Fiddle-Leaf Fig', latin:'Ficus lyrata', e:'🌳', light:'Bright direct', water:'Moderate', days:10, note:'Dramatic, gorgeous, holds grudges. Don\u2019t move it.'},
+    {id:'pothos', n:'Golden Pothos', latin:'Epipremnum aureum', e:'🍃', light:'Low to bright', water:'Low', days:10, note:'Nearly immortal. Trails beautifully off shelves.'},
+    {id:'snake', n:'Snake Plant', latin:'Sansevieria trifasciata', e:'🌱', light:'Any light', water:'Very low', days:21, note:'Thrives on neglect. The introvert\u2019s houseplant.'},
+    {id:'zz', n:'ZZ Plant', latin:'Zamioculcas zamiifolia', e:'🪴', light:'Low to bright', water:'Very low', days:21, note:'Glossy, architectural, and unbothered by dark corners.'},
+    {id:'peace', n:'Peace Lily', latin:'Spathiphyllum', e:'🌸', light:'Low to medium', water:'High', days:5, note:'Droops theatrically when thirsty — its own reminder system.'},
+    {id:'spider', n:'Spider Plant', latin:'Chlorophytum comosum', e:'🌾', light:'Bright indirect', water:'Moderate', days:7, note:'Makes baby plants for free. The gift that keeps giving.'},
+    {id:'fern', n:'Boston Fern', latin:'Nephrolepis exaltata', e:'🌿', light:'Indirect, humid', water:'High', days:4, note:'Loves mist and steamy bathrooms. A humidity diva.'}
+  ];
+  var KEY = 'fernFieldGarden';
+  var catalogEl = document.getElementById('catalog'),
+      gardenEl = document.getElementById('garden'),
+      gcount = document.getElementById('gcount');
+
+  function load(){
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  function save(g){ localStorage.setItem(KEY, JSON.stringify(g)); }
+  function byId(id){ return plants.find(function(p){ return p.id === id; }); }
+  function daysSince(ts){ return Math.floor((Date.now() - ts) / 864e5); }
+  function fmtDate(ts){
+    var d = new Date(ts);
+    return d.toLocaleDateString(undefined, {month:'short', day:'numeric'});
+  }
+
+  function renderCatalog(){
+    var g = load();
+    var inGarden = {};
+    g.forEach(function(x){ inGarden[x.id] = true; });
+    catalogEl.innerHTML = plants.map(function(p){
+      var added = !!inGarden[p.id];
+      return '<article class="plant"><div class="art">' + p.e + '</div><h3>' + p.n + '</h3>' +
+        '<div class="latin">' + p.latin + '</div>' +
+        '<div class="needs"><span class="tag">☀️ ' + p.light + '</span><span class="tag">💧 ' + p.water + '</span></div>' +
+        '<div class="waterline">Needs water every <b>' + p.days + ' days</b></div>' +
+        '<div class="waterline" style="margin-top:-8px">' + p.note + '</div>' +
+        '<button class="addbtn' + (added ? ' added' : '') + '" data-add="' + p.id + '"' + (added ? ' disabled' : '') + '>' +
+        (added ? '✓ In your garden' : 'Add to my garden') + '</button></article>';
+    }).join('');
+  }
+
+  function statusOf(p, entry){
+    var d = daysSince(entry.lastWatered);
+    if(d >= p.days) return {cls:'overdue', label:'NEEDS WATER', text:'Last watered ' + fmtDate(entry.lastWatered) + ' — ' + d + ' days ago (' + (d - p.days + 1) + ' day' + (d - p.days + 1 === 1 ? '' : 's') + ' overdue). ' + p.e + ' is wilting!'};
+    if(d >= p.days - 2) return {cls:'thirsty', label:'DUE SOON', text:'Last watered ' + fmtDate(entry.lastWatered) + ' (' + d + ' day' + (d === 1 ? '' : 's') + ' ago). Water within ' + (p.days - d) + ' day' + (p.days - d === 1 ? '' : 's') + '.'};
+    return {cls:'happy', label:'HAPPY', text:'Last watered ' + fmtDate(entry.lastWatered) + ' (' + d + ' day' + (d === 1 ? '' : 's') + ' ago). ' + p.n.split(' ')[0] + ' is thriving.'};
+  }
+
+  function renderGarden(){
+    var g = load();
+    gcount.textContent = g.length ? '(' + g.length + ')' : '';
+    if(!g.length){
+      gardenEl.className = 'garden empty';
+      gardenEl.innerHTML = '<div style="font-size:44px;margin-bottom:10px">🪴</div><p>Your garden is empty.<br>Add a plant from the catalog above to start tracking.</p>';
+      return;
+    }
+    gardenEl.className = 'garden';
+    gardenEl.innerHTML = g.map(function(entry){
+      var p = byId(entry.id); if(!p) return '';
+      var s = statusOf(p, entry);
+      return '<div class="gplant ' + s.cls + '"><div class="art">' + p.e + '</div>' +
+        '<div class="ginfo"><h3>' + p.n + '</h3><div class="status">' + s.text + '</div>' +
+        '<span class="badge">' + s.label + '</span></div>' +
+        '<div class="gbtns"><button class="waterbtn" data-water="' + p.id + '">💧 Water</button>' +
+        '<button class="rmbtn" data-rm="' + p.id + '" title="Remove">✕</button></div></div>';
+    }).join('');
+  }
+
+  function render(){ renderCatalog(); renderGarden(); }
+
+  catalogEl.addEventListener('click', function(e){
+    var b = e.target.closest('[data-add]'); if(!b || b.disabled) return;
+    var g = load();
+    g.push({id: b.dataset.add, lastWatered: Date.now(), addedAt: Date.now()});
+    save(g); render();
+  });
+  gardenEl.addEventListener('click', function(e){
+    var w = e.target.closest('[data-water]'), r = e.target.closest('[data-rm]');
+    var g = load();
+    if(w){
+      var entry = g.find(function(x){ return x.id === w.dataset.water; });
+      if(entry){ entry.lastWatered = Date.now(); save(g); render(); }
+    } else if(r){
+      save(g.filter(function(x){ return x.id !== r.dataset.rm; }));
+      render();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
