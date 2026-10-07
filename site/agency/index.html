@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Northloop Studio — a digital agency designing and building websites, brands, and products that people love.">
+<title>Northloop Studio — Digital Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a12; --bg2:#0e0e1a; --ink:#f4f2ff; --mut:#a8a3c7;
+  --vio:#7c5cff; --cy:#3ee6c4; --pk:#ff5ca8; --line:rgba(255,255,255,.09);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,.grotesk{font-family:'Space Grotesk',sans-serif;line-height:1.1}
+a{color:inherit}
+::selection{background:var(--vio);color:#fff}
+.back{position:fixed;top:14px;left:14px;z-index:999;background:rgba(10,10,18,.75);backdrop-filter:blur(8px);
+  border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-size:.85rem;color:var(--ink);
+  text-decoration:none;transition:.2s}
+.back:hover{border-color:var(--vio);color:var(--cy)}
+/* cursor glow */
+#glow{position:fixed;width:520px;height:520px;left:0;top:0;pointer-events:none;z-index:1;
+  background:radial-gradient(circle,rgba(124,92,255,.16),rgba(62,230,196,.06) 40%,transparent 65%);
+  transform:translate(-50%,-50%);transition:opacity .3s;opacity:0}
+/* hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;position:relative;overflow:hidden;padding:120px 24px 80px;
+  background:linear-gradient(-45deg,#0a0a12,#141126,#0c1c22,#1a1030);
+  background-size:400% 400%;animation:aurora 18s ease infinite}
+@keyframes aurora{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none}
+.orb1{width:420px;height:420px;background:#7c5cff;top:-120px;left:-120px;animation:drift 14s ease-in-out infinite alternate}
+.orb2{width:340px;height:340px;background:#ff5ca8;bottom:-100px;right:-80px;animation:drift 17s ease-in-out infinite alternate-reverse}
+.orb3{width:280px;height:280px;background:#3ee6c4;top:40%;left:60%;animation:drift 20s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(90px,60px) scale(1.15)}}
+.hero-inner{position:relative;z-index:2;max-width:900px}
+.kicker{display:inline-block;font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cy);
+  border:1px solid rgba(62,230,196,.4);padding:8px 18px;border-radius:999px;margin-bottom:28px;background:rgba(62,230,196,.06)}
+.hero h1{font-size:clamp(2.8rem,8vw,5.6rem);font-weight:700;letter-spacing:-.02em}
+.grad{background:linear-gradient(90deg,var(--vio),var(--cy),var(--pk),var(--vio));background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shift 8s linear infinite}
+@keyframes shift{to{background-position:300% 0}}
+.hero p{max-width:600px;margin:24px auto;color:var(--mut);font-size:1.1rem}
+.cta-row{display:flex;gap:14px;justify-content:center;margin-top:34px;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 30px;border-radius:999px;font-weight:600;text-decoration:none;font-size:1rem;transition:.25s;border:1px solid transparent}
+.btn-solid{background:linear-gradient(135deg,var(--vio),#5a3fe0);color:#fff}
+.btn-solid:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(124,92,255,.45)}
+.btn-ghost{border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--cy);color:var(--cy)}
+.stats{display:flex;gap:clamp(24px,6vw,80px);margin-top:64px;position:relative;z-index:2;flex-wrap:wrap;justify-content:center}
+.stat b{font-size:2rem;font-family:'Space Grotesk';display:block;color:#fff}
+.stat span{color:var(--mut);font-size:.9rem}
+/* marquee */
+.marquee{background:#07070d;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;white-space:nowrap;padding:20px 0;position:relative;z-index:2}
+.mtrack{display:inline-flex;gap:56px;animation:scroll 26s linear infinite;padding-right:56px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.mtrack span{font-family:'Space Grotesk';font-size:1.15rem;color:var(--mut);display:flex;align-items:center;gap:56px}
+.mtrack i{font-style:normal;color:var(--vio)}
+/* sections */
+section{padding:100px 24px;max-width:1150px;margin:0 auto;position:relative;z-index:2}
+.eyebrow{color:var(--cy);font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;margin-bottom:16px}
+h2.sec{font-size:clamp(1.9rem,4.5vw,3rem);margin-bottom:18px;letter-spacing:-.01em}
+.sub{color:var(--mut);max-width:620px;margin-bottom:52px}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+.reveal.revealed{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+/* services */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:32px 28px;transition:.3s;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,92,255,.14),transparent 60%);opacity:0;transition:.3s}
+.card:hover{transform:translateY(-6px);border-color:rgba(124,92,255,.5)}
+.card:hover::before{opacity:1}
+.card .ico{font-size:2rem;margin-bottom:16px;display:block}
+.card h3{font-size:1.25rem;margin-bottom:10px}
+.card p{color:var(--mut);font-size:.95rem}
+/* work strip */
+.work{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+.shot{border-radius:20px;min-height:230px;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;
+  border:1px solid var(--line);transition:.3s;position:relative;overflow:hidden}
+.shot:hover{transform:scale(1.02)}
+.shot b{font-size:1.3rem;font-family:'Space Grotesk'}
+.shot span{color:rgba(255,255,255,.75);font-size:.9rem}
+.s1{background:linear-gradient(135deg,#2b1b69,#7c5cff)}
+.s2{background:linear-gradient(135deg,#0f3b34,#3ee6c4)}
+.s3{background:linear-gradient(135deg,#4a1030,#ff5ca8)}
+/* pricing */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:22px;align-items:stretch}
+.tier{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:38px 32px;text-align:center;transition:.3s}
+.tier.pop{border:2px solid var(--vio);transform:scale(1.04);box-shadow:0 20px 60px rgba(124,92,255,.25);position:relative}
+.tier.pop .badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--vio),var(--pk));
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;padding:6px 16px;border-radius:999px;text-transform:uppercase}
+.tier:hover{transform:translateY(-6px)}
+.tier.pop:hover{transform:scale(1.04) translateY(-6px)}
+.tier h3{font-size:1.3rem;margin-bottom:6px}
+.price{font-size:2.6rem;font-family:'Space Grotesk';font-weight:700;margin:14px 0 4px}
+.price small{font-size:1rem;color:var(--mut);font-weight:400}
+.tier ul{list-style:none;margin:22px 0 28px;color:var(--mut);font-size:.95rem;text-align:left}
+.tier li{padding:9px 0;border-bottom:1px dashed var(--line)}
+.tier li::before{content:"✓ ";color:var(--cy)}
+.tier li.no{opacity:.4}.tier li.no::before{content:"– ";color:var(--mut)}
+/* contact */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+@media(max-width:800px){.contact-wrap{grid-template-columns:1fr}}
+form{display:flex;flex-direction:column;gap:16px}
+label{font-size:.85rem;color:var(--mut)}
+input,textarea,select{background:#121222;border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);
+  font-family:inherit;font-size:1rem;width:100%;transition:.2s}
+input:focus,textarea:focus{outline:none;border-color:var(--vio);box-shadow:0 0 0 3px rgba(124,92,255,.2)}
+textarea{min-height:130px;resize:vertical}
+.form-ok{background:rgba(62,230,196,.08);border:1px solid rgba(62,230,196,.4);border-radius:16px;padding:40px;text-align:center;display:none}
+.form-ok.show{display:block;animation:pop .4s ease}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.form-ok .big{font-size:3rem;margin-bottom:12px}
+footer{border-top:1px solid var(--line);padding:36px 24px;text-align:center;color:var(--mut);font-size:.9rem;position:relative;z-index:2}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+<div id="glow"></div>
+
+<header class="hero">
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  <div class="hero-inner">
+    <span class="kicker">Digital Agency · Est. 2016</span>
+    <h1>We build <span class="grad">brands</span> the internet<br>can't stop talking about</h1>
+    <p>Northloop Studio is a full-stack creative agency. Strategy, design, and engineering under one roof — shipped fast, measured honestly, built to last.</p>
+    <div class="cta-row">
+      <a class="btn btn-solid" href="#contact">Start a project</a>
+      <a class="btn btn-ghost" href="#work">See our work</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>140+</b><span>projects shipped</span></div>
+      <div class="stat"><b>12</b><span>industry awards</span></div>
+      <div class="stat"><b>98%</b><span>client retention</span></div>
+      <div class="stat"><b>24</b><span>humans, 0 egos</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mtrack" id="mtrack">
+    <span>Finch &amp; Co <i>✦</i> Loopware <i>✦</i> Velvet Press <i>✦</i> Beacon Fitness <i>✦</i> Parcel <i>✦</i> Fern Floral <i>✦</i> Orbit Analytics <i>✦</i> Honeyjar <i>✦</i> Civic Hall <i>✦</i> Drifthaus <i>✦</i></span>
+    <span>Finch &amp; Co <i>✦</i> Loopware <i>✦</i> Velvet Press <i>✦</i> Beacon Fitness <i>✦</i> Parcel <i>✦</i> Fern Floral <i>✦</i> Orbit Analytics <i>✦</i> Honeyjar <i>✦</i> Civic Hall <i>✦</i> Drifthaus <i>✦</i></span>
+  </div>
+</div>
+
+<section id="services">
+  <div class="eyebrow reveal">What we do</div>
+  <h2 class="sec reveal">Services that cover the whole journey</h2>
+  <p class="sub reveal">From first sketch to production deploy, one team owns the outcome. No handoffs, no telephone game.</p>
+  <div class="grid">
+    <div class="card reveal"><span class="ico">🎨</span><h3>Brand Identity</h3><p>Logos, systems, and voice that make a startup look inevitable and a rebrand feel like a reunion.</p></div>
+    <div class="card reveal d1"><span class="ico">🖥️</span><h3>Web Design &amp; Build</h3><p>Marketing sites, product UIs, and e-commerce — designed in the browser, shipped with clean code.</p></div>
+    <div class="card reveal d2"><span class="ico">📱</span><h3>Product Engineering</h3><p>Full-stack apps, APIs, and mobile. We prototype in days and harden for scale.</p></div>
+    <div class="card reveal d3"><span class="ico">📈</span><h3>Growth &amp; SEO</h3><p>Content engines, analytics, and experimentation that turn launches into compounding traffic.</p></div>
+    <div class="card reveal"><span class="ico">🎬</span><h3>Motion &amp; 3D</h3><p>Scroll-stopping animation, product renders, and micro-interactions with actual personality.</p></div>
+    <div class="card reveal d1"><span class="ico">🤝</span><h3>Design Sprints</h3><p>Five-day intensive: problem, prototype, test with real users. Leave with answers, not decks.</p></div>
+  </div>
+</section>
+
+<section id="work" style="max-width:1150px">
+  <div class="eyebrow reveal">Selected work</div>
+  <h2 class="sec reveal">Recent favorites</h2>
+  <p class="sub reveal">A few launches we're proud of — each one a real partnership, not a vendor gig.</p>
+  <div class="work">
+    <div class="shot s1 reveal"><div><b>Parcel</b><br><span>Logistics dashboard · +38% activation</span></div></div>
+    <div class="shot s2 reveal d1"><div><b>Beacon Fitness</b><br><span>Brand + booking platform · 4.9★ app rating</span></div></div>
+    <div class="shot s3 reveal d2"><div><b>Velvet Press</b><br><span>E-commerce rebrand · 2.1× conversion</span></div></div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="eyebrow reveal">Pricing</div>
+  <h2 class="sec reveal">Honest pricing, no mystery quotes</h2>
+  <p class="sub reveal">Pick a lane. Every tier includes senior people doing the work — never handed off to juniors unsupervised.</p>
+  <div class="tiers">
+    <div class="tier reveal">
+      <h3>Sprint</h3><p style="color:var(--mut)">For teams that need one thing done well.</p>
+      <div class="price">$8k<small> /project</small></div>
+      <ul><li>2-week focused sprint</li><li>Landing page or prototype</li><li>1 revision round</li><li class="no">Brand system</li><li class="no">Ongoing support</li></ul>
+      <a class="btn btn-ghost" href="#contact">Book a sprint</a>
+    </div>
+    <div class="tier pop reveal d1">
+      <span class="badge">Most popular</span>
+      <h3>Studio</h3><p style="color:var(--mut)">For launches that need design + build.</p>
+      <div class="price">$24k<small> /project</small></div>
+      <ul><li>6–8 week engagement</li><li>Full site or product build</li><li>Brand &amp; identity refresh</li><li>Analytics &amp; SEO setup</li><li>30-day launch support</li></ul>
+      <a class="btn btn-solid" href="#contact">Start a project</a>
+    </div>
+    <div class="tier reveal d2">
+      <h3>Partner</h3><p style="color:var(--mut)">Your embedded product team.</p>
+      <div class="price">$12k<small> /month</small></div>
+      <ul><li>Ongoing design + engineering</li><li>Weekly shipping cadence</li><li>Roadmap &amp; research included</li><li>Slack access, same-day replies</li><li>Pause or cancel anytime</li></ul>
+      <a class="btn btn-ghost" href="#contact">Become a partner</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="eyebrow reveal">Contact</div>
+  <h2 class="sec reveal">Tell us what you're building</h2>
+  <p class="sub reveal">We reply within one business day. Really — try us.</p>
+  <div class="contact-wrap">
+    <div class="reveal">
+      <p style="margin-bottom:18px;color:var(--mut)">Prefer email? <b style="color:var(--ink)">hello@northloop.studio</b><br>Prefer a call? <b style="color:var(--ink)">(212) 555-0184</b></p>
+      <p style="color:var(--mut)">Studio: 440 Grand Street, Suite 9<br>Brooklyn, NY 11211</p>
+      <p style="color:var(--mut);margin-top:18px">Currently booking for <b style="color:var(--cy)">November 2026</b>. Sprint slots fill fast — say hi early.</p>
+    </div>
+    <div class="reveal d1">
+      <form id="contactForm">
+        <div><label for="name">Name</label><input id="name" required placeholder="Ada Lovelace"></div>
+        <div><label for="email">Email</label><input id="email" type="email" required placeholder="ada@example.com"></div>
+        <div><label for="budget">Budget</label>
+          <select id="budget"><option>$8k – $15k</option><option>$15k – $30k</option><option>$30k – $75k</option><option>$75k+</option></select></div>
+        <div><label for="msg">Project details</label><textarea id="msg" required placeholder="What are you building, and when do you need it?"></textarea></div>
+        <button class="btn btn-solid" type="submit" style="cursor:pointer">Send message →</button>
+      </form>
+      <div class="form-ok" id="formOk">
+        <div class="big">🚀</div>
+        <h3>Message sent!</h3>
+        <p style="color:var(--mut);margin-top:8px">Thanks for reaching out — we'll reply within one business day. Talk soon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Northloop Studio · Made with stubborn attention to detail in Brooklyn, NY</footer>
+
+<script>
+// cursor glow
+const glow = document.getElementById('glow');
+let gx = innerWidth/2, gy = innerHeight/2, tx = gx, ty = gy;
+addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; glow.style.opacity = 1; });
+addEventListener('mouseleave', () => glow.style.opacity = 0);
+(function loop(){
+  gx += (tx - gx) * .12; gy += (ty - gy) * .12;
+  glow.style.transform = `translate(${gx - 260}px, ${gy - 260}px)`;
+  requestAnimationFrame(loop);
+})();
+// scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add('revealed'); io.unobserve(en.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+// fake form submit
+const form = document.getElementById('contactForm'), ok = document.getElementById('formOk');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const btn = form.querySelector('button');
+  btn.disabled = true; btn.textContent = 'Sending…';
+  setTimeout(() => { form.style.display = 'none'; ok.classList.add('show'); }, 900);
+});
+</script>
+</body>
+</html>

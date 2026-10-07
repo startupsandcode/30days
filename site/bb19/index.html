@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BB-19 BeatBox — a 16-step browser drum sequencer. Kick, snare, and hats synthesized live with the Web Audio API.">
+<title>BB-19 BeatBox — 16-Step Drum Sequencer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0b0b10;color:#e8e6f5;font-family:'IBM Plex Mono',monospace;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:64px 16px 48px;
+  background-image:radial-gradient(circle at 20% 10%,#1a1030 0%,transparent 50%),radial-gradient(circle at 85% 90%,#101a30 0%,transparent 50%)}
+.back{position:fixed;top:14px;left:14px;z-index:999;background:rgba(12,12,20,.8);border:1px solid #2c2c44;
+  padding:8px 14px;border-radius:999px;font-size:.85rem;color:#e8e6f5;text-decoration:none;font-family:'IBM Plex Mono',monospace}
+.back:hover{border-color:#00e5ff}
+.machine{width:100%;max-width:960px;background:linear-gradient(180deg,#15151f,#0e0e15);border:1px solid #2c2c44;
+  border-radius:24px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06)}
+.brand{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px}
+.brand h1{font-family:'Orbitron';font-size:clamp(1.4rem,4vw,2.2rem);letter-spacing:.06em;
+  background:linear-gradient(90deg,#00e5ff,#ff3ec8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.leds{display:flex;gap:6px}
+.led{width:12px;height:12px;border-radius:50%;background:#23233a;border:1px solid #333}
+.led.on{background:#ff3ec8;box-shadow:0 0 10px #ff3ec8}
+.tag{color:#6b6b8a;font-size:.78rem;letter-spacing:.2em;margin-bottom:24px}
+.transport{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;background:#0a0a12;
+  border:1px solid #23233a;border-radius:14px;padding:16px 20px}
+button{font-family:'IBM Plex Mono',monospace;cursor:pointer}
+.play{font-size:1.05rem;font-weight:600;padding:13px 34px;border-radius:12px;border:none;color:#04121a;
+  background:linear-gradient(135deg,#00e5ff,#00b3cc);transition:.15s;letter-spacing:.05em}
+.play:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,255,.35)}
+.play.playing{background:linear-gradient(135deg,#ff3ec8,#c81e8f);color:#1a0410}
+.ghost{background:#1a1a28;color:#e8e6f5;border:1px solid #2c2c44;padding:11px 22px;border-radius:12px;font-size:.95rem;transition:.15s}
+.ghost:hover{border-color:#00e5ff;color:#00e5ff}
+.tempo{display:flex;align-items:center;gap:12px;margin-left:auto;color:#9a9ab8;font-size:.9rem}
+.tempo b{color:#00e5ff;font-size:1.15rem;min-width:74px;text-align:right}
+input[type=range]{-webkit-appearance:none;width:min(200px,30vw);height:6px;border-radius:3px;background:#23233a;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:#00e5ff;box-shadow:0 0 12px #00e5ff;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:none;border-radius:50%;background:#00e5ff;cursor:pointer}
+.rows{display:flex;flex-direction:column;gap:12px}
+.row{display:grid;grid-template-columns:110px repeat(16,1fr);gap:6px;align-items:center}
+.rlabel{font-size:.72rem;letter-spacing:.08em;color:#9a9ab8;text-transform:uppercase;padding-left:4px}
+.rlabel .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+.step{aspect-ratio:1/1;border-radius:8px;border:1px solid #2c2c44;background:#14141f;cursor:pointer;transition:background .08s,transform .05s;position:relative}
+.step:active{transform:scale(.92)}
+.step.beat{border-color:#3a3a5c;background:#171724}
+.step.on{background:var(--c);border-color:var(--c);box-shadow:0 0 12px var(--cg)}
+.step.now{outline:2px solid #fff;outline-offset:1px}
+.row-kick{--c:#00e5ff;--cg:rgba(0,229,255,.5)}.row-snare{--c:#ff3ec8;--cg:rgba(255,62,200,.5)}
+.row-ch{--c:#ffe14d;--cg:rgba(255,225,77,.5)}.row-oh{--c:#7dff6a;--cg:rgba(125,255,106,.5)}
+@media(max-width:640px){.row{grid-template-columns:64px repeat(16,1fr);gap:3px}.rlabel{font-size:.6rem}.step{border-radius:5px}}
+.presets{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.presets span{color:#6b6b8a;font-size:.8rem;align-self:center;margin-right:4px}
+.hint{margin-top:22px;color:#6b6b8a;font-size:.82rem;line-height:1.7;text-align:center;max-width:640px}
+footer{margin-top:32px;color:#4a4a66;font-size:.75rem;text-align:center}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+
+<div class="machine">
+  <div class="brand">
+    <h1>BB-19 BEATBOX</h1>
+    <div class="leds" id="leds"><div class="led"></div><div class="led"></div><div class="led"></div><div class="led"></div></div>
+  </div>
+  <div class="tag">16-STEP DRUM SEQUENCER · WEB AUDIO SYNTHESIS · NO SAMPLES</div>
+
+  <div class="transport">
+    <button class="play" id="playBtn">▶ PLAY</button>
+    <button class="ghost" id="clearBtn">Clear</button>
+    <button class="ghost" id="randBtn">🎲 Randomize</button>
+    <div class="tempo">
+      <label for="tempo">TEMPO</label>
+      <input type="range" id="tempo" min="60" max="200" value="120">
+      <b><span id="bpmVal">120</span> BPM</b>
+    </div>
+  </div>
+
+  <div class="rows" id="rows"></div>
+
+  <div class="presets">
+    <span>PRESETS:</span>
+    <button class="ghost" data-preset="boom">Boom Bap</button>
+    <button class="ghost" data-preset="house">Four-on-Floor</button>
+    <button class="ghost" data-preset="trap">Trap-ish</button>
+  </div>
+
+  <p class="hint">Tap steps to toggle them. Kick = sine pitch-drop · Snare = noise + body · Hats = high-passed noise.<br>
+  Everything is synthesized live in your browser — no audio files, just math.</p>
+</div>
+<footer>BB-19 · day 19 of 30 · built with oscillators and noise buffers</footer>
+
+<script>
+const STEPS = 16;
+const ROWS_DEF = [
+  { id:'kick',  name:'Kick',      cls:'row-kick',  dot:'#00e5ff' },
+  { id:'snare', name:'Snare',     cls:'row-snare', dot:'#ff3ec8' },
+  { id:'ch',    name:'Closed Hat',cls:'row-ch',    dot:'#ffe14d' },
+  { id:'oh',    name:'Open Hat',  cls:'row-oh',    dot:'#7dff6a' },
+];
+// state (persisted)
+let grid;
+try { grid = JSON.parse(localStorage.getItem('bb19-grid')) || null; } catch(e){ grid = null; }
+if (!grid || !Array.isArray(grid) || grid.length !== 4) {
+  grid = ROWS_DEF.map(() => Array(STEPS).fill(false));
+}
+// ---- build DOM
+const rowsEl = document.getElementById('rows');
+const stepBtns = [];
+ROWS_DEF.forEach((r, ri) => {
+  const row = document.createElement('div');
+  row.className = 'row ' + r.cls;
+  const lab = document.createElement('div');
+  lab.className = 'rlabel';
+  lab.innerHTML = `<span class="dot" style="background:${r.dot}"></span>${r.name}`;
+  row.appendChild(lab);
+  const btns = [];
+  for (let s = 0; s < STEPS; s++) {
+    const b = document.createElement('button');
+    b.className = 'step' + (s % 4 === 0 ? ' beat' : '');
+    b.setAttribute('aria-label', `${r.name} step ${s+1}`);
+    b.addEventListener('click', () => { grid[ri][s] = !grid[ri][s]; render(); save(); });
+    row.appendChild(b); btns.push(b);
+  }
+  rowsEl.appendChild(row); stepBtns.push(btns);
+});
+function render(){
+  stepBtns.forEach((btns, ri) => btns.forEach((b, s) => b.classList.toggle('on', grid[ri][s])));
+}
+function save(){ try{ localStorage.setItem('bb19-grid', JSON.stringify(grid)); }catch(e){} }
+render();
+// ---- audio engine
+let actx = null, noiseBuf = null;
+function ctx(){
+  if (!actx){
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    noiseBuf = actx.createBuffer(1, actx.sampleRate * 1, actx.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function kick(t){
+  const c = ctx(), o = c.createOscillator(), g = c.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(160, t);
+  o.frequency.exponentialRampToValueAtTime(42, t + .12);
+  g.gain.setValueAtTime(1, t);
+  g.gain.exponentialRampToValueAtTime(.001, t + .4);
+  o.connect(g).connect(c.destination);
+  o.start(t); o.stop(t + .42);
+}
+function snare(t){
+  const c = ctx();
+  const n = c.createBufferSource(); n.buffer = noiseBuf;
+  const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 1800;
+  const ng = c.createGain();
+  ng.gain.setValueAtTime(.7, t);
+  ng.gain.exponentialRampToValueAtTime(.001, t + .18);
+  n.connect(hp).connect(ng).connect(c.destination);
+  n.start(t); n.stop(t + .2);
+  const o = c.createOscillator(); o.type = 'triangle'; o.frequency.setValueAtTime(190, t);
+  const og = c.createGain();
+  og.gain.setValueAtTime(.5, t);
+  og.gain.exponentialRampToValueAtTime(.001, t + .11);
+  o.connect(og).connect(c.destination);
+  o.start(t); o.stop(t + .12);
+}
+function hat(t, open){
+  const c = ctx(), dur = open ? .45 : .06;
+  const n = c.createBufferSource(); n.buffer = noiseBuf;
+  const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 7500;
+  const g = c.createGain();
+  g.gain.setValueAtTime(open ? .45 : .32, t);
+  g.gain.exponentialRampToValueAtTime(.001, t + dur);
+  n.connect(hp).connect(g).connect(c.destination);
+  n.start(t); n.stop(t + dur + .05);
+}
+function playStep(step, t){
+  if (grid[0][step]) kick(t);
+  if (grid[1][step]) snare(t);
+  if (grid[2][step]) hat(t, false);
+  if (grid[3][step]) hat(t, true);
+}
+// ---- scheduler (lookahead)
+let playing = false, step = 0, nextTime = 0, timer = null;
+const leds = [...document.querySelectorAll('#leds .led')];
+const playBtn = document.getElementById('playBtn');
+const tempoEl = document.getElementById('tempo'), bpmVal = document.getElementById('bpmVal');
+tempoEl.addEventListener('input', () => bpmVal.textContent = tempoEl.value);
+function secPerStep(){ return 60 / (+tempoEl.value) / 4; }
+function schedule(){
+  const c = ctx();
+  while (nextTime < c.currentTime + .12){
+    playStep(step, nextTime);
+    const drawStep = step;
+    const delay = Math.max(0, (nextTime - c.currentTime) * 1000);
+    setTimeout(() => highlight(drawStep), delay);
+    nextTime += secPerStep();
+    step = (step + 1) % STEPS;
+  }
+}
+function highlight(s){
+  stepBtns.forEach(btns => btns.forEach((b, i) => b.classList.toggle('now', i === s)));
+  leds.forEach((l, i) => l.classList.toggle('on', i === (s % 4)));
+}
+function toggle(){
+  ctx();
+  playing = !playing;
+  playBtn.textContent = playing ? '■ STOP' : '▶ PLAY';
+  playBtn.classList.toggle('playing', playing);
+  if (playing){ step = 0; nextTime = ctx().currentTime + .06; timer = setInterval(schedule, 25); }
+  else { clearInterval(timer); stepBtns.forEach(btns => btns.forEach(b => b.classList.remove('now'))); leds.forEach(l => l.classList.remove('on')); }
+}
+playBtn.addEventListener('click', toggle);
+// spacebar toggles
+addEventListener('keydown', e => {
+  if (e.code === 'Space' && !['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){
+    e.preventDefault(); toggle();
+  }
+});
+document.getElementById('clearBtn').addEventListener('click', () => {
+  grid = grid.map(() => Array(STEPS).fill(false)); render(); save();
+});
+document.getElementById('randBtn').addEventListener('click', () => {
+  grid = grid.map((row, ri) => row.map((_, s) =>
+    Math.random() < (ri === 0 ? (s % 4 === 0 ? .75 : .06) : ri === 1 ? (s % 8 === 4 ? .8 : .04) : ri === 2 ? .42 : .08)
+  ));
+  render(); save();
+});
+const PRESETS = {
+  boom:  [[1,0,0,0, 0,0,1,0, 0,0,1,0, 0,0,0,0],[0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,1],[1,0,1,0, 1,1,0,1, 1,0,1,0, 1,0,1,1],[0,0,0,0, 0,0,0,0, 0,0,1,0, 0,0,0,0]],
+  house: [[1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0],[0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,1],[0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0],[0,0,0,0, 0,0,0,0, 0,0,0,1, 0,0,0,0]],
+  trap:  [[1,0,0,0, 0,0,0,1, 0,0,1,0, 0,0,0,0],[0,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0],[1,1,0,1, 1,0,1,1, 0,1,1,0, 1,1,1,0],[0,0,0,0, 0,0,0,0, 0,0,0,0, 1,0,0,0]],
+};
+document.querySelectorAll('[data-preset]').forEach(b =>
+  b.addEventListener('click', () => { grid = PRESETS[b.dataset.preset].map(r => [...r]); render(); save(); })
+);
+</script>
+</body>
+</html>

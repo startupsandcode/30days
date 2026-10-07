@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Daily Commit — a tech blog about software engineering: debugging, architecture, career growth, and the craft of code.">
+<title>The Daily Commit — A Tech Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#faf9f6;color:#1c1a17;font-family:'Inter',sans-serif;line-height:1.7}
+.back{position:fixed;top:14px;left:14px;z-index:1001;background:#1c1a17;color:#faf9f6;padding:8px 14px;
+  border-radius:999px;font-size:.85rem;text-decoration:none}
+.back:hover{background:#0e7c5b}
+#progress{position:fixed;top:0;left:0;height:4px;width:0%;background:linear-gradient(90deg,#0e7c5b,#35c48d);
+  z-index:1002;transition:width .1s linear}
+header.mast{background:#1c1a17;color:#faf9f6;padding:90px 24px 56px;text-align:center}
+.mast .kicker{color:#35c48d;letter-spacing:.3em;font-size:.75rem;text-transform:uppercase}
+.mast h1{font-family:'Lora',serif;font-size:clamp(2.4rem,6vw,3.8rem);margin:12px 0 10px}
+.mast h1 .accent{color:#35c48d;font-style:italic}
+.mast p{color:#b8b2a6;max-width:560px;margin:0 auto}
+.wrap{max-width:760px;margin:0 auto;padding:44px 24px 80px}
+.controls{margin-bottom:30px}
+#search{width:100%;padding:14px 18px;border:2px solid #e5e0d5;border-radius:12px;font-size:1rem;font-family:inherit;background:#fff}
+#search:focus{outline:none;border-color:#0e7c5b}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{border:1.5px solid #d8d2c2;background:#fff;border-radius:999px;padding:7px 16px;font-size:.85rem;
+  font-weight:600;cursor:pointer;transition:.15s;color:#4a453c}
+.chip:hover{border-color:#0e7c5b;color:#0e7c5b}
+.chip.active{background:#0e7c5b;border-color:#0e7c5b;color:#fff}
+#count{color:#8a8375;font-size:.88rem;margin:6px 0 18px}
+.card{background:#fff;border:1px solid #ece7da;border-radius:16px;padding:28px;margin-bottom:20px;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(28,26,23,.1);border-color:#0e7c5b}
+.card h2{font-family:'Lora',serif;font-size:1.5rem;line-height:1.3;margin-bottom:8px}
+.card .meta{font-size:.82rem;color:#8a8375;margin-bottom:10px}
+.card .excerpt{color:#4a453c;font-size:.97rem}
+.card .tags{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#eef5f1;color:#0e7c5b;
+  padding:4px 12px;border-radius:999px}
+.readmore{color:#0e7c5b;font-weight:700;font-size:.9rem;margin-top:12px;display:inline-block}
+/* article view */
+#articleView{display:none}
+#articleView.open{display:block}
+.article{background:#fff;border:1px solid #ece7da;border-radius:18px;padding:clamp(24px,5vw,52px)}
+.article h2{font-family:'Lora',serif;font-size:clamp(1.7rem,4.5vw,2.5rem);line-height:1.25;margin-bottom:12px}
+.article .meta{color:#8a8375;font-size:.88rem;margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid #ece7da}
+.article p{margin-bottom:1.4em;font-size:1.05rem;color:#2e2a24;font-family:'Lora',serif}
+.article p.lede{font-size:1.2rem;color:#0e7c5b;font-style:italic}
+.article code{background:#f1ede2;padding:2px 7px;border-radius:5px;font-size:.9em}
+.article pre{background:#1c1a17;color:#d9f2e6;padding:18px;border-radius:12px;overflow-x:auto;margin:1.4em 0;font-size:.88rem;line-height:1.6}
+.backbtn{display:inline-block;margin-bottom:22px;color:#0e7c5b;font-weight:700;cursor:pointer;font-size:.95rem}
+.backbtn:hover{text-decoration:underline}
+.empty{text-align:center;color:#8a8375;padding:60px 0;font-size:1.05rem}
+footer{text-align:center;padding:36px;color:#8a8375;font-size:.85rem;border-top:1px solid #ece7da}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+<div id="progress"></div>
+
+<header class="mast">
+  <div class="kicker">A blog about the craft of software</div>
+  <h1>The Daily <span class="accent">Commit</span></h1>
+  <p>Notes on debugging, architecture, teams, and the strange joy of making computers do what you meant.</p>
+</header>
+
+<div class="wrap">
+  <div id="listView">
+    <div class="controls">
+      <input id="search" type="text" placeholder="🔍 Search posts… (try “debug”, “career”, “CSS”)" aria-label="Search posts">
+      <div class="chips" id="chips"></div>
+    </div>
+    <div id="count"></div>
+    <div id="cards"></div>
+  </div>
+
+  <div id="articleView">
+    <span class="backbtn" id="backBtn">← Back to all posts</span>
+    <article class="article" id="article"></article>
+  </div>
+</div>
+
+<footer>© 2026 The Daily Commit · Written between standups · RSS-ish vibes</footer>
+
+<script>
+const POSTS = [
+{ id:1, title:"The Bug Was in the Comment, Not the Code", date:"Oct 6, 2026", tags:["debugging","stories"],
+  excerpt:"A stale comment told me the function was safe to call twice. It was not. This is the story of a two-line fix that took six hours.",
+  body:[
+   "There's a special kind of betrayal that only a comment can deliver. Code lies to you all the time — off-by-ones, stale caches, race conditions — but you expect that. You read code skeptically. A comment, though? A comment feels like a colleague whispering the truth in your ear.",
+   "Last Tuesday I was chasing a duplicate-charge bug in a payment pipeline. The function `finalizeCharge()` had a comment above it: // idempotent — safe to retry. The retry logic in the queue worker called it up to three times on timeout. So naturally, I spent four hours auditing the queue, the network layer, and the payment gateway's idempotency keys.",
+   "The gateway was fine. The queue was fine. The function was not idempotent. Somewhere between the comment being written and last Tuesday, someone had added a side effect — a ledger write that happened before the idempotency check. The comment was a fossil from an earlier, truer version of the code.",
+   "The fix was two lines: move the ledger write after the check. The lesson was bigger: comments are not documentation, they're aspirations with a timestamp. Treat every comment like a rumor — possibly true, worth verifying, never load-bearing.",
+   "Now my team's rule is simple: if a comment makes a promise about behavior, it needs a test proving it. Comments can lie. Tests have to show up in CI."]},
+{ id:2, title:"You Don't Have a Scaling Problem (Yet)", date:"Oct 3, 2026", tags:["architecture","startups"],
+  excerpt:"Every startup wants Kubernetes on day one. Almost none of them need it. A field guide to boring infrastructure that ships.",
+  body:[
+   "I have watched three separate startups spend their first quarter of runway on infrastructure for ten million users they did not have. Multi-region Kubernetes, event-driven everything, a service mesh — for a product with eleven beta users, four of whom were the founders' friends.",
+   "Here's the uncomfortable truth: your single Postgres database on one modest server can handle thousands of requests per second. Your monolith can deploy in four minutes. Your cron job can replace that entire event-sourcing pipeline you're sketching on the whiteboard.",
+   "Boring infrastructure is a competitive advantage. While your competitor is debugging their service mesh, you're shipping features users can see. The best architecture decision most early teams can make is the one that lets them change their mind cheaply later.",
+   "That doesn't mean never planning ahead. It means scaling when the graphs tell you to, not when the conference talks tell you to. Put a load test in CI. Watch p99 latency. When the boring thing starts sweating, you'll know — and you'll have revenue to pay for the interesting thing.",
+   "Scale is a good problem. It's also a problem you earn. Earn it first."]},
+{ id:3, title:"CSS Is a Programming Language and I'm Tired of Pretending It's Not", date:"Sep 30, 2026", tags:["css","frontend","opinion"],
+  excerpt:"Turing-complete since forever, stateful, declarative, and genuinely hard. It's time CSS got the respect backend languages take for granted.",
+  body:[
+   "Somewhere along the way, 'I do CSS' became shorthand for 'I'm not a real programmer' in certain corners of the industry. This is nonsense, and I say it as someone who has written both distributed systems and stylesheets. One of them made me cry more often, and it wasn't the distributed system.",
+   "CSS is declarative, which means you describe the outcome and the browser figures out the how — across thousands of device sizes, user preferences, writing modes, and accessibility settings, simultaneously. You're programming a constraint solver with a syntax designed in 1996. That's not easy; that's heroic.",
+   "The cascade is a real scoping and specificity system. Custom properties are variables with inheritance and runtime reactivity. Container queries are conditional logic. `:has()` is a parent selector the industry begged for for twenty years. If you squint, it's a functional reactive language wearing a stylesheet costume.",
+   "The disrespect mostly comes from people who tried CSS once, wrote `!important` fourteen times, and declared the language broken. That's like writing your first recursive function, getting a stack overflow, and declaring computer science a scam.",
+   "So here's my proposal: the next time someone says 'just CSS', ask them to center a div inside a scroll container inside a grid inside a modal — without breaking the sticky header — in a right-to-left language. Then watch the respect arrive."]},
+{ id:4, title:"What I Learned Reading My Own Code From Five Years Ago", date:"Sep 27, 2026", tags:["career","reflection"],
+  excerpt:"I found an old side project and braced for cringe. Instead I found a time capsule — and a few lessons my younger self had already figured out.",
+  body:[
+   "I was cleaning out an old laptop and found a project from 2021: a little habit tracker, maybe 800 lines of JavaScript, no framework, localStorage for persistence. I opened it expecting to laugh at my younger self. Reader, I did laugh — but not always for the reasons I expected.",
+   "Yes, there were crimes: a 200-line function called `doStuff2`, CSS classes named `.thing` and `.thing2`, a comment that just said `// magic`. But the architecture was… fine? Separation of concerns, small functions where it mattered, no dependencies at all. Five years later, it still runs. Can your 2021 React app say that without a `npm audit` panic attack?",
+   "The biggest surprise was the README. Past-me had written down not just how to run it, but why it existed and what I'd deliberately left out. That context was worth more than any of the code. I understood my own decisions in minutes — something I can't say for code I wrote six months ago at work.",
+   "It reframed how I think about 'growth' as a developer. I haven't become someone who writes cleverer code. I've become someone who writes code that's easier to abandon, easier to hand off, easier to understand at 2am. The cringe I expected was really just evidence that the strategy worked.",
+   "Write the README for the stranger you'll be in five years. They're counting on you."]},
+{ id:5, title:"Rubber Ducks, but Make It a Team Ritual", date:"Sep 24, 2026", tags:["teams","debugging"],
+  excerpt:"Rubber-duck debugging works. Doing it out loud with your team works even better. How we turned explaining into a superpower.",
+  body:[
+   "Everyone knows rubber-duck debugging: explain your code line by line to an inanimate duck, and the bug reveals itself somewhere around line 40. It works because explaining forces your brain to switch from pattern-matching mode to narrative mode, and narratives have to make sense.",
+   "Two years ago my team made it a ritual. Every Friday, one person brings a real bug — ideally one they're stuck on — and explains it to the team for fifteen minutes. No slides, no prep, just talking through the code. The rule: nobody interrupts with solutions until the explainer says 'and that's where I'm stuck.'",
+   "Something magical happens around minute ten. About 60% of the time, the explainer stops mid-sentence, stares at the screen, and says '…oh. Oh no.' The bug, which survived hours of solo staring, dissolves under the pressure of being explained. The other 40% of the time, someone in the audience spots it — because fresh eyes plus a narrative are an unbeatable combination.",
+   "But the real payoff isn't the bugs. It's the shared mental model. After a year of duck sessions, our whole team can reason about each other's subsystems. Onboarding got faster. Code reviews got kinder, because we'd all stood in the hot seat.",
+   "Get a duck. Or better, get a team. The duck never judges, but the team brings snacks."]},
+{ id:6, title:"Tests Are a Love Letter to Your Future Self", date:"Sep 20, 2026", tags:["testing","craft"],
+  excerpt:"Nobody writes tests for the joy of it. We write them because 2am-you deserves better than a mystery. On testing as an act of kindness.",
+  body:[
+   "Let me be honest: I have never once felt a rush of joy writing a test. The joy comes later — at 11pm, when a refactor that should have broken everything passes green, and I get to go to bed instead of playing whack-a-mole with production.",
+   "The best way I know to think about tests is as messages to future maintainers, and the most frequent future maintainer is you. A good test says: 'here's what this code promises, here's an example of it keeping that promise, and here's the weird edge case that bit us in March.' That's documentation that can't go stale, because CI yells when it does.",
+   "The mistake teams make is treating coverage as the goal. 100% coverage of trivial getters is theater. What you want is coverage of the scary parts: the money math, the auth checks, the migration that runs once and can never run again. Test the code you'd be afraid to touch.",
+   "Start embarrassingly small. One test for the function you're about to change. Then one more. Testing is a habit, not a ceremony — and habits compound. Six months from now, future-you will open a pull request with confidence instead of dread.",
+   "That's the whole pitch. Not purity, not dogma — just kindness, extended forward in time, enforced by a robot."]},
+{ id:7, title:"The Senior Engineer Skill Nobody Puts on a Resume", date:"Sep 16, 2026", tags:["career","teams"],
+  excerpt:"It's not system design. It's not LeetCode. It's knowing which problems to leave alone — the art of strategic not-doing.",
+  body:[
+   "Ask a room of engineers what makes someone 'senior' and you'll hear: system design, mentoring, technical depth. All true. But after fifteen years, I think the real differentiator is subtler: senior engineers are world-class at deciding what not to do.",
+   "Junior me saw every problem as a nail and myself as the hammer. Slow query? Rewrite the database layer. Flaky test? Rebuild the test framework. Messy code? The Big Rewrite (we've all been there; the Big Rewrite is where productivity goes to die).",
+   "Senior me asks different questions first: How often does this actually hurt? What's the cheapest thing that makes the pain stop? What happens if we do nothing for six months? An astonishing number of urgent problems evaporate under the 'do nothing' test — they were symptoms of a temporary situation, or annoyances that felt bigger than they were.",
+   "This isn't laziness; it's leverage. Every line of code is a liability. Every system you build is a system you maintain. The engineer who prevents three unnecessary projects has delivered as much value as the one who ships three features — with none of the on-call burden.",
+   "So here's the skill to practice: before you build, write down what happens if you don't. If the answer is 'mild inconvenience, occasionally,' close the ticket and go work on something that matters. Your future self — the one on call at 2am — thanks you."]},
+{ id:8, title:"I Deleted 40,000 Lines and the App Got Faster", date:"Sep 12, 2026", tags:["refactoring","stories"],
+  excerpt:"Dead code, three abandoned frameworks, and a config file from 2019. Sometimes the best feature you ship is subtraction.",
+  body:[
+   "The codebase had 120,000 lines. The product used maybe half of them. The rest was archaeology: a chat feature killed in 2022, an A/B test framework nobody remembered configuring, three — three! — different date libraries, and a config file referencing a server that had been decommissioned before some of our engineers graduated college.",
+   "Nobody wanted to touch it. Deleting code feels dangerous in a way that adding code doesn't. Adding code is optimistic; deleting code is a bet that you understand what the code does. And nobody fully understood this code. That's how you end up with a `utils_old2_FINAL.js`.",
+   "So we made deletion safe instead of scary. First, we added observability: which endpoints get hit, which modules get imported, which features have any users at all. Data, not vibes. Then we deleted in layers — dead code first, then unused features behind flags, then the duplicate libraries — with each layer behind a quick rollback plan.",
+   "The results were absurd. Bundle size dropped 58%. CI went from 22 minutes to 9. Cold start time halved. And the bug rate — my favorite metric — dropped by a third, because there was simply less code for bugs to hide in.",
+   "Every codebase has a deletion-shaped opportunity hiding in it. The code you don't have can't break, can't slow you down, and doesn't need to be understood by the next hire. Ship less. Delete more. Your app — and your team — will be faster for it."]},
+{ id:9, title:"Onboarding Is a Product, and New Hires Are Your Users", date:"Sep 8, 2026", tags:["teams","career"],
+  excerpt:"Your onboarding docs are a user interface. Treat the first two weeks like a product launch and watch ramp time collapse.",
+  body:[
+   "Most engineering onboarding is a scavenger hunt designed by people who forgot what it's like to be new. Day one: here's a laptop, here's a wiki last updated during the Obama administration, good luck. The new hire spends two weeks learning where things are instead of learning how things work.",
+   "Flip the frame: onboarding is a product, and the new hire is the user. What does the user need? Not a data dump — a guided path. Day one: ship something tiny to production. Nothing teaches a system like touching it end to end, and nothing builds confidence like a deploy on day one.",
+   "The highest-leverage artifact is a 'day in the life' doc: how code gets from your laptop to production, where logs live, who to ask about what, and — critically — what's okay to break. New hires are terrified of breaking things. Explicitly granting permission to break the dev environment is a superpower.",
+   "Assign a buddy, not a mentor. A mentor is a relationship; a buddy is a Slack DM that answers 'dumb' questions in under an hour. Rotate the buddy role — it spreads context and reminds veterans how the system looks to fresh eyes.",
+   "Measure it like a product: time to first commit, time to first meaningful PR, and a retro at day 30 asking what confused them. Every confusion is a bug in your onboarding. Fix the bugs, and watch your team's effective hiring multiplier grow."]}
+];
+
+const cardsEl = document.getElementById('cards');
+const chipsEl = document.getElementById('chips');
+const searchEl = document.getElementById('search');
+const countEl = document.getElementById('count');
+const listView = document.getElementById('listView');
+const articleView = document.getElementById('articleView');
+const articleEl = document.getElementById('article');
+const progressEl = document.getElementById('progress');
+
+const allTags = [...new Set(POSTS.flatMap(p => p.tags))].sort();
+let activeTag = null;
+
+allTags.forEach(t => {
+  const c = document.createElement('button');
+  c.className = 'chip'; c.textContent = '#' + t;
+  c.addEventListener('click', () => {
+    activeTag = activeTag === t ? null : t;
+    document.querySelectorAll('.chip').forEach(x => x.classList.toggle('active', x.textContent === '#' + activeTag));
+    renderList();
+  });
+  chipsEl.appendChild(c);
+});
+
+function matches(p){
+  const q = searchEl.value.trim().toLowerCase();
+  const tagOk = !activeTag || p.tags.includes(activeTag);
+  const qOk = !q || (p.title + ' ' + p.excerpt + ' ' + p.tags.join(' ') + ' ' + p.body.join(' ')).toLowerCase().includes(q);
+  return tagOk && qOk;
+}
+
+function renderList(){
+  const shown = POSTS.filter(matches);
+  countEl.textContent = shown.length === POSTS.length
+    ? `${POSTS.length} posts`
+    : `${shown.length} of ${POSTS.length} posts`;
+  cardsEl.innerHTML = '';
+  if (!shown.length){
+    cardsEl.innerHTML = '<div class="empty">No posts match. Try a different search — the archives are deep but not that deep.</div>';
+    return;
+  }
+  shown.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = `<h2>${p.title}</h2>
+      <div class="meta">${p.date} · ${p.body.length} min read</div>
+      <div class="excerpt">${p.excerpt}</div>
+      <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <span class="readmore">Read post →</span>`;
+    d.addEventListener('click', () => openPost(p));
+    cardsEl.appendChild(d);
+  });
+}
+
+function openPost(p){
+  const paras = p.body.map((para, i) =>
+    i === 0 ? `<p class="lede">${para}</p>` : `<p>${para}</p>`).join('');
+  articleEl.innerHTML = `<h2>${p.title}</h2>
+    <div class="meta">${p.date} · by The Daily Commit · ${p.tags.map(t => '#'+t).join(' ')}</div>
+    ${paras}`;
+  listView.style.display = 'none';
+  articleView.classList.add('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateProgress();
+}
+
+document.getElementById('backBtn').addEventListener('click', () => {
+  articleView.classList.remove('open');
+  listView.style.display = '';
+  progressEl.style.width = '0%';
+  window.scrollTo({ top: 0 });
+});
+
+function updateProgress(){
+  if (!articleView.classList.contains('open')) return;
+  const h = document.documentElement;
+  const max = h.scrollHeight - h.clientHeight;
+  progressEl.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+}
+addEventListener('scroll', updateProgress, { passive: true });
+
+searchEl.addEventListener('input', renderList);
+renderList();
+</script>
+</body>
+</html>

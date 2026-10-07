@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Long Debug — a mystery novel about software by Elena Voss. A dead founder, a corrupted repo, and one engineer who reads commit messages like confessions.">
+<title>The Long Debug — A Novel by Elena Voss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=IM+Fell+English:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#e9dfc8; --mut:#a89a7d; --gold:#c9a227; --wine:#5e1f2e; --bg:#14100b; --panel:#1e1811}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.7;
+  background-image:radial-gradient(ellipse at 50% -10%,#2a1f14 0%,transparent 60%)}
+.back{position:fixed;top:14px;left:14px;z-index:999;background:rgba(20,16,11,.85);border:1px solid #4a3f2c;
+  padding:8px 14px;border-radius:999px;font-size:.85rem;color:var(--ink);text-decoration:none}
+.back:hover{border-color:var(--gold);color:var(--gold)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+header{text-align:center;padding:100px 24px 30px}
+header .kicker{letter-spacing:.4em;font-size:.72rem;text-transform:uppercase;color:var(--gold)}
+header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,9vw,5.5rem);font-weight:700;margin:16px 0 6px;line-height:1.05}
+header .by{font-family:'IM Fell English',serif;font-style:italic;font-size:1.3rem;color:var(--mut)}
+header .tagline{max-width:620px;margin:22px auto 0;color:var(--mut);font-size:1.02rem}
+/* hero: tilting book */
+.hero{display:flex;gap:clamp(28px,6vw,80px);align-items:center;justify-content:center;flex-wrap:wrap;padding:56px 0 30px;perspective:1400px}
+.cover-wrap{width:min(320px,74vw);aspect-ratio:2/3;position:relative;transform-style:preserve-3d;transition:transform .12s ease-out;cursor:pointer}
+.cover{position:absolute;inset:0;border-radius:6px 14px 14px 6px;transform:translateZ(34px);
+  background:linear-gradient(150deg,#2b0f1c 0%,#5e1f2e 45%,#3a1420 100%);
+  border:1px solid #7a2c40;box-shadow:inset 0 0 60px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;justify-content:space-between;padding:34px 28px;overflow:hidden}
+.cover::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 80% 15%,rgba(201,162,39,.25),transparent 45%),
+  repeating-linear-gradient(0deg,transparent 0 26px,rgba(0,0,0,.14) 26px 27px);pointer-events:none}
+.spine{position:absolute;left:0;top:0;bottom:0;width:68px;transform:rotateY(-90deg) translateZ(0);transform-origin:left;
+  background:linear-gradient(180deg,#3a1420,#220b14);border-radius:6px 0 0 6px}
+.pages{position:absolute;right:0;top:4px;bottom:4px;width:64px;transform:rotateY(90deg);transform-origin:right;
+  background:repeating-linear-gradient(90deg,#e9dfc8 0 2px,#cfc2a4 2px 3px);border-radius:0 10px 10px 0}
+.cover .top-rule{width:44px;height:3px;background:var(--gold);margin-bottom:14px}
+.cover h2{font-family:'Cormorant Garamond',serif;font-size:2.5rem;line-height:1.05;font-weight:700;color:#f2e8cf}
+.cover .cv-sub{font-family:'IM Fell English',serif;font-style:italic;color:var(--gold);font-size:1.05rem;margin-top:10px}
+.cover .cv-foot{font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:#d8c79a}
+.cover .bug{font-size:2rem;margin:14px 0}
+.hero-copy{max-width:440px}
+.hero-copy h3{font-family:'Cormorant Garamond',serif;font-size:1.9rem;margin-bottom:14px}
+.hero-copy p{color:var(--mut);margin-bottom:14px}
+.hero-copy .stars{color:var(--gold);letter-spacing:.2em;margin-bottom:14px}
+.buyrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.buybtn{background:linear-gradient(135deg,var(--gold),#9a7a14);border:none;color:#14100b;font-weight:700;
+  padding:14px 28px;border-radius:10px;font-family:inherit;font-size:1rem;cursor:pointer;transition:.2s}
+.buybtn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(201,162,39,.4)}
+.buybtn.ghost{background:transparent;border:1.5px solid #4a3f2c;color:var(--ink)}
+.buybtn.ghost:hover{border-color:var(--gold);color:var(--gold);box-shadow:none}
+/* sampler */
+section{padding:64px 0}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,4.5vw,2.7rem);text-align:center;margin-bottom:8px}
+.sec-sub{text-align:center;color:var(--mut);margin-bottom:34px}
+.chapters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.chbtn{border:1.5px solid #4a3f2c;background:var(--panel);color:var(--ink);border-radius:999px;padding:10px 22px;
+  font-family:inherit;font-size:.92rem;cursor:pointer;transition:.18s}
+.chbtn:hover{border-color:var(--gold)}
+.chbtn.active{background:var(--gold);border-color:var(--gold);color:#14100b;font-weight:600}
+.excerpt{background:var(--panel);border:1px solid #3a3020;border-radius:18px;padding:clamp(24px,4vw,44px);
+  min-height:340px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.excerpt h4{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold);margin-bottom:4px}
+.excerpt .chnum{font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;color:var(--mut);margin-bottom:18px}
+#typeBody{font-family:'IM Fell English',serif;font-size:1.18rem;line-height:1.85;color:#ded2b4;white-space:pre-wrap;min-height:200px}
+#typeBody .caret{display:inline-block;width:10px;height:1.2em;background:var(--gold);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.excerpt .hintline{margin-top:16px;font-size:.82rem;color:var(--mut);font-style:italic}
+/* author */
+.author{display:grid;grid-template-columns:200px 1fr;gap:36px;align-items:center;background:var(--panel);
+  border:1px solid #3a3020;border-radius:20px;padding:clamp(26px,4vw,48px)}
+@media(max-width:640px){.author{grid-template-columns:1fr;text-align:center}}
+.portrait{width:200px;height:200px;border-radius:50%;margin:0 auto;
+  background:radial-gradient(circle at 35% 30%,#7a5a3a,#4a3421 55%,#2a1d12);
+  display:flex;align-items:center;justify-content:center;font-size:4.5rem;border:3px solid var(--gold);
+  box-shadow:0 0 0 8px rgba(201,162,39,.12)}
+.author h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;margin-bottom:10px}
+.author p{color:var(--mut);margin-bottom:12px;font-size:.98rem}
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.review{background:var(--panel);border:1px solid #3a3020;border-radius:16px;padding:26px;font-style:italic;color:#cfc2a4}
+.review b{display:block;margin-top:14px;font-style:normal;color:var(--gold);font-size:.85rem;letter-spacing:.06em}
+/* toast */
+#toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,140px);background:var(--gold);color:#14100b;
+  font-weight:600;padding:14px 28px;border-radius:999px;z-index:1000;transition:transform .35s ease;box-shadow:0 14px 34px rgba(0,0,0,.5)}
+#toast.show{transform:translate(-50%,0)}
+footer{text-align:center;padding:44px 24px;color:var(--mut);font-size:.85rem;border-top:1px solid #2c2417;margin-top:40px}
+footer .fell{font-family:'IM Fell English',serif;font-style:italic}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+<div id="toast">📚 Added to cart</div>
+
+<header>
+  <div class="kicker">A novel of code &amp; consequence</div>
+  <h1>The Long Debug</h1>
+  <div class="by">by Elena Voss</div>
+  <p class="tagline">A beloved startup founder is found dead at his desk. The police call it a heart attack. The git history disagrees.</p>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="cover-wrap" id="coverWrap" title="Move your mouse — the cover tilts">
+      <div class="spine"></div>
+      <div class="pages"></div>
+      <div class="cover">
+        <div><div class="top-rule"></div><h2>The Long<br>Debug</h2><div class="cv-sub">a mystery in commits</div></div>
+        <div><div class="bug">🪲</div><div class="cv-foot">Elena Voss</div></div>
+      </div>
+    </div>
+    <div class="hero-copy">
+      <div class="stars">★★★★★</div>
+      <h3>The thriller the tech world can't put down</h3>
+      <p>Mara Kessler hasn't shipped code in four years — not since the incident. But when her old co-founder dies the night before launch, the board begs her to do one last thing: read the repository.</p>
+      <p>What she finds in the commit history is a confession written in diffs, a murder plotted in pull requests, and a killer who signs their work.</p>
+      <p><em style="color:var(--ink)">384 pages · Hardcover, ebook &amp; audio</em></p>
+      <div class="buyrow">
+        <button class="buybtn" data-fmt="Hardcover">Buy Hardcover — $27</button>
+        <button class="buybtn ghost" data-fmt="Ebook">Ebook — $12</button>
+        <button class="buybtn ghost" data-fmt="Audiobook">Audiobook — $19</button>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="sec-title">Read the First Chapters</h2>
+    <p class="sec-sub">A sampler, typed out live — the way Mara reads the repo: one line at a time.</p>
+    <div class="chapters" id="chapters"></div>
+    <div class="excerpt">
+      <h4 id="exTitle"></h4>
+      <div class="chnum" id="exNum"></div>
+      <div id="typeBody"></div>
+      <div class="hintline" id="exHint"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">About the Author</h2>
+    <p class="sec-sub">She writes the bugs she knows.</p>
+    <div class="author">
+      <div class="portrait">✒️</div>
+      <div>
+        <h3>Elena Voss</h3>
+        <p>Elena Voss spent eleven years as a backend engineer before trading stack traces for story arcs. She led infrastructure at two startups, survived three rewrites, and once found a production bug by reading a haiku in a commit message — an experience that became this novel.</p>
+        <p>Her short fiction has appeared in <em>Ellery Queen's Mystery Magazine</em> and <em>The Dark</em>. <em>The Long Debug</em> is her debut novel, written mostly between midnight and 2am, which she insists is when both code and prose are most honest.</p>
+        <p>She lives in Portland with a dog named Regex and a sourdough starter named Segfault.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">Praise</h2>
+    <p class="sec-sub">Early readers, unreasonably enthusiastic.</p>
+    <div class="reviews">
+      <div class="review">"A locked-room mystery where the room is a monorepo. I finished it in one sitting and immediately audited my own commit history."<b>— The Compiler Review</b></div>
+      <div class="review">"Voss writes engineers like people and code like poetry. The finale recontextualizes everything — including chapter one."<b>— Mara Ellison, author of <em>Merge Conflict</em></b></div>
+      <div class="review">"The rare tech thriller that gets the tech right and the thrills righter. My book club argued about the ending for two hours."<b>— Page &amp; Pixel Podcast</b></div>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      <button class="buybtn" data-fmt="Hardcover">Buy the Hardcover — $27</button>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="fell">"Every bug is a story someone was too tired to finish telling."</div>
+  <div style="margin-top:10px">© 2026 Elena Voss · Blackletter Press · This is a work of fiction. Any resemblance to your codebase is intentional.</div>
+</footer>
+
+<script>
+// 3D tilt on the cover
+const wrap = document.getElementById('coverWrap');
+const hero = document.querySelector('.hero');
+hero.addEventListener('mousemove', e => {
+  const r = wrap.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - .5;
+  const y = (e.clientY - r.top) / r.height - .5;
+  wrap.style.transform = `rotateY(${x * 34}deg) rotateX(${-y * 26}deg)`;
+});
+hero.addEventListener('mouseleave', () => {
+  wrap.style.transform = 'rotateY(-14deg) rotateX(4deg)';
+});
+wrap.style.transform = 'rotateY(-14deg) rotateX(4deg)';
+// chapters + typewriter
+const CHAPTERS = [
+{ n:"Chapter One", title:"The 3 A.M. Pager",
+  hint:"Mara gets the call she swore she'd never take.",
+  text:"The pager went off at 3:04 in the morning, and Mara Kessler knew before she opened her eyes that it wasn't hers.\n\nShe hadn't carried a pager in four years. She hadn't carried on-call in four years. She had a garden now, and a therapist, and a standing rule about never answering unknown numbers after midnight.\n\nThe number on the screen was Devon's. Devon, who was dead.\n\nShe stared at the little green display until the buzzing stopped. Then it buzzed again. And Mara — who had promised herself, her therapist, and her garden — picked up." },
+{ n:"Chapter Two", title:"git log --author=devon",
+  hint:"The commit history doesn't add up. Literally.",
+  text:"The repo was the first thing she asked for. Not the autopsy, not the police report — the repo.\n\n\"Mara, he's gone,\" Priya said. \"The company needs a statement, not a code review.\"\n\n\"The company needs the truth,\" Mara said, and cloned it onto the dead man's laptop.\n\nThree thousand commits. Devon had written most of them, his messages getting shorter as the launch approached: fix, fix again, actually fix this time. And then, eleven days before he died, the messages stopped being his.\n\nSame author name. Same email. Different hands. Mara could tell the way a forger's victim can tell — the rhythm was wrong. Someone had been committing as Devon. Someone who wrote beautiful, careful, murderous code." },
+{ n:"Chapter Three", title:"The Confession in the Diff",
+  hint:"A pull request that reads like a goodbye.",
+  text:"PR #4812: 'Refactor payment finalization for idempotency.'\n\nFourteen files changed. Two hundred lines added, ninety removed. Reviewers: none. Merged at 2:47 a.m. by devon@meridian.dev — except Devon had been at his sister's wedding that night, three hundred miles away, in every photograph smiling with cake on his tie.\n\nMara read the diff the way you'd read a ransom note, looking for the tells. And there, buried in a helper function nobody would ever review twice, was a comment:\n\n// if you're reading this, i'm already gone. check the ledger.\n\nHer hands went cold. The ledger table had been dropped in the same PR — schema migration, routine, approved by no one.\n\nSomeone hadn't just killed Devon. They'd used his own repository as the weapon, and the alibi, and the confession." }
+];
+const chEl = document.getElementById('chapters');
+const exTitle = document.getElementById('exTitle'), exNum = document.getElementById('exNum'),
+      typeBody = document.getElementById('typeBody'), exHint = document.getElementById('exHint');
+let typeTimer = null, idx = 0;
+
+function typeChapter(c){
+  clearInterval(typeTimer);
+  exTitle.textContent = c.title;
+  exNum.textContent = c.n;
+  exHint.textContent = '❝ ' + c.hint + ' ❞';
+  typeBody.innerHTML = '<span class="caret"></span>';
+  idx = 0;
+  const text = c.text;
+  typeTimer = setInterval(() => {
+    idx += 2;
+    const done = idx >= text.length;
+    const shown = text.slice(0, idx);
+    typeBody.innerHTML = shown.replace(/&/g,'&amp;').replace(/</g,'&lt;') + (done ? '' : '<span class="caret"></span>');
+    if (done) clearInterval(typeTimer);
+  }, 18);
+}
+CHAPTERS.forEach((c, i) => {
+  const b = document.createElement('button');
+  b.className = 'chbtn' + (i === 0 ? ' active' : '');
+  b.textContent = c.n;
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.chbtn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    typeChapter(c);
+  });
+  chEl.appendChild(b);
+});
+typeChapter(CHAPTERS[0]);
+
+// buy toast
+const toast = document.getElementById('toast');
+let toastT;
+document.querySelectorAll('.buybtn').forEach(b => {
+  b.addEventListener('click', () => {
+    toast.textContent = `📚 ${b.dataset.fmt} added to cart`;
+    toast.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => toast.classList.remove('show'), 2200);
+  });
+});
+</script>
+</body>
+</html>
