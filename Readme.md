@@ -1,42 +1,56 @@
 # 30 Sites in 30 Days
 
-I'm working on a the 30 day challenge - 30 sites in 30 days.
+**Live:** https://30days.johnmann.work
 
-You can sign up for updates [here](https://www.subscribepage.com/30days30sites)
+My 30-day challenge: **30 sites in 30 days** — rebuilt in 2026.
 
-I started in Codepen.io [here](https://codepen.io/collection/DZBzzL/)
+Every site is hand-built with **vanilla JavaScript** — no frameworks, no build step, no bundler. Each site is a single self-contained `index.html`. Inspired by [JavaScript30](https://javascript30.com/).
 
-Then I moved it all to here: [Landing Page of All Sites](http://30days.lotekmedia.com)
+This repo started in 2023 with a Gulp-based scaffold (see `src/`, kept for history). The finished challenge lives in [`site/`](site/) and is deployed on Vercel.
 
-The ones I have done so far are:
+## The 30 sites
 
-1. [Portfolio](http://30days.lotekmedia.com/portfolio)
-1. [Event Invitation](http://30days.lotekmedia.com/event)
-1. [Tourist Attraction](http://30days.lotekmedia.com/tourist)
-1. [Product Site](http://30days.lotekmedia.com/product)
-1. [Restaurant Menu](http://30days.lotekmedia.com/menu)
-1. ### Break
-1. [Book/Author](http://30days.lotekmedia.com/book)
-1. [Movie/Trailer](http://30days.lotekmedia.com/movie)
-1. [Celebrity Fan Page](http://30days.lotekmedia.com/celebrity)
-1. [Children's Toy/Game](http://30days.lotekmedia.com/toy)*
-1. [Photographer](http://susiem.lotekmedia.com)
-1. [Mobile Service](http://30days.lotekmedia.com/mobileService)*
-1. [Club](http://30days.lotekmedia.com/club)*
-1. [Beverage](http://30days.lotekmedia.com/beverage)*
-1. [Printing](http://30days.lotekmedia.com/printing)*
-1. [Speaker](http://30days.lotekmedia.com/speaker)*
-1. [Charity](http://30days.lotekmedia.com/charity)
-1. [Fashion](http://30days.lotekmedia.com/fashion)*
-1. [Cruise](http://30days.lotekmedia.com/cruise)*
-1. [Candy](http://30days.lotekmedia.com/candy)*
-1. [Blog](http://30days.lotekmedia.com/blog)
-1. [Email](http://30days.lotekmedia.com/email)*
-1. [Weight Loss](http://30days.lotekmedia.com/weight)*
-1. [Gardener](http://30days.lotekmedia.com/gardener)*
-1. [E-Shop](http://30days.lotekmedia.com/shop)*
-1. [Recipes](http://30days.lotekmedia.com/recipes)*
-1. [Game](http://30days.lotekmedia.com/game)*
+| # | Site | What it is |
+|---|------|-----------|
+| 01 | [agency](site/agency/) | Digital agency landing — animated hero, cursor glow, scroll reveals |
+| 02 | [bb19](site/bb19/) | BB-19 BeatBox — 16-step drum sequencer on the Web Audio API |
+| 03 | [beverage](site/beverage/) | Coffee house — interactive drink builder with live pricing |
+| 04 | [blog](site/blog/) | Blog — live search, tag filters, reading progress |
+| 05 | [book](site/book/) | Author page — 3D book tilt, typewriter chapter sampler |
+| 06 | [candy](site/candy/) | Candy shop — working cart with flying-to-cart animation |
+| 07 | [celebrity](site/celebrity/) | Fan page — trivia quiz with score and streaks |
+| 08 | [charity](site/charity/) | Charity — donation impact calculator, animated goal meter |
+| 09 | [club](site/club/) | Nightclub — RSVP with live guest list (localStorage) |
+| 10 | [cruise](site/cruise/) | Cruise line — itinerary explorer, fare estimator |
+| 11 | [email](site/email/) | Newsletter — validated signup, confetti, template preview |
+| 12 | [event](site/event/) | Event invite — live countdown clock, one-click RSVP |
+| 13 | [fashion](site/fashion/) | Lookbook — filterable gallery, quick-view modal |
+| 14 | [game](site/game/) | Whack-a-mole — score, timer, persistent high score |
+| 15 | [gardener](site/gardener/) | Plant care — watering scheduler with localStorage |
+| 16 | [menu](site/menu/) | Restaurant — type-ahead search, categories, cart |
+| 17 | [mobileService](site/mobileService/) | Phone repair — instant price calculator, booking form |
+| 18 | [movie](site/movie/) | Film page — fully custom-built video player on canvas |
+| 19 | [parallax](site/parallax/) | Parallax scrolling demo — layered depth, slide-in sections |
+| 20 | [penny](site/penny/) | Penny jar — savings tracker with local persistence |
+| 21 | [photographer](site/photographer/) | Portfolio — keyboard-navigable lightbox gallery |
+| 22 | [portfolio](site/portfolio/) | Dev portfolio — typing hero, dark mode, CSS-variables playground |
+| 23 | [printing](site/printing/) | Print shop — live quote calculator |
+| 24 | [product](site/product/) | Product landing — variant customizer, sticky nav |
+| 25 | [recipes](site/recipes/) | Recipe finder — search + time/difficulty filters |
+| 26 | [shop](site/shop/) | E-shop — persistent cart, checkout modal |
+| 27 | [speaker](site/speaker/) | Speaker page — interactive schedule timeline |
+| 28 | [tourist](site/tourist/) | NYC guide — attraction explorer, itinerary builder |
+| 29 | [toy](site/toy/) | Toy store — canvas cursor trail, playful cart |
+| 30 | [weight](site/weight/) | Weight tracker — canvas chart, local history |
 
-The * denotes placeholder site for now
-## More to Come...
+## Run it locally
+
+No build step. Serve the `site/` directory with any static server:
+
+```bash
+cd site && python3 -m http.server 8000
+```
+
+## Deploy
+
+Connected to Vercel (`30days` project, `site/` as root directory). Pushes to `master` auto-deploy.

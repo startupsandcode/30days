@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30 Sites in 30 Days — John Mann</title>
+<meta name="description" content="30 hand-built vanilla JS mini-sites in 30 days. No frameworks. No build step. Just the DOM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0f; --panel:#121218; --ink:#f4f2ec; --muted:#9a97a3;
+    --accent:#ff5c38; --accent2:#7c5cff; --accent3:#22d3a5; --line:#23232c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:
+    radial-gradient(600px 400px at 15% 10%, rgba(124,92,255,.14), transparent 60%),
+    radial-gradient(700px 500px at 85% 20%, rgba(255,92,56,.12), transparent 60%),
+    radial-gradient(500px 500px at 50% 100%, rgba(34,211,165,.08), transparent 60%);pointer-events:none;z-index:0}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  header{padding:88px 0 40px;text-align:center}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+  h1{font-size:clamp(42px,7vw,84px);font-weight:700;line-height:1.02;letter-spacing:-.02em}
+  h1 .stroke{color:transparent;-webkit-text-stroke:2px var(--ink)}
+  .sub{max-width:620px;margin:22px auto 0;color:var(--muted);font-size:17px;line-height:1.65}
+  .sub b{color:var(--ink)}
+  .stats{display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+  .stat{font-family:'JetBrains Mono',monospace;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:8px 18px;color:var(--muted);background:rgba(18,18,24,.7)}
+  .stat b{color:var(--accent3)}
+  .filterbar{display:flex;gap:10px;justify-content:center;margin:44px 0 8px;flex-wrap:wrap}
+  .filterbar input{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:12px 18px;font-size:15px;width:min(420px,100%);font-family:inherit;outline:none}
+  .filterbar input:focus{border-color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;padding:36px 0 80px}
+  .card{position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px 24px;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 18px 50px -18px rgba(255,92,56,.35)}
+  .card .num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.18em}
+  .card h2{font-size:22px;margin:10px 0 8px;letter-spacing:-.01em}
+  .card p{color:var(--muted);font-size:14.5px;line-height:1.6;min-height:46px}
+  .card .tags{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+  .card .tag{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 10px;border-radius:999px;background:#1c1c26;color:#b9b6c4}
+  .card .go{position:absolute;top:22px;right:22px;font-size:20px;opacity:.45;transition:opacity .2s,transform .2s}
+  .card:hover .go{opacity:1;transform:translateX(4px)}
+  .card.hide{display:none}
+  .empty{display:none;text-align:center;color:var(--muted);padding:40px;grid-column:1/-1}
+  footer{border-top:1px solid var(--line);padding:36px 0 60px;text-align:center;color:var(--muted);font-size:14px}
+  footer a{color:var(--ink)}
+  .marquee{overflow:hidden;white-space:nowrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:20px}
+  .marquee span{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.24em;color:var(--muted);padding-right:48px;animation:scroll 28s linear infinite}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  @media(max-width:640px){header{padding:56px 0 24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">A 30-day building challenge</div>
+    <h1>30 Sites <span class="stroke">in 30 Days</span></h1>
+    <p class="sub">Thirty small websites, each hand-built with <b>vanilla JavaScript</b> — no frameworks, no build step, no bundler. Every site is a single self-contained page. Inspired by <b>JavaScript30</b>, rebuilt from a 2023 challenge repo.</p>
+    <div class="stats">
+      <div class="stat"><b>30</b> sites</div>
+      <div class="stat"><b>0</b> frameworks</div>
+      <div class="stat"><b>0</b> build steps</div>
+      <div class="stat">100% vanilla JS</div>
+    </div>
+  </header>
+</div>
+<div class="marquee"><span>VANILLA JS &nbsp;·&nbsp; NO FRAMEWORKS &nbsp;·&nbsp; NO BUILD STEP &nbsp;·&nbsp; 30 SITES &nbsp;·&nbsp; 30 DAYS &nbsp;·&nbsp; VANILLA JS &nbsp;·&nbsp; NO FRAMEWORKS &nbsp;·&nbsp; NO BUILD STEP &nbsp;·&nbsp; 30 SITES &nbsp;·&nbsp; 30 DAYS &nbsp;·&nbsp;</span><span>VANILLA JS &nbsp;·&nbsp; NO FRAMEWORKS &nbsp;·&nbsp; NO BUILD STEP &nbsp;·&nbsp; 30 SITES &nbsp;·&nbsp; 30 DAYS &nbsp;·&nbsp; VANILLA JS &nbsp;·&nbsp; NO FRAMEWORKS &nbsp;·&nbsp; NO BUILD STEP &nbsp;·&nbsp; 30 SITES &nbsp;·&nbsp; 30 DAYS &nbsp;·&nbsp;</span></div>
+<div class="wrap">
+  <div class="filterbar">
+    <input id="q" type="search" placeholder="Filter the 30 sites… (try “game”, “shop”, “chart”)" autocomplete="off">
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">No sites match that filter. Try another word.</div>
+  <footer>
+    Built by <a href="https://github.com/startupsandcode">John Mann</a> · 30 Sites in 30 Days · vanilla JS forever<br>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:12px">originally a 2023 challenge · rebuilt 2026</span>
+  </footer>
+</div>
+<script>
+const sites = [
+  {d:'agency', n:'Day 01 — Studio Agency', b:'A digital agency landing page with animated hero, magnetic cursor glow and scroll reveals.', t:['landing','animation']},
+  {d:'bb19', n:'Day 02 — BB-19 BeatBox', b:'A 16-step drum sequencer built on the Web Audio API. Make a beat, no plugins.', t:['audio','game']},
+  {d:'beverage', n:'Day 03 — Coffee House', b:'A coffee shop with an interactive drink builder and live price calculator.', t:['shop','interactive']},
+  {d:'blog', n:'Day 04 — The Blog', b:'A blog with live search, tag filters and a reading-progress bar.', t:['content','search']},
+  {d:'book', n:'Day 05 — The Author', b:'An author page with a 3D-tilting book and a typewriter chapter sampler.', t:['landing','animation']},
+  {d:'candy', n:'Day 06 — Candy Shop', b:'A candy store with a working cart, flying-to-cart animations and a drawer.', t:['shop','cart']},
+  {d:'celebrity', n:'Day 07 — Fan Page', b:'A celebrity fan page with a scored trivia quiz and streak bonus.', t:['quiz','game']},
+  {d:'charity', n:'Day 08 — GiveWell-ish', b:'A charity page with a donation impact calculator and animated goal meter.', t:['calculator','data']},
+  {d:'club', n:'Day 09 — Nightclub', b:'A club night page with RSVP form and a live guest list in localStorage.', t:['forms','localStorage']},
+  {d:'cruise', n:'Day 10 — Cruise Line', b:'Explore cruise itineraries by tab and estimate a fare with the cabin picker.', t:['travel','calculator']},
+  {d:'email', n:'Day 11 — Newsletter', b:'A newsletter landing page with validated signup, confetti and a template preview.', t:['forms','landing']},
+  {d:'event', n:'Day 12 — Event Invite', b:'An event invitation with a live countdown clock and one-click RSVP.', t:['countdown','event']},
+  {d:'fashion', n:'Day 13 — Lookbook', b:'A fashion lookbook with a filterable gallery and quick-view modal.', t:['gallery','filter']},
+  {d:'game', n:'Day 14 — Whack-a-Mole', b:'The classic whack-a-mole, rebuilt in vanilla JS with score and high-score.', t:['game','canvas']},
+  {d:'gardener', n:'Day 15 — Plant Care', b:'A gardener site with a watering scheduler that remembers your plants.', t:['localStorage','tools']},
+  {d:'menu', n:'Day 16 — Restaurant', b:'A restaurant menu with type-ahead search, categories and a working cart.', t:['shop','search']},
+  {d:'mobileService', n:'Day 17 — Phone Repair', b:'A mobile repair service with an instant price calculator and booking form.', t:['calculator','forms']},
+  {d:'movie', n:'Day 18 — The Premiere', b:'A movie trailer page with a custom-built video player — all controls hand-rolled.', t:['video','custom-ui']},
+  {d:'parallax', n:'Day 19 — Parallax', b:'A parallax scrolling demo with layered depth and slide-in-on-scroll.', t:['animation','scroll']},
+  {d:'penny', n:'Day 20 — Penny Jar', b:'A savings tracker: drop coins in the jar, watch it fill, all saved locally.', t:['localStorage','data']},
+  {d:'photographer', n:'Day 21 — Photographer', b:'A photographer portfolio with a keyboard-navigable lightbox gallery.', t:['gallery','lightbox']},
+  {d:'portfolio', n:'Day 22 — Dev Portfolio', b:'A developer portfolio with a typing hero, dark mode and a CSS-variables playground.', t:['portfolio','interactive']},
+  {d:'printing', n:'Day 23 — Print Shop', b:'A print shop with a live quote calculator for paper, size and quantity.', t:['calculator','shop']},
+  {d:'product', n:'Day 24 — Product Page', b:'A product landing page with variant customizer, sticky nav and reviews.', t:['landing','interactive']},
+  {d:'recipes', n:'Day 25 — Recipes', b:'A recipe finder with live search and filters for time and difficulty.', t:['search','content']},
+  {d:'shop', n:'Day 26 — E-Shop', b:'A mini e-shop with a persistent cart, quantities and a checkout modal.', t:['shop','cart']},
+  {d:'speaker', n:'Day 27 — Keynote', b:'A conference speaker page with an interactive schedule timeline.', t:['event','content']},
+  {d:'tourist', n:'Day 28 — Visit NYC', b:'A tourist attraction explorer with an itinerary builder and day planner.', t:['travel','interactive']},
+  {d:'toy', n:'Day 29 — Toy Store', b:'A toy store with a canvas cursor trail, playful physics and a cart.', t:['shop','canvas']},
+  {d:'weight', n:'Day 30 — Weight Tracker', b:'A weight tracker with a hand-drawn canvas chart and local history.', t:['data','canvas']},
+];
+const grid = document.getElementById('grid');
+const empty = document.getElementById('empty');
+sites.forEach(s=>{
+  const a = document.createElement('a');
+  a.className='card'; a.href='./'+s.d+'/';
+  a.dataset.search=(s.n+' '+s.b+' '+s.t.join(' ')).toLowerCase();
+  a.innerHTML = `<span class="go">→</span><div class="num">${String(sites.indexOf(s)+1).padStart(2,'0')} / 30</div><h2>${s.n.replace(/^Day \d+ — /,'')}</h2><p>${s.b}</p><div class="tags">${s.t.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+  grid.appendChild(a);
+});
+document.getElementById('q').addEventListener('input', e=>{
+  const q = e.target.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll('.card').forEach(c=>{
+    const hit = !q || c.dataset.search.includes(q);
+    c.classList.toggle('hide', !hit);
+    if(hit) shown++;
+  });
+  empty.style.display = shown ? 'none' : 'block';
+});
+</script>
+</body>
+</html>
