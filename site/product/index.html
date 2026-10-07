@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AeroPods — wireless earbuds with 40-hour battery, adaptive ANC, and a fit that disappears. Pick your color.">
+<title>AeroPods — Hear Everything. Feel Nothing.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0e0e12;--muted:#6b6b74;--bg:#f7f7f9;--card:#fff;--case:#232a3d;--case-hi:#3a4560;--accent:#2563eb}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.back-link{position:fixed;top:14px;left:14px;z-index:2000;background:var(--ink);color:#fff;
+  padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.25)}
+nav.top{position:sticky;top:0;z-index:1000;background:rgba(247,247,249,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid #e6e6ea}
+.nav-inner{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.bag{position:relative;background:var(--ink);color:#fff;border:none;border-radius:999px;
+  padding:9px 20px;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit}
+.bag .count{position:absolute;top:-8px;right:-6px;background:var(--accent);color:#fff;font-size:11px;
+  min-width:22px;height:22px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.hero{max-width:1120px;margin:0 auto;padding:70px 24px 40px;display:grid;grid-template-columns:1fr 1fr;
+  gap:40px;align-items:center}
+@media(max-width:820px){.hero{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.6rem,6vw,4.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.02}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);font-size:1.1rem;margin:18px 0 26px;max-width:440px}
+.price-row{display:flex;align-items:center;gap:18px;margin-bottom:26px}
+.price{font-size:2rem;font-weight:800}
+.price s{color:var(--muted);font-weight:500;font-size:1.2rem;margin-left:10px}
+.add{background:var(--accent);color:#fff;border:none;border-radius:14px;padding:16px 38px;
+  font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .15s, box-shadow .15s}
+.add:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(37,99,235,.35)}
+.visual{background:radial-gradient(circle at 50% 40%,#fff 0%,#eef0f5 70%);border-radius:28px;
+  padding:36px;display:flex;flex-direction:column;align-items:center;gap:22px}
+.visual svg{width:min(300px,70vw);height:auto;filter:drop-shadow(0 24px 30px rgba(0,0,0,.18))}
+.swatches{display:flex;gap:12px;align-items:center}
+.swatch{width:44px;height:44px;border-radius:50%;cursor:pointer;border:3px solid transparent;
+  transition:transform .15s;box-shadow:inset 0 0 0 2px rgba(255,255,255,.5),0 2px 8px rgba(0,0,0,.2)}
+.swatch:hover{transform:scale(1.12)}
+.swatch.sel{border-color:var(--ink)}
+.color-name{font-weight:600;font-size:15px}
+section.feat{max-width:1120px;margin:0 auto;padding:56px 24px}
+section.feat h2{text-align:center;font-size:2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+section.feat>.sub{text-align:center;color:var(--muted);margin-bottom:36px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{background:var(--card);border-radius:20px;padding:32px;box-shadow:0 6px 24px rgba(0,0,0,.05)}
+.card .emoji{font-size:40px;margin-bottom:14px}
+.card h3{font-size:1.2rem;margin-bottom:8px}
+.card p{color:var(--muted);font-size:15px}
+.spec{background:var(--ink);color:#fff;border-radius:20px;padding:26px;margin-top:20px;
+  display:flex;justify-content:space-around;flex-wrap:wrap;gap:18px;text-align:center}
+.spec .n{font-size:1.9rem;font-weight:800;color:#9db8ff}
+.spec .l{font-size:12px;color:#a9a9b3;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.review{background:var(--card);border-radius:20px;padding:28px;box-shadow:0 6px 24px rgba(0,0,0,.05)}
+.stars{color:#f59e0b;font-size:18px;margin-bottom:10px;letter-spacing:2px}
+.review p{font-size:15px;color:#3d3d44;margin-bottom:14px}
+.review .who{font-weight:600;font-size:14px}
+.review .who span{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.faq{max-width:720px;margin:0 auto}
+.faq details{background:var(--card);border-radius:14px;padding:18px 22px;margin-bottom:12px;cursor:pointer}
+.faq summary{font-weight:600}
+.faq p{color:var(--muted);font-size:15px;margin-top:10px}
+/* toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,120px);background:var(--ink);color:#fff;
+  padding:15px 26px;border-radius:14px;font-weight:600;font-size:15px;z-index:3000;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);
+  box-shadow:0 16px 40px rgba(0,0,0,.3);display:flex;gap:10px;align-items:center}
+.toast.show{transform:translate(-50%,0)}
+footer{text-align:center;padding:44px 24px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<nav class="top"><div class="nav-inner">
+  <div class="logo">AeroPods</div>
+  <div class="nav-links">
+    <a href="#features">Features</a><a href="#reviews">Reviews</a><a href="#faq">FAQ</a>
+    <button class="bag" id="bagBtn">🛍 Bag <span class="count" id="bagCount">0</span></button>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div>
+    <h1>Hear everything.<br><span>Feel nothing.</span></h1>
+    <p>Adaptive noise cancellation, 40 hours of total battery, and an ergonomic fit so light you'll check twice that they're in.</p>
+    <div class="price-row"><div class="price">$149<s>$199</s></div></div>
+    <button class="add" id="addBtn">Add to bag</button>
+  </div>
+  <div class="visual">
+    <svg viewBox="0 0 300 340" role="img" aria-label="AeroPods charging case">
+      <defs>
+        <linearGradient id="caseGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#3a4560"/><stop offset="1" stop-color="#232a3d"/>
+        </linearGradient>
+      </defs>
+      <!-- open case -->
+      <rect x="45" y="120" width="210" height="170" rx="46" fill="url(#caseGrad)"/>
+      <rect x="45" y="120" width="210" height="60" rx="30" fill="#3a4560" class="part-hi" opacity=".55"/>
+      <!-- buds -->
+      <g>
+        <rect x="95" y="60" width="34" height="90" rx="17" fill="#3a4560" class="part-hi"/>
+        <circle cx="112" cy="58" r="24" fill="#3a4560" class="part-hi"/>
+        <rect x="171" y="60" width="34" height="90" rx="17" fill="#3a4560" class="part-hi"/>
+        <circle cx="188" cy="58" r="24" fill="#3a4560" class="part-hi"/>
+      </g>
+      <!-- LED + logo -->
+      <circle id="led" cx="150" cy="215" r="7" fill="#4ade80">
+        <animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <text x="150" y="262" text-anchor="middle" fill="#ffffff" opacity=".8" font-size="17" font-weight="700" font-family="Inter,sans-serif">aero</text>
+      <!-- shadow -->
+      <ellipse cx="150" cy="308" rx="95" ry="12" fill="#000" opacity=".12"/>
+    </svg>
+    <div class="color-name" id="colorName">Midnight</div>
+    <div class="swatches" id="swatches">
+      <button class="swatch sel" data-name="Midnight" data-main="#232a3d" data-hi="#3a4560" style="background:#232a3d" aria-label="Midnight"></button>
+      <button class="swatch" data-name="Arctic" data-main="#cfd8e3" data-hi="#eef2f7" style="background:#dfe6ee" aria-label="Arctic"></button>
+      <button class="swatch" data-name="Sunset" data-main="#c9501f" data-hi="#f0824a" style="background:#e8632f" aria-label="Sunset"></button>
+      <button class="swatch" data-name="Moss" data-main="#33482f" data-hi="#5a7a52" style="background:#4a6b4f" aria-label="Moss"></button>
+    </div>
+  </div>
+</header>
+
+<section class="feat" id="features">
+  <h2>Engineered for your ears</h2>
+  <p class="sub">Three reasons 200,000+ listeners switched this year.</p>
+  <div class="cards">
+    <div class="card"><div class="emoji">🔇</div><h3>Adaptive ANC</h3><p>Dual microphones sample ambient noise 48,000 times per second and cancel it before it reaches your eardrum. Subway roar becomes library hush.</p></div>
+    <div class="card"><div class="emoji">🔋</div><h3>40-hour battery</h3><p>10 hours per charge, plus three full recharges from the pocketable case. A 10-minute top-up buys 4 more hours.</p></div>
+    <div class="card"><div class="emoji">🪶</div><h3>Feather fit</h3><p>At 4.1g per bud with four tip sizes, they seal gently and stay put through sprints, downward dogs, and head-banging.</p></div>
+  </div>
+  <div class="spec">
+    <div><div class="n">-42dB</div><div class="l">Noise reduction</div></div>
+    <div><div class="n">40h</div><div class="l">Total battery</div></div>
+    <div><div class="n">4.1g</div><div class="l">Per bud</div></div>
+    <div><div class="n">IPX5</div><div class="l">Sweat &amp; rain</div></div>
+  </div>
+</section>
+
+<section class="feat" id="reviews">
+  <h2>Loved by listeners</h2>
+  <p class="sub">4.8 average across 12,400 verified reviews.</p>
+  <div class="reviews">
+    <div class="review"><div class="stars">★★★★★</div><p>"I forgot I was wearing them on a six-hour flight. The ANC erased the engines and the fit never ached. Best travel purchase I've made."</p><div class="who">Marcus T.<span>Verified buyer · Midnight</span></div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>"Calls in windy Chicago actually work now. My team asked if I got a new microphone — nope, just AeroPods."</p><div class="who">Dana R.<span>Verified buyer · Arctic</span></div></div>
+    <div class="review"><div class="stars">★★★★☆</div><p>"Sound is rich, case feels premium, battery is absurd. Docked one star because my cat is now obsessed with the case."</p><div class="who">Leo K.<span>Verified buyer · Sunset</span></div></div>
+  </div>
+</section>
+
+<section class="feat" id="faq">
+  <h2>Questions</h2>
+  <p class="sub">The short answers.</p>
+  <div class="faq">
+    <details><summary>Do they work with Android and iPhone?</summary><p>Yes — standard Bluetooth 5.4 with multipoint pairing, so they connect to two devices at once regardless of platform.</p></details>
+    <details><summary>What's the return policy?</summary><p>45 days, no questions asked, free return shipping. If your ears don't love them, we don't want your money.</p></details>
+    <details><summary>Is there a warranty?</summary><p>Two years covering everything except loss, theft, and cat-related incidents.</p></details>
+  </div>
+</section>
+
+<div class="toast" id="toast">✓ <span id="toastMsg">Added to bag</span></div>
+
+<footer>© 2026 AeroPods Audio · Free shipping · 45-day returns · 2-year warranty</footer>
+
+<script>
+// color customizer
+const swatches=[...document.querySelectorAll('.swatch')];
+const nameEl=document.getElementById('colorName');
+let currentColor='Midnight';
+swatches.forEach(s=>s.addEventListener('click',()=>{
+  swatches.forEach(x=>x.classList.remove('sel')); s.classList.add('sel');
+  document.getElementById('caseGrad').children[0].setAttribute('stop-color',s.dataset.hi);
+  document.getElementById('caseGrad').children[1].setAttribute('stop-color',s.dataset.main);
+  // recolor lid highlight + buds
+  document.querySelectorAll('.part-hi').forEach(f=>f.setAttribute('fill',s.dataset.hi));
+  currentColor=s.dataset.name; nameEl.textContent=currentColor;
+}));
+
+// cart + toast
+let bag=parseInt(localStorage.getItem('aeropods-bag')||'0');
+const countEl=document.getElementById('bagCount'), toast=document.getElementById('toast');
+countEl.textContent=bag;
+let toastTimer;
+function showToast(msg){
+  document.getElementById('toastMsg').textContent=msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>toast.classList.remove('show'),2400);
+}
+document.getElementById('addBtn').addEventListener('click',()=>{
+  bag++; localStorage.setItem('aeropods-bag',bag); countEl.textContent=bag;
+  showToast('AeroPods ('+currentColor+') added to bag');
+});
+document.getElementById('bagBtn').addEventListener('click',()=>{
+  showToast(bag===0?'Your bag is empty — grab a pair!':bag+' item'+(bag>1?'s':'')+' in your bag · $'+(bag*149));
+});
+</script>
+</body>
+</html>

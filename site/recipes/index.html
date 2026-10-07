@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Weeknight Wins — 12 real, fast weeknight recipes with ingredients, steps, time and difficulty filters. Dinner, solved.">
+<title>Weeknight Wins — Fast Real Recipes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#26221b;--bg:#fbf6ec;--card:#fff;--accent:#d9481c;--accent-soft:#fdeee4;
+  --green:#3f7a3a;--border:#e9dfcb;--muted:#7c7462}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+.back-link{position:fixed;top:14px;left:14px;z-index:1000;background:var(--ink);color:#fff;
+  padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.25)}
+header.hero{text-align:center;padding:90px 24px 30px;max-width:760px;margin:0 auto}
+.hero .emoji{font-size:52px}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.6rem,6vw,4rem);margin:10px 0}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);font-size:1.05rem;max-width:560px;margin:0 auto}
+.controls{max-width:1000px;margin:26px auto 0;padding:0 24px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
+.search{flex:1;min-width:220px;max-width:380px;position:relative}
+.search input{width:100%;padding:13px 16px 13px 44px;border:2px solid var(--border);border-radius:999px;
+  font-size:15px;font-family:inherit;background:var(--card)}
+.search input:focus{outline:none;border-color:var(--accent)}
+.search::before{content:"🔍";position:absolute;left:16px;top:11px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.fbtn{border:2px solid var(--border);background:var(--card);border-radius:999px;padding:10px 18px;
+  font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.fbtn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.count-note{text-align:center;color:var(--muted);font-size:13px;margin:18px 0 0}
+main{max-width:1000px;margin:0 auto;padding:8px 24px 90px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;
+  cursor:pointer;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(38,34,27,.12)}
+.card-head{padding:22px 22px 16px;display:flex;gap:16px;align-items:center}
+.card-head .art{width:64px;height:64px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;
+  justify-content:center;font-size:32px}
+.card-head h3{font-size:1.15rem;line-height:1.3}
+.badges{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.badge{font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;letter-spacing:.02em}
+.badge.time{background:#e8f0fe;color:#1d4fd7}
+.badge.easy{background:#e6f4ea;color:var(--green)}
+.badge.medium{background:#fef3c7;color:#92400e}
+.card-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.card.open .card-body{max-height:1200px}
+.body-inner{padding:0 22px 22px;border-top:1px dashed var(--border);margin-top:4px;padding-top:16px}
+.body-inner h4{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:14px 0 8px}
+.body-inner h4:first-child{margin-top:0}
+.body-inner ul,.body-inner ol{padding-left:20px;font-size:14.5px}
+.body-inner li{margin-bottom:6px}
+.body-inner li::marker{color:var(--accent);font-weight:700}
+.expand-hint{text-align:center;font-size:12px;color:var(--muted);padding:0 0 14px}
+.empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:1.05rem;grid-column:1/-1}
+footer{text-align:center;padding:36px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<header class="hero">
+  <div class="emoji">🍳</div>
+  <h1>Weeknight <span>Wins</span></h1>
+  <p>Real recipes for real tired people. Every recipe tested in a real kitchen, timed with a real phone, and rated by a real family that said "make this again."</p>
+</header>
+
+<div class="controls">
+  <div class="search"><input type="text" id="search" placeholder="Search recipes or ingredients…" aria-label="Search recipes"></div>
+  <div class="filters" id="timeFilters">
+    <button class="fbtn active" data-time="any">Any time</button>
+    <button class="fbtn" data-time="20">Under 20 min</button>
+    <button class="fbtn" data-time="30">Under 30 min</button>
+  </div>
+  <div class="filters" id="diffFilters">
+    <button class="fbtn active" data-diff="any">Any level</button>
+    <button class="fbtn" data-diff="easy">Easy</button>
+    <button class="fbtn" data-diff="medium">Medium</button>
+  </div>
+</div>
+<p class="count-note" id="countNote"></p>
+
+<main><div class="grid" id="grid"></div></main>
+<footer>© 2026 Weeknight Wins · Cook fast, eat well 🧡</footer>
+
+<script>
+const RECIPES=[
+{emoji:"🧄",art:"linear-gradient(135deg,#f7d774,#e08e2b)",name:"15-Minute Garlic Butter Pasta",time:15,diff:"easy",
+ ing:["8 oz spaghetti","5 tbsp butter","6 garlic cloves, thinly sliced","½ tsp red pepper flakes","½ cup grated parmesan","¼ cup chopped parsley","Salt + black pepper"],
+ steps:["Boil pasta in well-salted water until al dente; reserve 1 cup pasta water before draining.","Melt butter in a large skillet over medium heat. Add garlic and pepper flakes; cook 2 min until golden, not brown.","Add ½ cup pasta water and simmer 1 min to make a glossy sauce.","Toss in pasta and parmesan, adding splashes of pasta water until silky.","Season with salt and pepper, shower with parsley, serve immediately."]},
+{emoji:"🌮",art:"linear-gradient(135deg,#ffb347,#d9481c)",name:"Sheet-Pan Chicken Fajitas",time:30,diff:"easy",
+ ing:["1.5 lb chicken breast, sliced into strips","3 bell peppers, sliced","1 large red onion, sliced","3 tbsp olive oil","2 tbsp fajita seasoning","8 small flour tortillas","Lime wedges + cilantro to serve"],
+ steps:["Heat oven to 425°F (220°C). Line a sheet pan with foil.","Toss chicken, peppers, and onion with oil and fajita seasoning right on the pan.","Spread in a single layer — crowding steams instead of chars.","Roast 18–20 min, stirring once, until chicken hits 165°F and edges char.","Warm tortillas, squeeze lime over everything, and build your fajitas."]},
+{emoji:"🐟",art:"linear-gradient(135deg,#f9a8d4,#b91c1c)",name:"Crispy Honey Garlic Salmon",time:20,diff:"medium",
+ ing:["4 salmon fillets (6 oz each), patted dry","Salt + pepper","2 tbsp oil","4 tbsp butter","5 garlic cloves, minced","3 tbsp honey","1 tbsp soy sauce","Lemon wedges"],
+ steps:["Season salmon with salt and pepper. Heat oil in a skillet over medium-high until shimmering.","Sear salmon skin-side up 4 min without touching — that's how the crust forms.","Flip, cook 2 more min, then push fillets to the pan's edge.","Lower heat, melt butter, add garlic 30 sec, then honey and soy sauce.","Spoon the bubbling glaze over the salmon for 1 min. Serve with lemon."]},
+{emoji:"🍚",art:"linear-gradient(135deg,#fde68a,#b45309)",name:"One-Pot Taco Rice",time:25,diff:"easy",
+ ing:["1 lb ground beef or turkey","1 onion, diced","1 packet taco seasoning","1 cup long-grain rice","1 can (15 oz) black beans, drained","1 can diced tomatoes","2 cups beef broth","Shredded cheese + sour cream to top"],
+ steps:["Brown the meat with onion in a large pot over medium-high, 5 min. Drain fat.","Stir in taco seasoning, then rice, beans, tomatoes, and broth.","Bring to a boil, cover, reduce to low, and simmer 18 min — no peeking.","Fluff with a fork, rest 5 min off heat.","Top with cheese and sour cream. Tastes like Tuesday, in a good way."]},
+{emoji:"🍳",art:"linear-gradient(135deg,#fef3c7,#f59e0b)",name:"10-Minute Egg Fried Rice",time:10,diff:"easy",
+ ing:["3 cups cold cooked rice (day-old is best)","3 eggs, beaten","1 cup frozen peas and carrots","3 tbsp soy sauce","1 tbsp sesame oil","2 scallions, sliced","1 tbsp neutral oil"],
+ steps:["Scramble eggs in hot oil in a wok or big skillet; remove while still soft.","Add peas and carrots, stir-fry 2 min.","Add rice, breaking up clumps; fry 3 min until grains start to toast.","Pour soy sauce around the pan's edge so it sizzles, then toss.","Return eggs, drizzle sesame oil, top with scallions. Done."]},
+{emoji:"🍕",art:"linear-gradient(135deg,#fecaca,#dc2626)",name:"Margherita Flatbread Pizza",time:20,diff:"easy",
+ ing:["2 large naan or flatbreads","½ cup pizza sauce","8 oz fresh mozzarella, sliced","2 tbsp olive oil","Fresh basil leaves","Salt + cracked pepper"],
+ steps:["Heat oven to 450°F (230°C) with a sheet pan inside — a hot pan means a crisp base.","Brush flatbreads with olive oil, spread sauce, add mozzarella.","Bake directly on the hot pan 8–10 min until cheese bubbles and browns.","Scatter basil, salt, and pepper. Slice and devour."]},
+{emoji:"🍋",art:"linear-gradient(135deg,#fef9c3,#65a30d)",name:"Lemon Herb Chicken Skillet",time:30,diff:"medium",
+ ing:["4 chicken thighs, bone-in skin-on","Salt + pepper + 1 tsp paprika","2 tbsp olive oil","4 garlic cloves, smashed","1 lemon (half sliced, half juiced)","1 cup chicken broth","2 tbsp butter","Fresh thyme or rosemary"],
+ steps:["Season chicken; sear skin-side down in hot oil 6–7 min until deeply golden. Flip, cook 4 min, remove.","In the same pan, sauté garlic 30 sec, add broth, lemon juice, and herbs; scrape up the browned bits.","Return chicken skin-side up with lemon slices; simmer 12–15 min until 165°F internal.","Swirl in butter for a glossy pan sauce. Spoon over chicken and serve."]},
+{emoji:"🥜",art:"linear-gradient(135deg,#fcd34d,#92400e)",name:"Spicy Peanut Noodles",time:15,diff:"easy",
+ ing:["8 oz rice noodles or spaghetti","⅓ cup peanut butter","3 tbsp soy sauce","1 tbsp sriracha (more if brave)","1 tbsp rice vinegar","1 tsp sesame oil","Shredded carrots + cucumber + crushed peanuts to top"],
+ steps:["Cook noodles; reserve ½ cup hot noodle water before draining.","Whisk peanut butter, soy, sriracha, vinegar, and sesame oil with the hot water until pourable.","Toss noodles in the sauce — the heat makes it cling.","Pile on carrots, cucumber, and peanuts. Slurp loudly."]},
+{emoji:"🫘",art:"linear-gradient(135deg,#fdba74,#7c2d12)",name:"Black Bean & Corn Quesadillas",time:15,diff:"easy",
+ ing:["4 large flour tortillas","1 can black beans, drained and rinsed","1 cup frozen corn, thawed","2 cups shredded Monterey Jack","1 tsp cumin","Salsa + sour cream to serve"],
+ steps:["Mash half the beans in a bowl; stir in remaining beans, corn, cumin, and a pinch of salt.","Spread filling over half of each tortilla, top with cheese, fold.","Cook in a dry skillet over medium heat 3 min per side until golden and melty.","Rest 1 min, cut into wedges, serve with salsa and sour cream."]},
+{emoji:"🥦",art:"linear-gradient(135deg,#bbf7d0,#166534)",name:"Teriyaki Veggie Stir-Fry",time:25,diff:"medium",
+ ing:["2 cups broccoli florets","1 red bell pepper, sliced","1 cup snap peas","1 carrot, julienned","⅓ cup teriyaki sauce","1 tbsp oil","1 tsp grated ginger","Cooked rice to serve"],
+ steps:["Whisk teriyaki sauce with ginger; set aside.","Heat oil in a wok over high heat until smoking. Add broccoli and carrot, 3 min.","Add pepper and snap peas, 2 more min — keep everything moving.","Pour in sauce; toss 1 min until glossy and slightly thickened.","Serve over rice. Crunchy veg, sticky sauce, zero regrets."]},
+{emoji:"🧀",art:"linear-gradient(135deg,#fde68a,#dc2626)",name:"Caprese Stuffed Chicken",time:35,diff:"medium",
+ ing:["4 chicken breasts","4 oz fresh mozzarella, sliced","1 large tomato, sliced","¼ cup basil leaves","2 tbsp olive oil","1 tsp Italian seasoning","Salt + pepper","Balsamic glaze to drizzle"],
+ steps:["Heat oven to 400°F (200°C). Cut a deep pocket into the side of each breast.","Stuff with mozzarella, tomato, and basil; seal with toothpicks. Season outside.","Sear in an oven-safe skillet 3 min per side until golden.","Transfer skillet to oven; bake 15–18 min until 165°F internal.","Rest 5 min, drizzle with balsamic glaze, and slice to reveal the goods."]},
+{emoji:"🐟",art:"linear-gradient(135deg,#a5f3fc,#0e7490)",name:"Mediterranean Tuna Pasta Salad",time:20,diff:"easy",
+ ing:["8 oz rotini","2 cans tuna, drained","1 cup cherry tomatoes, halved","½ cucumber, diced","⅓ cup Kalamata olives","¼ red onion, thinly sliced","¼ cup olive oil + 2 tbsp lemon juice","½ tsp oregano"],
+ steps:["Cook pasta; rinse under cold water to cool it fast.","Whisk olive oil, lemon juice, oregano, salt, and pepper.","Toss pasta with tuna, tomatoes, cucumber, olives, and onion.","Pour over dressing and toss well. Chill 10 min if you can wait."]}
+];
+
+const grid=document.getElementById('grid'), search=document.getElementById('search'),
+      countNote=document.getElementById('countNote');
+let timeMax='any', diff='any';
+
+function badgeClass(d){return d==='easy'?'easy':'medium'}
+function render(){
+  const q=search.value.trim().toLowerCase();
+  const list=RECIPES.filter(r=>{
+    if(timeMax!=='any'&&r.time>parseInt(timeMax))return false;
+    if(diff!=='any'&&r.diff!==diff)return false;
+    if(q&&!(r.name+' '+r.ing.join(' ')).toLowerCase().includes(q))return false;
+    return true;
+  });
+  countNote.textContent=list.length+' of '+RECIPES.length+' recipes';
+  grid.innerHTML=list.length?list.map((r,i)=>`
+    <article class="card" data-i="${RECIPES.indexOf(r)}" tabindex="0" role="button" aria-expanded="false">
+      <div class="card-head">
+        <div class="art" style="background:${r.art}">${r.emoji}</div>
+        <div><h3>${r.name}</h3>
+          <div class="badges">
+            <span class="badge time">⏱ ${r.time} min</span>
+            <span class="badge ${badgeClass(r.diff)}">${r.diff}</span>
+          </div></div>
+      </div>
+      <div class="card-body"><div class="body-inner">
+        <h4>Ingredients</h4><ul>${r.ing.map(x=>`<li>${x}</li>`).join('')}</ul>
+        <h4>Steps</h4><ol>${r.steps.map(x=>`<li>${x}</li>`).join('')}</ol>
+      </div></div>
+      <div class="expand-hint">${'tap to '}<span class="hint-word">expand</span> ${'recipe ↓'}</div>
+    </article>`).join('')
+    :'<div class="empty">😕 No recipes match. Try clearing a filter or searching "pasta".</div>';
+  grid.querySelectorAll('.card').forEach(c=>{
+    const toggle=()=>{c.classList.toggle('open');
+      c.setAttribute('aria-expanded',c.classList.contains('open'));
+      c.querySelector('.hint-word').textContent=c.classList.contains('open')?'collapse':'expand';
+      c.querySelector('.expand-hint').lastChild.textContent=c.classList.contains('open')?' recipe ↑':' recipe ↓';};
+    c.addEventListener('click',toggle);
+    c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+  });
+}
+function wireFilter(id,attr,cb){
+  document.getElementById(id).querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>{
+    document.getElementById(id).querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); cb(b.dataset[attr]); render();
+  }));
+}
+wireFilter('timeFilters','time',v=>timeMax=v);
+wireFilter('diffFilters','diff',v=>diff=v);
+search.addEventListener('input',render);
+render();
+</script>
+</body>
+</html>

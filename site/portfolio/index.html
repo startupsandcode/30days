@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Priya Nair — full-stack engineer building playful, performant things for the web.">
+<title>Priya Nair — Developer Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ee; --surface:#ffffff; --ink:#181410; --muted:#6f665b; --accent:#5b50e6;
+  --accent-soft:#e8e6ff; --border:#e3ddcf; --card-shadow:0 8px 24px rgba(24,20,16,.07);
+  --play-space:16px; --play-blur:0px; --play-color:#5b50e6;
+}
+[data-theme="dark"]{
+  --bg:#121015; --surface:#1c1a20; --ink:#f2efe8; --muted:#a39c90; --accent:#a79bff;
+  --accent-soft:#2b2740; --border:#2e2a33; --card-shadow:0 8px 24px rgba(0,0,0,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:var(--bg);color:var(--ink);
+  line-height:1.6;transition:background .3s,color .3s}
+.back-link{position:fixed;top:14px;left:14px;z-index:1000;background:var(--ink);color:var(--bg);
+  padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.25)}
+nav{position:sticky;top:0;z-index:900;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;font-size:18px}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:22px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+#themeToggle{background:var(--surface);border:1px solid var(--border);color:var(--ink);
+  border-radius:999px;padding:8px 16px;cursor:pointer;font-size:13px;font-weight:600}
+#themeToggle:hover{border-color:var(--accent)}
+.hero{max-width:1000px;margin:0 auto;padding:110px 24px 70px}
+.hero .kicker{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent);margin-bottom:16px}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);line-height:1.05;letter-spacing:-.02em}
+.typing{color:var(--accent);border-right:3px solid var(--accent);padding-right:6px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{border-color:transparent}}
+.hero p.lede{max-width:600px;color:var(--muted);margin-top:22px;font-size:1.1rem}
+.btn-row{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;padding:13px 28px;border-radius:12px;font-weight:600;text-decoration:none;font-size:15px}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{border:1.5px solid var(--border);color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+section{max-width:1000px;margin:0 auto;padding:50px 24px}
+section h2{font-size:1.9rem;margin-bottom:8px;letter-spacing:-.01em}
+section .sub{color:var(--muted);margin-bottom:28px}
+/* playground */
+.playground{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:30px;box-shadow:var(--card-shadow);display:grid;grid-template-columns:1fr 1fr;gap:30px}
+@media(max-width:720px){.playground{grid-template-columns:1fr}}
+.controls label{display:block;font-size:13px;font-weight:600;margin:18px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.controls input[type=range]{width:100%;accent-color:var(--accent)}
+.controls input[type=color]{width:64px;height:40px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer}
+.val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent)}
+.sample-card{background:linear-gradient(135deg,var(--play-color),#0ea5e9);
+  border-radius:18px;padding:var(--play-space);color:#fff;filter:blur(var(--play-blur));
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;
+  min-height:180px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.code-line{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg);
+  border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-top:16px;color:var(--muted)}
+.code-line b{color:var(--accent)}
+/* projects */
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.proj{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:26px;
+  box-shadow:var(--card-shadow);transition:transform .2s;display:flex;flex-direction:column;gap:12px}
+.proj:hover{transform:translateY(-6px)}
+.proj .icon{font-size:32px}
+.proj h3{font-size:1.25rem}
+.proj p{color:var(--muted);font-size:15px;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--accent-soft);
+  color:var(--accent);padding:5px 11px;border-radius:999px;font-weight:600}
+/* contact */
+.contact-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:34px;box-shadow:var(--card-shadow);max-width:620px}
+.contact-card input,.contact-card textarea{width:100%;padding:12px 14px;margin-bottom:14px;
+  border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--ink);
+  font-family:inherit;font-size:15px}
+.contact-card input:focus,.contact-card textarea:focus{outline:none;border-color:var(--accent)}
+#formMsg{display:none;margin-top:6px;color:var(--accent);font-weight:600}
+footer{text-align:center;padding:40px 24px;color:var(--muted);font-size:13px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<nav><div class="nav-inner">
+  <div class="logo">priya<span>.dev</span></div>
+  <div class="nav-links">
+    <a href="#playground">Playground</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+    <button id="themeToggle" aria-label="Toggle dark mode">🌙 Dark</button>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="kicker">// hello world, I'm</div>
+  <h1>Priya Nair<br>— <span class="typing" id="typing"></span></h1>
+  <p class="lede">I build web apps that are fast, accessible, and occasionally delightful. Previously at two startups you've never heard of and one you definitely have. Open-source contributor, hackathon judge, chronic side-project starter.</p>
+  <div class="btn-row">
+    <a class="btn primary" href="#projects">See my work</a>
+    <a class="btn ghost" href="#contact">Get in touch</a>
+  </div>
+</header>
+
+<section id="playground">
+  <h2>CSS Variables Playground 🎛️</h2>
+  <p class="sub">A tribute to the classic JS30 day-3 exercise. Drag the sliders and watch custom properties update live.</p>
+  <div class="playground">
+    <div class="controls">
+      <label>Spacing <span class="val" id="spaceVal">16px</span></label>
+      <input type="range" id="space" min="4" max="60" value="16">
+      <label>Blur <span class="val" id="blurVal">0px</span></label>
+      <input type="range" id="blur" min="0" max="12" value="0">
+      <label>Base color</label>
+      <input type="color" id="color" value="#5b50e6">
+      <div class="code-line">:root { <b>--play-space</b>: <span id="cSpace">16px</span>; <b>--play-blur</b>: <span id="cBlur">0px</span>; <b>--play-color</b>: <span id="cColor">#5b50e6</span>; }</div>
+    </div>
+    <div class="sample-card">Your CSS variables<br>are working ✨</div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <p class="sub">Things I built instead of going outside.</p>
+  <div class="projects">
+    <div class="proj"><div class="icon">🧭</div><h3>Wayfinder CLI</h3><p>A fuzzy-file-finder for the terminal that learns which files you actually open. 12k stars, zero meetings required.</p><div class="tags"><span class="tag">Rust</span><span class="tag">TUI</span></div></div>
+    <div class="proj"><div class="icon">🌱</div><h3>Sprout</h3><p>Gamified habit tracker where your streaks grow an actual virtual garden. 40k users kept watering their pixels.</p><div class="tags"><span class="tag">React</span><span class="tag">Supabase</span></div></div>
+    <div class="proj"><div class="icon">📦</div><h3>BundleBee</h3><p>Webpack-bundle visualizer that shames your heaviest dependencies with a leaderboard. Featured on Hacker News front page.</p><div class="tags"><span class="tag">TypeScript</span><span class="tag">D3</span></div></div>
+    <div class="proj"><div class="icon">🎙️</div><h3>Echo Notes</h3><p>Voice-to-structured-notes app for field researchers. Offline-first, works in a jungle, tested in one.</p><div class="tags"><span class="tag">Svelte</span><span class="tag">Whisper</span></div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Say hi 👋</h2>
+  <p class="sub">Open to freelance, full-time roles, and strong opinions about semicolons.</p>
+  <div class="contact-card">
+    <form id="contactForm">
+      <input type="text" placeholder="Your name" required>
+      <input type="email" placeholder="you@example.com" required>
+      <textarea rows="4" placeholder="What's on your mind?" required></textarea>
+      <button class="btn primary" type="submit" style="border:none;cursor:pointer">Send message</button>
+    </form>
+    <p id="formMsg">✓ Message received! I usually reply within 48 hours.</p>
+  </div>
+</section>
+
+<footer>© 2026 Priya Nair · Built with vanilla JS and questionable sleep habits</footer>
+
+<script>
+// typing effect
+const roles=['full-stack engineer','open-source tinkerer','CSS variables enthusiast','hackathon judge','side-project starter'];
+const el=document.getElementById('typing');
+let ri=0,ci=0,deleting=false;
+function tick(){
+  const word=roles[ri];
+  el.textContent=word.slice(0,ci);
+  let delay=deleting?45:90;
+  if(!deleting&&ci===word.length){delay=1400;deleting=true}
+  else if(deleting&&ci===0){deleting=false;ri=(ri+1)%roles.length;delay=400}
+  ci+=deleting?-1:1;
+  setTimeout(tick,delay);
+}
+tick();
+
+// dark mode toggle (persisted)
+const root=document.documentElement, toggle=document.getElementById('themeToggle');
+function setTheme(t){root.dataset.theme=t;localStorage.setItem('priya-theme',t);
+  toggle.textContent=t==='dark'?'☀️ Light':'🌙 Dark';}
+setTheme(localStorage.getItem('priya-theme')||'light');
+toggle.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark'));
+
+// CSS variables playground
+const space=document.getElementById('space'), blur=document.getElementById('blur'), color=document.getElementById('color');
+function update(){
+  root.style.setProperty('--play-space',space.value+'px');
+  root.style.setProperty('--play-blur',blur.value+'px');
+  root.style.setProperty('--play-color',color.value);
+  document.getElementById('spaceVal').textContent=space.value+'px';
+  document.getElementById('blurVal').textContent=blur.value+'px';
+  document.getElementById('cSpace').textContent=space.value+'px';
+  document.getElementById('cBlur').textContent=blur.value+'px';
+  document.getElementById('cColor').textContent=color.value;
+}
+[space,blur,color].forEach(i=>i.addEventListener('input',update));
+update();
+
+// contact form
+document.getElementById('contactForm').addEventListener('submit',e=>{
+  e.preventDefault(); e.target.style.display='none';
+  document.getElementById('formMsg').style.display='block';
+});
+</script>
+</body>
+</html>

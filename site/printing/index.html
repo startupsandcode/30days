@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ink & Paper Co. — instant print quotes. Business cards, flyers, and posters with honest, instant pricing.">
+<title>Ink &amp; Paper Co. — Instant Print Quotes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#191713;--paper:#f4f1e8;--yellow:#f5b301;--steel:#2b2e33;--muted:#6e6a5e;--line:#ddd6c2}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Archivo',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+.back-link{position:fixed;top:14px;left:14px;z-index:1000;background:var(--ink);color:var(--paper);
+  padding:8px 14px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.25)}
+header.top{background:var(--ink);color:var(--paper);padding:80px 24px 60px;position:relative;overflow:hidden}
+header.top::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,var(--yellow) 0%,transparent 70%);opacity:.35}
+.top-inner{max-width:1080px;margin:0 auto;position:relative}
+.badge{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:800;font-size:12px;
+  letter-spacing:.15em;padding:6px 14px;border-radius:4px;margin-bottom:18px}
+.top-inner h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.top-inner h1 span{color:var(--yellow)}
+.top-inner p{color:#b9b3a3;max-width:560px;margin-top:14px;font-size:1.05rem}
+.wrap{max-width:1080px;margin:0 auto;padding:44px 24px 90px;display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:start}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}}
+.panel{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:28px;box-shadow:6px 6px 0 var(--ink)}
+.panel h2{font-size:1.15rem;font-weight:800;margin-bottom:20px;text-transform:uppercase;letter-spacing:.06em}
+.field{margin-bottom:22px}
+.field>label{display:block;font-weight:700;font-size:14px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.opts{display:flex;gap:10px;flex-wrap:wrap}
+.opt{border:2px solid var(--line);border-radius:10px;padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;
+  transition:all .15s;background:#fff;user-select:none}
+.opt:hover{border-color:var(--ink)}
+.opt.sel{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.opt .note{display:block;font-size:11px;font-weight:500;opacity:.7}
+input[type=range]{width:100%;accent-color:var(--ink);height:32px}
+.qty-row{display:flex;align-items:center;gap:16px}
+.qty-display{font-family:'IBM Plex Mono',monospace;font-size:1.6rem;font-weight:600;min-width:110px;text-align:right}
+/* receipt */
+.receipt{background:var(--steel);color:#f4f1e8;border-radius:14px;padding:30px;position:sticky;top:24px;
+  box-shadow:6px 6px 0 var(--yellow);font-family:'IBM Plex Mono',monospace}
+.receipt h2{font-family:'Archivo',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;border-bottom:2px dashed #55595f;padding-bottom:14px;margin-bottom:6px}
+.line{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px dashed #3f434a;font-size:13.5px}
+.line .lbl{color:#c9c4b4}.line .amt{white-space:nowrap}
+.line.dim{color:#8a8577}.line.dim .amt{color:#8a8577}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 6px}
+.total .t-lbl{font-family:'Archivo',sans-serif;font-weight:800;font-size:1rem;letter-spacing:.06em}
+.total .t-amt{font-size:2.2rem;font-weight:600;color:var(--yellow)}
+.per-unit{text-align:right;font-size:12px;color:#8a8577;margin-bottom:14px}
+.order-btn{width:100%;background:var(--yellow);color:var(--ink);border:none;border-radius:10px;
+  padding:16px;font-family:'Archivo',sans-serif;font-weight:800;font-size:16px;cursor:pointer;letter-spacing:.04em}
+.order-btn:hover{filter:brightness(1.06)}
+#orderMsg{display:none;margin-top:14px;font-size:13px;color:#9fe8a9}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1080px;margin:0 auto 80px;padding:0 24px}
+.trust div{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:20px;text-align:center;box-shadow:4px 4px 0 var(--ink)}
+.trust .big{font-size:1.8rem;font-weight:800}
+.trust p{font-size:13px;color:var(--muted);margin-top:6px}
+footer{background:var(--ink);color:#8a8577;text-align:center;padding:28px;font-size:13px}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<header class="top"><div class="top-inner">
+  <div class="badge">EST. 1987 · PRINT SHOP</div>
+  <h1>Ink &amp; Paper <span>Co.</span></h1>
+  <p>No phone tag, no "we'll get back to you." Build your job below and watch the price update live — the number you see is the number you pay.</p>
+</div></header>
+
+<div class="wrap">
+  <div class="panel">
+    <h2>🖨️ Build your job</h2>
+
+    <div class="field">
+      <label>1 · What are we printing?</label>
+      <div class="opts" id="sizeOpts">
+        <div class="opt sel" data-base="0.14">Business Card<span class="note">3.5″ × 2″ · base $0.14/ea</span></div>
+        <div class="opt" data-base="0.42">Flyer<span class="note">8.5″ × 11″ · base $0.42/ea</span></div>
+        <div class="opt" data-base="2.90">Poster<span class="note">18″ × 24″ · base $2.90/ea</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>2 · Paper stock</label>
+      <div class="opts" id="paperOpts">
+        <div class="opt sel" data-mult="1.0" data-name="Matte">Matte<span class="note">no surcharge</span></div>
+        <div class="opt" data-mult="1.15" data-name="Glossy">Glossy<span class="note">+15%</span></div>
+        <div class="opt" data-mult="1.10" data-name="Recycled">Recycled<span class="note">+10% · 100% PCW</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>3 · Color</label>
+      <div class="opts" id="colorOpts">
+        <div class="opt sel" data-mult="1.0" data-name="Full color">Full color<span class="note">CMYK both sides</span></div>
+        <div class="opt" data-mult="0.6" data-name="Black &amp; white">Black &amp; white<span class="note">40% off</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>4 · Quantity</label>
+      <div class="qty-row">
+        <input type="range" id="qty" min="25" max="5000" step="25" value="500" style="flex:1">
+        <div class="qty-display" id="qtyDisplay">500</div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom:0">
+      <label>5 · Turnaround</label>
+      <div class="opts" id="turnOpts">
+        <div class="opt sel" data-mult="1.0" data-name="Standard (5 days)">Standard · 5 days<span class="note">free</span></div>
+        <div class="opt" data-mult="1.25" data-name="Rush (2 days)">Rush · 2 days<span class="note">+25%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="receipt" aria-live="polite">
+    <h2>🧾 Quote</h2>
+    <div class="line"><span class="lbl" id="lJob">Business Card · Matte · Full color</span><span></span></div>
+    <div class="line"><span class="lbl">Unit price × qty</span><span class="amt" id="lUnit">$0.14 × 500</span></div>
+    <div class="line dim"><span class="lbl" id="lPaperLbl">Paper surcharge (Matte)</span><span class="amt" id="lPaper">+$0.00</span></div>
+    <div class="line dim"><span class="lbl" id="lRushLbl">Rush fee</span><span class="amt" id="lRush">—</span></div>
+    <div class="line dim"><span class="lbl">Volume discount</span><span class="amt" id="lDisc">—</span></div>
+    <div class="total"><span class="t-lbl">TOTAL</span><span class="t-amt" id="lTotal">$70.00</span></div>
+    <div class="per-unit" id="lPerUnit">$0.14 per piece · ships in 5 days</div>
+    <button class="order-btn" id="orderBtn">PLACE ORDER →</button>
+    <p id="orderMsg">✓ Order received! Job #IP-2481 — we'll email your proof within 2 hours.</p>
+  </aside>
+</div>
+
+<div class="trust">
+  <div><div class="big">38 yrs</div><p>running presses in the same brick building</p></div>
+  <div><div class="big">4.9 ★</div><p>from 2,300+ local businesses</p></div>
+  <div><div class="big">0</div><p>hidden fees, ever. The quote is the invoice.</p></div>
+</div>
+
+<footer>© 2026 Ink &amp; Paper Co. · 412 Pressman Ave · Open Mon–Fri 8–6</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const state={base:0.14,size:'Business Card',paperMult:1,paper:'Matte',colorMult:1,color:'Full color',turnMult:1,turn:'Standard (5 days)',qty:500};
+function money(n){return '$'+n.toFixed(2)}
+function pick(containerId,fn){
+  const box=$(containerId);
+  box.querySelectorAll('.opt').forEach(o=>o.addEventListener('click',()=>{
+    box.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+    o.classList.add('sel'); fn(o); calc();
+  }));
+}
+pick('sizeOpts',o=>{state.base=parseFloat(o.dataset.base);state.size=o.childNodes[0].textContent.trim()});
+pick('paperOpts',o=>{state.paperMult=parseFloat(o.dataset.mult);state.paper=o.dataset.name});
+pick('colorOpts',o=>{state.colorMult=parseFloat(o.dataset.mult);state.color=o.dataset.name});
+pick('turnOpts',o=>{state.turnMult=parseFloat(o.dataset.mult);state.turn=o.dataset.name});
+$('qty').addEventListener('input',e=>{state.qty=parseInt(e.target.value);$('qtyDisplay').textContent=state.qty.toLocaleString();calc()});
+
+function calc(){
+  const unitRaw=state.base*state.paperMult*state.colorMult;
+  const paperSurcharge=(state.base*state.colorMult)*(state.paperMult-1)*state.qty;
+  let subtotal=unitRaw*state.qty;
+  // volume discount: 5% at 1000+, 10% at 2500+
+  let discRate=state.qty>=2500?0.10:state.qty>=1000?0.05:0;
+  const discount=subtotal*discRate;
+  subtotal-=discount;
+  const rushFee=subtotal*(state.turnMult-1);
+  const total=subtotal+rushFee;
+  const unit=total/state.qty;
+
+  $('lJob').textContent=state.size+' · '+state.paper+' · '+state.color;
+  $('lUnit').textContent='$'+unitRaw.toFixed(2)+' × '+state.qty.toLocaleString();
+  $('lPaperLbl').textContent='Paper surcharge ('+state.paper+')';
+  $('lPaper').textContent=paperSurcharge>0?'+'+money(paperSurcharge):'$0.00';
+  $('lRushLbl').textContent=state.turnMult>1?'Rush fee (2-day, +25%)':'Rush fee';
+  $('lRush').textContent=rushFee>0?'+'+money(rushFee):'—';
+  $('lDisc').textContent=discount>0?'−'+money(discount):'—';
+  $('lTotal').textContent=money(total);
+  $('lPerUnit').textContent='$'+unit.toFixed(2)+' per piece · ships in '+(state.turnMult>1?'2 days':'5 days');
+}
+$('orderBtn').addEventListener('click',()=>{
+  const msg=$('orderMsg'); msg.style.display='block';
+  $('orderBtn').textContent='ORDER PLACED ✓';
+});
+calc();
+</script>
+</body>
+</html>

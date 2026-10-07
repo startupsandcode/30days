@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Maya Chen Photography — portraits, landscapes, street and studio photography based in San Francisco.">
+<title>Maya Chen Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1d1a16; --paper:#faf7f1; --accent:#b4552d; --muted:#7a736a; --card:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+.back-link{position:fixed;top:14px;left:14px;z-index:1000;background:#1d1a16;color:#faf7f1;
+  padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .15s}
+.back-link:hover{transform:translateY(-2px)}
+header.hero{max-width:1100px;margin:0 auto;padding:96px 24px 40px;text-align:center}
+.hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.4rem,6vw,4.2rem);letter-spacing:-.02em}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero p{color:var(--muted);max-width:560px;margin:14px auto 0;font-size:1.05rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:36px 0 8px}
+.chip{border:1.5px solid #d8d0c2;background:transparent;color:var(--ink);padding:9px 20px;
+  border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+main{max-width:1100px;margin:0 auto;padding:0 24px 80px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:28px}
+.photo{border-radius:14px;overflow:hidden;cursor:zoom-in;position:relative;background:#ddd;
+  aspect-ratio:4/5;transition:transform .25s, box-shadow .25s}
+.photo:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(29,26,22,.22)}
+.photo .art{position:absolute;inset:0}
+.photo .meta{position:absolute;left:0;right:0;bottom:0;padding:38px 16px 14px;
+  background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff}
+.photo .meta h3{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600}
+.photo .meta span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.photo.hide{display:none}
+section.about{max-width:1100px;margin:0 auto;padding:40px 24px 100px;display:grid;
+  grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+@media(max-width:760px){section.about{grid-template-columns:1fr}}
+.about h2{font-family:'Fraunces',serif;font-size:2rem;margin-bottom:14px}
+.about p{color:#3f3a34;margin-bottom:12px}
+.rates{background:var(--card);border:1px solid #e7e0d2;border-radius:16px;padding:28px}
+.rates h3{font-family:'Fraunces',serif;margin-bottom:16px;font-size:1.3rem}
+.rate{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px dashed #e0d9c8;font-size:15px}
+.rate:last-child{border:none}
+.rate b{color:var(--accent)}
+.cta{display:inline-block;margin-top:18px;background:var(--accent);color:#fff;padding:12px 28px;
+  border-radius:999px;text-decoration:none;font-weight:600;transition:transform .15s}
+.cta:hover{transform:translateY(-2px)}
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(15,12,9,.93);display:none;align-items:center;
+  justify-content:center;z-index:2000;flex-direction:column;padding:24px}
+.lightbox.open{display:flex}
+.lb-frame{width:min(860px,92vw);height:min(64vh,560px);border-radius:16px;position:relative;overflow:hidden}
+.lb-frame .art{position:absolute;inset:0}
+.lb-caption{color:#fff;text-align:center;margin-top:18px}
+.lb-caption h3{font-family:'Fraunces',serif;font-size:1.5rem}
+.lb-caption p{opacity:.65;font-size:14px;margin-top:4px}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.3);color:#fff;width:52px;height:52px;border-radius:50%;
+  font-size:22px;cursor:pointer;backdrop-filter:blur(6px);transition:background .15s;z-index:5}
+.lb-nav:hover{background:rgba(255,255,255,.3)}
+#lbPrev{left:18px}#lbNext{right:18px}
+.lb-close{position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;
+  font-size:34px;cursor:pointer;line-height:1}
+.hint{color:#fff;opacity:.45;font-size:13px;margin-top:10px}
+footer{text-align:center;padding:32px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<header class="hero">
+  <h1>Maya Chen <em>Photography</em></h1>
+  <p>San Francisco–based photographer chasing fog, neon, and honest faces. Ten years behind the lens — weddings, editorials, gallery walls.</p>
+  <div class="chips" id="chips">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="portraits">Portraits</button>
+    <button class="chip" data-filter="landscapes">Landscapes</button>
+    <button class="chip" data-filter="street">Street</button>
+    <button class="chip" data-filter="studio">Studio</button>
+  </div>
+</header>
+
+<main>
+  <div class="gallery" id="gallery">
+    <div class="photo" data-cat="landscapes" data-title="Harbor Fog" data-sub="Landscapes · 35mm"><div class="art" style="background:linear-gradient(180deg,#8fa3b8 0%,#c9d4dd 45%,#5d6b7a 100%)"></div><div class="meta"><h3>Harbor Fog</h3><span>Landscapes</span></div></div>
+    <div class="photo" data-cat="portraits" data-title="Amber, Golden Hour" data-sub="Portraits · 85mm f/1.4"><div class="art" style="background:radial-gradient(circle at 60% 35%,#f7c873 0%,#e08e45 35%,#5b3a2e 100%)"></div><div class="meta"><h3>Amber, Golden Hour</h3><span>Portraits</span></div></div>
+    <div class="photo" data-cat="street" data-title="Neon Alley" data-sub="Street · Tokyo, 2024"><div class="art" style="background:linear-gradient(160deg,#0f1b3d 0%,#3b1f5e 50%,#ff2e88 100%)"></div><div class="meta"><h3>Neon Alley</h3><span>Street</span></div></div>
+    <div class="photo" data-cat="studio" data-title="Porcelain" data-sub="Studio · Softbox study"><div class="art" style="background:radial-gradient(circle at 40% 40%,#ffffff 0%,#e8e2d6 55%,#8f8676 100%)"></div><div class="meta"><h3>Porcelain</h3><span>Studio</span></div></div>
+    <div class="photo" data-cat="landscapes" data-title="Dune Lines" data-sub="Landscapes · Death Valley"><div class="art" style="background:linear-gradient(165deg,#e8c98f 0%,#d9a45f 40%,#8a5a2b 100%)"></div><div class="meta"><h3>Dune Lines</h3><span>Landscapes</span></div></div>
+    <div class="photo" data-cat="portraits" data-title="The Boxer" data-sub="Portraits · Fight gym series"><div class="art" style="background:radial-gradient(circle at 50% 30%,#d99a6c 0%,#7c4a33 45%,#241a14 100%)"></div><div class="meta"><h3>The Boxer</h3><span>Portraits</span></div></div>
+    <div class="photo" data-cat="street" data-title="Rush Hour, Rain" data-sub="Street · Market St."><div class="art" style="background:linear-gradient(180deg,#2b3644 0%,#4d5f73 60%,#10151c 100%)"></div><div class="meta"><h3>Rush Hour, Rain</h3><span>Street</span></div></div>
+    <div class="photo" data-cat="studio" data-title="Crimson Study" data-sub="Studio · Gel lighting"><div class="art" style="background:radial-gradient(circle at 65% 45%,#ff6b6b 0%,#a3122b 50%,#2b0a12 100%)"></div><div class="meta"><h3>Crimson Study</h3><span>Studio</span></div></div>
+    <div class="photo" data-cat="landscapes" data-title="Ember Fields" data-sub="Landscapes · Iceland"><div class="art" style="background:linear-gradient(170deg,#3d5a45 0%,#8fa36a 45%,#e0a458 100%)"></div><div class="meta"><h3>Ember Fields</h3><span>Landscapes</span></div></div>
+    <div class="photo" data-cat="street" data-title="Crosswalk Ballet" data-sub="Street · Shibuya"><div class="art" style="background:linear-gradient(135deg,#101418 0%,#3a4a5a 40%,#f2b134 100%)"></div><div class="meta"><h3>Crosswalk Ballet</h3><span>Street</span></div></div>
+    <div class="photo" data-cat="portraits" data-title="Grandmother's Hands" data-sub="Portraits · Personal series"><div class="art" style="background:radial-gradient(circle at 45% 55%,#e8c39e 0%,#9c6b4a 50%,#3a2418 100%)"></div><div class="meta"><h3>Grandmother's Hands</h3><span>Portraits</span></div></div>
+    <div class="photo" data-cat="studio" data-title="Chrome &amp; Silk" data-sub="Studio · Product editorial"><div class="art" style="background:linear-gradient(120deg,#c0ccd6 0%,#5f7486 35%,#e6d9c8 70%,#8a7a66 100%)"></div><div class="meta"><h3>Chrome &amp; Silk</h3><span>Studio</span></div></div>
+  </div>
+</main>
+
+<section class="about">
+  <div>
+    <h2>About Maya</h2>
+    <p>I'm Maya Chen — a photographer who believes the best portraits happen between poses. My work has appeared in <em>Kinfolk</em>, <em>California Sunday</em>, and three group shows at the SFMOMA Artists Gallery.</p>
+    <p>When I'm not shooting, I'm teaching a free weekend photo workshop for teens in the Mission, or developing film in a closet I refuse to call a darkroom.</p>
+    <a class="cta" href="mailto:hello@mayachen.photo">Book a session →</a>
+  </div>
+  <div class="rates">
+    <h3>Rates</h3>
+    <div class="rate"><span>Portrait session (1 hr)</span><b>$350</b></div>
+    <div class="rate"><span>Editorial / brand (half day)</span><b>$1,200</b></div>
+    <div class="rate"><span>Wedding (full day)</span><b>$3,800</b></div>
+    <div class="rate"><span>Fine-art print (16×20, edition of 25)</span><b>$240</b></div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close">×</button>
+  <div style="position:relative">
+    <div class="lb-frame"><div class="art" id="lbArt"></div></div>
+    <button class="lb-nav" id="lbPrev" aria-label="Previous">‹</button>
+    <button class="lb-nav" id="lbNext" aria-label="Next">›</button>
+  </div>
+  <div class="lb-caption"><h3 id="lbTitle"></h3><p id="lbSub"></p></div>
+  <div class="hint">← → to browse · ESC to close</div>
+</div>
+
+<footer>© 2026 Maya Chen Photography · San Francisco, CA</footer>
+
+<script>
+const photos=[...document.querySelectorAll('.photo')];
+const chips=[...document.querySelectorAll('.chip')];
+const lb=document.getElementById('lightbox'), lbArt=document.getElementById('lbArt'),
+      lbTitle=document.getElementById('lbTitle'), lbSub=document.getElementById('lbSub');
+let current=0, visible=()=>photos.filter(p=>!p.classList.contains('hide'));
+
+chips.forEach(c=>c.addEventListener('click',()=>{
+  chips.forEach(x=>x.classList.remove('active')); c.classList.add('active');
+  const f=c.dataset.filter;
+  photos.forEach(p=>p.classList.toggle('hide', f!=='all' && p.dataset.cat!==f));
+}));
+
+function show(i){
+  const v=visible(); if(!v.length) return;
+  current=(i+v.length)%v.length;
+  const p=v[current];
+  lbArt.style.background=p.querySelector('.art').style.background;
+  lbTitle.textContent=p.dataset.title;
+  lbSub.textContent=p.dataset.sub+'  ·  '+(current+1)+' / '+v.length;
+  lb.classList.add('open'); document.body.style.overflow='hidden';
+}
+function close(){ lb.classList.remove('open'); document.body.style.overflow=''; }
+photos.forEach(p=>p.addEventListener('click',()=>show(visible().indexOf(p))));
+document.getElementById('lbPrev').onclick=e=>{e.stopPropagation();show(current-1)};
+document.getElementById('lbNext').onclick=e=>{e.stopPropagation();show(current+1)};
+document.getElementById('lbClose').onclick=close;
+lb.addEventListener('click',e=>{if(e.target===lb)close()});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')close();
+  if(e.key==='ArrowLeft')show(current-1);
+  if(e.key==='ArrowRight')show(current+1);
+});
+</script>
+</body>
+</html>
