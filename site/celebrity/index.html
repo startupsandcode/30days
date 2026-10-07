@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nova Reyes — official fan hub. Bio, career timeline, and the ultimate Nova trivia quiz.">
+<title>Nova Reyes — Fan Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0a1e;--pink:#ff4d8d;--gold:#f5c044;--violet:#7c5cff;--ink:#f4efff;--mut:#b9aee0}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+.back-link{position:fixed;top:14px;left:14px;z-index:2000;background:#fff;color:#1a1033;border-radius:999px;
+  padding:8px 16px;font-weight:700;font-size:.85rem;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:80px 20px 60px;position:relative;
+  background:radial-gradient(ellipse 60% 45% at 50% 30%,rgba(255,77,141,.35),transparent 70%),
+             radial-gradient(ellipse 50% 40% at 70% 70%,rgba(124,92,255,.35),transparent 70%),
+             linear-gradient(180deg,#150b2e,#0f0a1e)}
+.stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.star{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:.7;animation:tw 3s infinite}
+@keyframes tw{0%,100%{opacity:.15}50%{opacity:.9}}
+.nova-disc{width:170px;height:170px;border-radius:50%;margin-bottom:26px;position:relative;
+  background:conic-gradient(from 0deg,#ff4d8d,#f5c044,#7c5cff,#2dd4bf,#ff4d8d);
+  box-shadow:0 0 60px rgba(255,77,141,.7);animation:spin 12s linear infinite}
+.nova-disc::after{content:'NR';position:absolute;inset:34px;border-radius:50%;background:#0f0a1e;display:flex;
+  align-items:center;justify-content:center;font-family:'Playfair Display';font-size:2.4rem;color:var(--gold)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.eyebrow{letter-spacing:6px;font-size:.8rem;color:var(--gold);font-weight:600;margin-bottom:14px}
+.hero h1{font-family:'Playfair Display';font-size:clamp(3rem,10vw,6rem);font-weight:800;line-height:1;
+  background:linear-gradient(100deg,#ffd9e8,#ff4d8d 40%,#f5c044);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .tag{font-size:1.2rem;color:var(--mut);margin-top:14px;max-width:560px}
+.hero .cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn{padding:14px 30px;border-radius:999px;font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;border:none;transition:transform .15s}
+.btn-p{background:linear-gradient(100deg,var(--pink),var(--violet));color:#fff;box-shadow:0 6px 24px rgba(255,77,141,.5)}
+.btn-g{background:transparent;color:var(--gold);border:2px solid var(--gold)}
+.btn:hover{transform:translateY(-3px)}
+section{max-width:900px;margin:0 auto;padding:70px 22px}
+h2.sec{font-family:'Playfair Display';font-size:2.2rem;margin-bottom:8px;color:var(--gold)}
+.sec-sub{color:var(--mut);margin-bottom:34px}
+.bio{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.bio-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:26px;backdrop-filter:blur(6px)}
+.bio-card h3{color:var(--pink);margin-bottom:10px;font-size:1.15rem}
+.bio-card p{line-height:1.7;color:#e8e2fa;font-size:.98rem}
+.bio-card .fact{margin-top:14px;font-size:.9rem;color:var(--mut)}
+.bio-card .fact b{color:var(--gold)}
+/* timeline */
+.timeline{position:relative;padding-left:34px}
+.timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:3px;
+  background:linear-gradient(180deg,var(--pink),var(--gold),var(--violet));border-radius:3px}
+.mile{position:relative;margin-bottom:30px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:20px 22px;transition:transform .2s}
+.mile:hover{transform:translateX(6px)}
+.mile::before{content:'';position:absolute;left:-32px;top:24px;width:14px;height:14px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.mile .yr{font-family:'Playfair Display';color:var(--pink);font-size:1.3rem;font-weight:800}
+.mile h4{margin:6px 0;font-size:1.05rem}
+.mile p{color:var(--mut);font-size:.95rem;line-height:1.65}
+/* quiz */
+.quiz-shell{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:30px;max-width:680px;margin:0 auto}
+.quiz-top{display:flex;justify-content:space-between;margin-bottom:20px;font-weight:700}
+.pill{background:rgba(245,192,68,.15);border:1px solid var(--gold);color:var(--gold);padding:6px 16px;border-radius:999px;font-size:.85rem}
+.pill.hot{background:rgba(255,77,141,.2);border-color:var(--pink);color:#ffb3cf}
+.q-progress{height:8px;background:rgba(255,255,255,.1);border-radius:99px;margin-bottom:24px;overflow:hidden}
+.q-progress div{height:100%;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:99px;transition:width .4s}
+.q-text{font-family:'Playfair Display';font-size:1.35rem;margin-bottom:20px;line-height:1.5}
+.opts{display:grid;gap:12px}
+.opt{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 18px;
+  color:var(--ink);font-size:1rem;text-align:left;cursor:pointer;transition:all .15s;font-family:'Outfit'}
+.opt:hover:not(:disabled){border-color:var(--pink);transform:translateX(4px)}
+.opt.correct{background:rgba(45,212,191,.18);border-color:#2dd4bf}
+.opt.wrong{background:rgba(255,77,77,.15);border-color:#ff6b6b}
+.opt:disabled{cursor:default;opacity:.85}
+.q-feedback{margin-top:18px;min-height:1.6em;font-weight:600;color:var(--gold)}
+.quiz-result{text-align:center;padding:20px 0}
+.quiz-result .score{font-family:'Playfair Display';font-size:3.4rem;color:var(--gold)}
+.quiz-result p{color:var(--mut);margin:10px 0 24px;line-height:1.6}
+footer{text-align:center;padding:40px 20px;color:var(--mut);font-size:.85rem;border-top:1px solid rgba(255,255,255,.08)}
+@media(max-width:640px){.bio{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<div class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="nova-disc"></div>
+  <div class="eyebrow">★ THE OFFICIAL FAN HUB ★</div>
+  <h1>NOVA REYES</h1>
+  <p class="tag">The voice of a generation. 40 million monthly listeners, 3 sold-out world tours, and a smile that broke the internet twice.</p>
+  <div class="cta">
+    <a class="btn btn-p" href="#quiz">Take the Quiz 🎤</a>
+    <a class="btn btn-g" href="#timeline">Her Story</a>
+  </div>
+</div>
+
+<section id="bio">
+  <h2 class="sec">The Girl Behind the Stardust</h2>
+  <p class="sec-sub">Born Elena Reyes in San Juan, Puerto Rico, Nova taught herself piano on a keyboard with two broken keys — and never looked back.</p>
+  <div class="bio">
+    <div class="bio-card">
+      <h3>🎹 The Early Years</h3>
+      <p>Nova grew up above her abuela's bakery, writing songs between batches of pan de agua. At 14 she uploaded a bedroom cover of a classic bolero to the internet — and woke up to two million views.</p>
+      <div class="fact">Hometown: <b>San Juan, Puerto Rico</b> · Born: <b>March 14, 2001</b></div>
+    </div>
+    <div class="bio-card">
+      <h3>🌟 The Nova Sound</h3>
+      <p>Reggaetón rhythms, orchestral pop, and lyrics in Spanglish that feel like a diary entry. Critics call it "arena pop with a heartbeat." Fans just call it Nova.</p>
+      <div class="fact">Signature song: <b>"Electric Mar"</b> · Fandom name: <b>The Constellation ✨</b></div>
+    </div>
+    <div class="bio-card">
+      <h3>💜 Off the Stage</h3>
+      <p>She runs the Reyes Foundation, funding music programs in 30 Puerto Rican schools, and famously answers fan mail by hand every Sunday morning.</p>
+      <div class="fact">Foundation: <b>Reyes Foundation</b> · Pets: <b>Two rescue dogs, Sol y Luna</b></div>
+    </div>
+    <div class="bio-card">
+      <h3>🏆 By the Numbers</h3>
+      <p>12 Grammy nominations, 4 wins. Her 2023 "Prisma World Tour" played 58 cities across 5 continents — including a record 4 nights at San Juan's Coliseo.</p>
+      <div class="fact">Monthly listeners: <b>40M</b> · Biggest crowd: <b>92,000 in Mexico City</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <h2 class="sec">Career Timeline</h2>
+  <p class="sec-sub">From bedroom covers to stadium lights — every milestone, in order.</p>
+  <div class="timeline">
+    <div class="mile"><div class="yr">2019</div><h4>🎤 Breakout: "Midnight en la Isla"</h4><p>Her debut single drops independently and hits #1 in 12 Latin American countries. Nova signs with Lumen Records three months later — at 18.</p></div>
+    <div class="mile"><div class="yr">2020</div><h4>💿 Debut EP "Luces"</h4><p>A six-track EP recorded in her childhood bedroom studio. Goes platinum in 9 months despite zero radio play — pure streaming power.</p></div>
+    <div class="mile"><div class="yr">2021</div><h4>🌊 Album "Electric Mar" + First Grammy</h4><p>Her debut full album sells 2M copies in its first week. Wins Best New Artist at the Grammys and performs the closing number.</p></div>
+    <div class="mile"><div class="yr">2022</div><h4>🎬 Film Debut &amp; Second Album</h4><p>Stars in the musical film "Constelación" and releases "Neón Alma," featuring the smash duet with fellow icon Marco Vela.</p></div>
+    <div class="mile"><div class="yr">2024</div><h4>🏟️ The Prisma World Tour</h4><p>58 cities, 5 continents, 92,000 fans in Mexico City. The tour documentary "Nova: Prisma" becomes the most-streamed music film of the year.</p></div>
+    <div class="mile"><div class="yr">2026</div><h4>✨ "Supernova" Era Begins</h4><p>Her third album "Supernova" drops this spring with a surprise stadium show in San Juan — free for 20,000 local fans.</p></div>
+  </div>
+</section>
+
+<section id="quiz">
+  <h2 class="sec">The Ultimate Nova Quiz</h2>
+  <p class="sec-sub">6 questions. Consecutive correct answers earn a <b style="color:var(--gold)">+50% streak bonus</b>. Prove you're Constellation royalty.</p>
+  <div class="quiz-shell" id="quizShell"></div>
+</section>
+
+<footer>Fan-made with 💜 by The Constellation · Not affiliated with Nova Reyes or Lumen Records</footer>
+
+<script>
+/* starfield */
+const stars=document.getElementById('stars');
+for(let i=0;i<70;i++){const s=document.createElement('div');s.className='star';
+ s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+ s.style.animationDelay=(Math.random()*3)+'s';stars.appendChild(s);}
+
+const QUIZ=[
+ {q:'What was Nova\'s breakout 2019 single?',opts:['"Electric Mar"','"Midnight en la Isla"','"Luces del Sur"','"Neón Alma"'],a:1,
+  why:'"Midnight en la Isla" hit #1 in 12 countries when she was just 18.'},
+ {q:'Where was Nova born?',opts:['Miami, Florida','Mexico City','San Juan, Puerto Rico','Barcelona, Spain'],a:2,
+  why:'San Juan — she grew up above her abuela\'s bakery.'},
+ {q:'What is Nova\'s fandom called?',opts:['The Stargazers','The Constellation','The Novas','The Mar Crew'],a:1,
+  why:'The Constellation ✨ — it fits her star name perfectly.'},
+ {q:'Which album won her the 2021 Best New Artist Grammy era?',opts:['"Luces"','"Neón Alma"','"Electric Mar"','"Supernova"'],a:2,
+  why:'"Electric Mar" sold 2M copies in its first week.'},
+ {q:'How many cities did the 2024 Prisma World Tour play?',opts:['42','58','71','35'],a:1,
+  why:'58 cities across 5 continents — including 92,000 fans in Mexico City.'},
+ {q:'What are the names of Nova\'s two rescue dogs?',opts:['Luz y Sombra','Sol y Luna','Mar y Cielo','Alba y Noche'],a:1,
+  why:'Sol y Luna ☀️🌙 — the sun and the moon.'},
+];
+let qi=0,score=0,streak=0,best=0;
+const shell=document.getElementById('quizShell');
+function renderQ(){
+ const q=QUIZ[qi];
+ shell.innerHTML=`
+  <div class="quiz-top"><span class="pill">Question ${qi+1} / ${QUIZ.length}</span>
+   <span class="pill ${streak>=2?'hot':''}">${streak>=2?'🔥 Streak x'+streak+' (+'+(streak*50)+'% bonus)':'Score: '+score}</span></div>
+  <div class="q-progress"><div style="width:${qi/QUIZ.length*100}%"></div></div>
+  <div class="q-text">${q.q}</div>
+  <div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div>
+  <div class="q-feedback" id="fb"></div>`;
+ shell.querySelectorAll('.opt').forEach(b=>b.onclick=()=>answer(b,q));
+}
+function answer(btn,q){
+ const pick=+btn.dataset.i, correct=pick===q.a;
+ shell.querySelectorAll('.opt').forEach((b,i)=>{
+  b.disabled=true;
+  if(i===q.a)b.classList.add('correct');
+  else if(i===pick)b.classList.add('wrong');
+ });
+ const fb=document.getElementById('fb');
+ if(correct){
+  streak++; best=Math.max(best,streak);
+  const gained=Math.round(100*(1+0.5*(streak-1)));
+  score+=gained;
+  fb.textContent=`✅ ${q.why} (+${gained} pts${streak>1?' — streak bonus!':''})`;
+ }else{streak=0;fb.textContent=`❌ ${q.why}`;}
+ setTimeout(()=>{qi++; qi<QUIZ.length?renderQ():renderResult();},2200);
+}
+function renderResult(){
+ const max=QUIZ.reduce((s,_,i)=>s+Math.round(100*(1+0.5*i)),0);
+ const pct=Math.round(score/max*100);
+ let msg=pct>=90?'👑 Constellation Royalty! Nova would be proud.':pct>=60?'🌟 Certified superfan!':'💜 A true fan in training — replay and climb!';
+ shell.innerHTML=`<div class="quiz-result">
+  <div class="score">${score}</div>
+  <p><b>${pct}% of a perfect run</b><br>Best streak: ${best} · Max possible: ${max}<br>${msg}</p>
+  <button class="btn btn-p" onclick="restart()">Play Again</button></div>`;
+}
+function restart(){qi=0;score=0;streak=0;best=0;renderQ();}
+renderQ();
+</script>
+</body>
+</html>

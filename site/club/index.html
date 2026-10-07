@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Neon District — the city's loudest nightclub. See upcoming nights, RSVP, and check the guest list.">
+<title>Neon District — Nightclub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07070f;--neon:#00f0ff;--pink:#ff2ea6;--lime:#b6ff2e;--violet:#8b5cf6}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:#eef;min-height:100vh}
+.back-link{position:fixed;top:14px;left:14px;z-index:2000;background:#0a0a18;color:var(--neon);border:1px solid var(--neon);
+  border-radius:8px;padding:8px 16px;font-weight:700;font-size:.85rem;text-decoration:none;box-shadow:0 0 12px rgba(0,240,255,.5)}
+.hero{text-align:center;padding:100px 20px 50px;position:relative;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(255,46,166,.25),transparent 70%),
+             radial-gradient(ellipse 60% 50% at 50% 100%,rgba(0,240,255,.15),transparent 70%)}
+.hero h1{font-family:'Orbitron';font-size:clamp(2.4rem,9vw,5rem);font-weight:900;letter-spacing:4px;
+  color:#fff;text-shadow:0 0 10px var(--neon),0 0 30px var(--neon),0 0 60px var(--neon)}
+.hero h1 .p{color:#fff;text-shadow:0 0 10px var(--pink),0 0 30px var(--pink),0 0 60px var(--pink)}
+.hero p{font-size:1.2rem;letter-spacing:3px;color:#9df;text-transform:uppercase;margin-top:10px}
+.marquee{overflow:hidden;white-space:nowrap;border-top:1px solid rgba(0,240,255,.3);border-bottom:1px solid rgba(0,240,255,.3);
+  padding:10px 0;background:rgba(0,240,255,.04)}
+.marquee span{display:inline-block;padding-left:100%;animation:mq 22s linear infinite;font-family:'Orbitron';font-size:.9rem;letter-spacing:2px;color:var(--lime);text-shadow:0 0 8px var(--lime)}
+@keyframes mq{to{transform:translateX(-100%)}}
+main{max-width:1000px;margin:0 auto;padding:40px 20px 80px}
+h2{font-family:'Orbitron';font-size:1.6rem;letter-spacing:2px;margin:34px 0 18px;color:var(--neon);text-shadow:0 0 14px rgba(0,240,255,.7)}
+h2 .p{color:var(--pink);text-shadow:0 0 14px rgba(255,46,166,.7)}
+.nights{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.night{background:rgba(255,255,255,.03);border:1px solid rgba(0,240,255,.35);border-radius:14px;padding:22px;position:relative;
+  box-shadow:0 0 18px rgba(0,240,255,.12),inset 0 0 24px rgba(0,240,255,.04);transition:transform .2s,box-shadow .2s}
+.night:hover{transform:translateY(-5px);box-shadow:0 0 30px rgba(0,240,255,.3)}
+.night.alt{border-color:rgba(255,46,166,.4);box-shadow:0 0 18px rgba(255,46,166,.14),inset 0 0 24px rgba(255,46,166,.05)}
+.night .date{font-family:'Orbitron';font-size:.8rem;color:var(--lime);letter-spacing:2px;text-shadow:0 0 8px var(--lime)}
+.night h3{font-family:'Orbitron';font-size:1.25rem;margin:10px 0 4px;color:#fff}
+.night .dj{font-size:1.05rem;color:var(--pink);font-weight:700}
+.night.alt .dj{color:var(--neon)}
+.night .genre{color:#9ab;font-size:.95rem;margin-bottom:12px}
+.night .head{margin-top:10px;font-size:.95rem;color:#cde;display:flex;align-items:center;gap:8px}
+.headbar{height:6px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:6px}
+.headbar div{height:100%;background:linear-gradient(90deg,var(--neon),var(--pink));border-radius:99px;transition:width .6s;box-shadow:0 0 10px var(--neon)}
+.glist{margin-top:12px;font-size:.88rem;color:#9ab;max-height:96px;overflow-y:auto;border-top:1px dashed rgba(255,255,255,.15);padding-top:8px}
+.glist .g{display:inline-block;background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.3);border-radius:99px;padding:2px 10px;margin:2px;font-size:.8rem}
+/* rsvp */
+.rsvp-form{background:rgba(255,255,255,.03);border:1px solid rgba(255,46,166,.5);border-radius:18px;padding:30px;max-width:640px;
+  box-shadow:0 0 30px rgba(255,46,166,.15)}
+.rsvp-form label{display:block;font-weight:700;letter-spacing:1px;margin:14px 0 6px;color:#fbd}
+.rsvp-form input,.rsvp-form select{width:100%;padding:13px 16px;background:#0d0d1c;border:1px solid rgba(0,240,255,.4);
+  border-radius:10px;color:#fff;font-family:'Rajdhani';font-size:1.05rem;font-weight:600}
+.rsvp-form input:focus,.rsvp-form select:focus{outline:none;border-color:var(--neon);box-shadow:0 0 12px rgba(0,240,255,.4)}
+.size-row{display:flex;align-items:center;gap:14px}
+.size-row output{font-family:'Orbitron';font-size:1.4rem;color:var(--lime);min-width:44px;text-align:center;text-shadow:0 0 10px var(--lime)}
+input[type=range]{accent-color:var(--pink)}
+.submit{margin-top:22px;width:100%;padding:15px;border:none;border-radius:10px;font-family:'Orbitron';font-size:1.05rem;
+  letter-spacing:2px;font-weight:700;color:#061018;cursor:pointer;background:linear-gradient(90deg,var(--neon),var(--lime));
+  box-shadow:0 0 24px rgba(0,240,255,.6);transition:transform .15s}
+.submit:hover{transform:scale(1.02)}
+.msg{margin-top:14px;text-align:center;font-weight:700;min-height:1.6em;color:var(--lime)}
+footer{text-align:center;padding:34px 20px;color:#667;font-size:.85rem;letter-spacing:1px}
+@media(max-width:560px){.nights{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<div class="hero">
+  <h1>NEON <span class="p">DISTRICT</span></h1>
+  <p>EST. 2019 · 440 VOLT AVE · DOORS 10PM</p>
+</div>
+<div class="marquee"><span>🔊 THIS WEEK: VEX PARALLAX · DJ MOONWELL · KAIRO B2B SOLSTICE · THE MIDNIGHT FREQUENCY · 🔊 NO COVER BEFORE MIDNIGHT THURSDAYS 🔊</span></div>
+
+<main>
+  <h2>UPCOMING <span class="p">NIGHTS</span></h2>
+  <div class="nights" id="nights"></div>
+
+  <h2>RSVP <span class="p">YOUR CREW</span></h2>
+  <form class="rsvp-form" id="rsvpForm">
+    <label for="rName">YOUR NAME</label>
+    <input id="rName" required maxlength="30" placeholder="e.g. Alex Rivera" autocomplete="name">
+    <label for="rNight">PICK YOUR NIGHT</label>
+    <select id="rNight"></select>
+    <label for="rSize">PARTY SIZE — <output id="sizeOut">2</output> PEOPLE</label>
+    <div class="size-row">
+      <input type="range" id="rSize" min="1" max="10" value="2">
+    </div>
+    <button class="submit" type="submit">LOCK IN MY SPOT ⚡</button>
+    <div class="msg" id="rsvpMsg"></div>
+  </form>
+
+  <h2>KNOW BEFORE <span class="p">YOU GO</span></h2>
+  <div class="nights">
+    <div class="night"><div class="date">📍 FIND US</div><h3>440 Volt Avenue</h3><div class="genre">Downtown Arts District · 2 blocks from the Metro Blue Line · Rideshare pickup on 5th St</div></div>
+    <div class="night alt"><div class="date">🕙 HOURS</div><h3>Thu – Sat · 10PM – 3AM</h3><div class="genre">No cover before midnight on Thursdays · Last entry 1:30AM · 21+ with valid ID</div></div>
+    <div class="night"><div class="date">✨ DRESS CODE</div><h3>Dress to Glow</h3><div class="genre">Neon encouraged, sneakers welcome, no athletic jerseys · Coat check $5</div></div>
+    <div class="night alt"><div class="date">🍾 BOTTLE SERVICE</div><h3>Skip the Line</h3><div class="genre">Tables from $250 · Includes 6 express entries · Email tables@neondistrict.club to book</div></div>
+  </div>
+</main>
+
+<footer>NEON DISTRICT · 21+ WITH ID · DRESS TO GLOW · 🔊 LOUD IS A LIFESTYLE 🔊</footer>
+
+<script>
+const NIGHTS=[
+ {id:'n1',date:'FRI · OCT 9',title:'Bass Cathedral',dj:'VEX PARALLAX',genre:'Dubstep / Riddim · Main Room'},
+ {id:'n2',date:'SAT · OCT 10',title:'Velvet Mirage',dj:'DJ MOONWELL',genre:'Deep House / Melodic · Rooftop'},
+ {id:'n3',date:'THU · OCT 15',title:'Chrome Hearts',dj:'KAIRO b2b SOLSTICE',genre:'Techno / Hard Groove · Basement'},
+ {id:'n4',date:'FRI · OCT 16',title:'Static Bloom',dj:'THE MIDNIGHT FREQUENCY',genre:'Synthwave / Electro · Main Room'},
+ {id:'n5',date:'SAT · OCT 17',title:'Neon Safari',dj:'JAGUAR PAW',genre:'Afro House / Amapiano · Rooftop'},
+ {id:'n6',date:'FRI · OCT 23',title:'Ghost Signal',dj:'NULLPOINTER',genre:'Drum & Bass / Jungle · Basement'},
+];
+const SEED_GUESTS={
+ n1:[['Maya',4],['Leo',2],['Sofia',3]], n2:[['Jordan',2],['Priya',5]],
+ n3:[['Kai',3],['Rae',2],['Tom',4],['Nia',2]], n4:[['Ezra',2]],
+ n5:[['Lena',6],['Omar',3],['Ivy',2]], n6:[['Rex',2],['Ana',4]],
+};
+const CAP=300;
+const KEY='neonDistrictRsvps';
+function loadUser(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]};}
+function saveUser(r){const a=loadUser();a.push(r);localStorage.setItem(KEY,JSON.stringify(a));}
+function guestsFor(id){
+  const map={};
+  (SEED_GUESTS[id]||[]).forEach(([n,s])=>map[n]=(map[n]||0)+s);
+  loadUser().filter(r=>r.night===id).forEach(r=>map[r.name]=(map[r.name]||0)+r.size);
+  return map;
+}
+function headcount(id){return Object.values(guestsFor(id)).reduce((a,b)=>a+b,0);}
+const nightsEl=document.getElementById('nights'), sel=document.getElementById('rNight');
+function renderNights(){
+  nightsEl.innerHTML=NIGHTS.map((n,i)=>{
+    const g=guestsFor(n.id), hc=headcount(n.id), pct=Math.min(100,Math.round(hc/CAP*100));
+    const names=Object.entries(g).map(([nm,s])=>`<span class="g">${esc(nm)}${s>1?' ×'+s:''}</span>`).join('');
+    return `<div class="night ${i%2?'alt':''}">
+      <div class="date">${n.date}</div><h3>${n.title}</h3>
+      <div class="dj">🎧 ${n.dj}</div><div class="genre">${n.genre}</div>
+      <div class="head">👥 <b>${hc}</b> on the guest list</div>
+      <div class="headbar"><div style="width:${pct}%"></div></div>
+      <div class="glist">${names||'<i style="color:#556">Be the first to RSVP…</i>'}</div>
+    </div>`;
+  }).join('');
+}
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+sel.innerHTML=NIGHTS.map(n=>`<option value="${n.id}">${n.date} — ${n.title} (${n.dj})</option>`).join('');
+const size=document.getElementById('rSize'), sizeOut=document.getElementById('sizeOut');
+size.addEventListener('input',()=>sizeOut.textContent=size.value);
+document.getElementById('rsvpForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('rName').value.trim();
+  if(!name)return;
+  const rsvp={name:name.slice(0,30),night:sel.value,size:+size.value,at:Date.now()};
+  saveUser(rsvp); renderNights();
+  const n=NIGHTS.find(x=>x.id===rsvp.night);
+  const msg=document.getElementById('rsvpMsg');
+  msg.textContent=`⚡ You're in, ${name}! ${rsvp.size} spot${rsvp.size>1?'s':''} locked for ${n.title}. See you ${n.date.split('·')[1].trim()}.`;
+  document.getElementById('rName').value='';
+});
+renderNights();
+</script>
+</body>
+</html>

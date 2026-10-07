@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sugar Rush — the sweetest candy shop on the internet. Shop gummies, chocolate, sours and more.">
+<title>Sugar Rush — Candy Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --pink:#ff5da2; --purple:#8b5cf6; --yellow:#ffd23f; --teal:#2dd4bf;
+  --ink:#3b1d4e; --cream:#fff7fb;
+}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;
+  background-image:radial-gradient(circle at 10% 20%, #ffe3f1 0, transparent 40%),
+                   radial-gradient(circle at 90% 80%, #e6dcff 0, transparent 40%);}
+.back-link{position:fixed;top:14px;left:14px;z-index:2000;background:#fff;border:2px solid var(--ink);
+  border-radius:999px;padding:8px 16px;font-weight:800;font-size:.85rem;color:var(--ink);text-decoration:none;
+  box-shadow:3px 3px 0 var(--ink);transition:transform .15s}
+.back-link:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--pink),var(--purple));
+  padding:18px 24px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 4px 14px rgba(139,92,246,.35)}
+.brand{font-family:'Fredoka',sans-serif;font-size:1.8rem;font-weight:700;color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.2)}
+.brand small{display:block;font-size:.75rem;font-family:'Nunito';font-weight:600;letter-spacing:2px;opacity:.9}
+.cart-btn{background:#fff;border:none;border-radius:999px;padding:10px 20px;font-family:'Fredoka';
+  font-weight:600;font-size:1rem;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 10px rgba(0,0,0,.2);transition:transform .15s;position:relative}
+.cart-btn:hover{transform:scale(1.05)}
+.cart-count{position:absolute;top:-8px;right:-8px;background:var(--yellow);color:var(--ink);font-weight:700;
+  font-size:.8rem;min-width:26px;height:26px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+  border:2px solid #fff}
+main{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
+.hero{text-align:center;margin-bottom:36px}
+.hero h1{font-family:'Fredoka';font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;
+  background:linear-gradient(90deg,var(--pink),var(--purple),var(--teal));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:1.1rem;font-weight:600;opacity:.8;margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.card{background:#fff;border:3px solid var(--ink);border-radius:22px;padding:22px;text-align:center;
+  box-shadow:6px 6px 0 rgba(59,29,78,.15);transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:10px 10px 0 rgba(59,29,78,.18)}
+.candy-art{font-size:4rem;line-height:1;margin-bottom:10px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.12))}
+.card h3{font-family:'Fredoka';font-size:1.25rem;margin-bottom:4px}
+.card .desc{font-size:.88rem;opacity:.75;margin-bottom:12px;flex:1}
+.price{font-family:'Fredoka';font-size:1.4rem;font-weight:700;color:var(--purple);margin-bottom:12px}
+.add-btn{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border:none;border-radius:999px;
+  padding:11px 20px;font-family:'Fredoka';font-weight:600;font-size:1rem;cursor:pointer;transition:transform .15s}
+.add-btn:hover{transform:scale(1.06)}
+.add-btn:active{transform:scale(.95)}
+/* drawer */
+.overlay{position:fixed;inset:0;background:rgba(59,29,78,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:900}
+.overlay.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100dvh;width:min(400px,92vw);background:#fff;z-index:1000;
+  transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.8,.25,1);display:flex;flex-direction:column;
+  box-shadow:-8px 0 30px rgba(0,0,0,.25);border-left:3px solid var(--ink)}
+.drawer.open{transform:translateX(0)}
+.drawer-head{padding:20px;border-bottom:3px solid var(--ink);display:flex;justify-content:space-between;align-items:center;
+  background:linear-gradient(135deg,#ffe3f1,#e6dcff)}
+.drawer-head h2{font-family:'Fredoka';font-size:1.5rem}
+.close-btn{background:none;border:none;font-size:1.6rem;cursor:pointer;line-height:1}
+.drawer-items{flex:1;overflow-y:auto;padding:16px}
+.empty{ text-align:center;opacity:.6;padding:40px 10px;font-weight:600}
+.item{display:flex;align-items:center;gap:12px;padding:12px;border:2px solid #eee;border-radius:14px;margin-bottom:10px}
+.item .art{font-size:2.2rem}
+.item-info{flex:1}
+.item-info b{font-size:.95rem}
+.item-info .p{font-size:.85rem;color:var(--purple);font-weight:700}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:28px;height:28px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-weight:800;cursor:pointer}
+.qty span{font-weight:800;min-width:20px;text-align:center}
+.drawer-foot{padding:20px;border-top:3px solid var(--ink);background:#fff}
+.total-row{display:flex;justify-content:space-between;font-family:'Fredoka';font-size:1.3rem;font-weight:700;margin-bottom:14px}
+.checkout{width:100%;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border:none;
+  border-radius:999px;padding:14px;font-family:'Fredoka';font-size:1.1rem;font-weight:600;cursor:pointer;transition:transform .15s}
+.checkout:hover{transform:scale(1.02)}
+.confirm{text-align:center;padding:50px 24px}
+.confirm .big{font-size:4.5rem;margin-bottom:12px}
+.confirm h3{font-family:'Fredoka';font-size:1.6rem;margin-bottom:8px}
+.confirm p{opacity:.75;margin-bottom:20px}
+.fly-dot{position:fixed;width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--yellow));
+  z-index:3000;pointer-events:none;box-shadow:0 0 10px var(--pink)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);background:var(--ink);color:#fff;
+  padding:12px 24px;border-radius:999px;font-weight:700;z-index:3000;transition:transform .3s;opacity:0}
+.toast.show{transform:translate(-50%,0);opacity:1}
+@media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}.card{padding:14px}}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<header>
+  <div class="brand">🍬 Sugar Rush<small>CANDY EMPORIUM</small></div>
+  <button class="cart-btn" id="cartBtn" aria-label="Open cart">🛒 Cart <span id="cartTotalMini"></span><span class="cart-count" id="cartCount">0</span></button>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Life's short. Eat the candy.</h1>
+    <p>Small-batch sweets, shipped fresh. Free shipping on orders over $25!</p>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <div class="hero" style="margin-top:56px">
+    <h1 style="font-size:clamp(1.8rem,4vw,2.6rem)">Sweet words from sweet people</h1>
+  </div>
+  <div class="grid" id="reviews" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))"></div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping cart">
+  <div class="drawer-head">
+    <h2>🛒 Your Stash</h2>
+    <button class="close-btn" id="closeBtn" aria-label="Close cart">✕</button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot" id="drawerFoot">
+    <div class="total-row"><span>Total</span><span id="grandTotal">$0.00</span></div>
+    <button class="checkout" id="checkoutBtn">Checkout 🍭</button>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS=[
+ {id:'gummy',art:'🐻',name:'Gummy Bears',desc:'Soft, fruity, dangerously poppable. 8oz bag.',price:4.99},
+ {id:'choc',art:'🍫',name:'Midnight Truffles',desc:'Dark chocolate ganache, cocoa-dusted. Box of 6.',price:9.99},
+ {id:'sour',art:'😝',name:'Sour Zappers',desc:'Pucker up — neon sour belts. 10oz tub.',price:5.49},
+ {id:'lolli',art:'🍭',name:'Rainbow Swirls',desc:'Hand-pulled giant lollipops. Pack of 4.',price:6.99},
+ {id:'jelly',art:'🫘',name:'Jelly Bean Mix',desc:'49 flavors, zero duds. 12oz jar.',price:7.49},
+ {id:'caramel',art:'🍮',name:'Sea Salt Caramels',desc:'Buttery, flaky-salted. Wrapped singles, 12ct.',price:8.99},
+ {id:'mint',art:'🌿',name:'Arctic Mints',desc:'Glacier-cool peppermint drops. Tin of 40.',price:3.99},
+ {id:'marsh',art:'☁️',name:'Cloud Mallows',desc:'Vanilla bean marshmallows, toasted-edge style.',price:5.99},
+ {id:'rock',art:'💎',name:'Crystal Rock Candy',desc:'Old-school sugar crystals on sticks. 6ct.',price:4.49},
+ {id:'tube',art:'🌈',name:'Neon Rope Twists',desc:'Chewy rainbow candy ropes. 8ct.',price:6.49},
+];
+let cart=JSON.parse(localStorage.getItem('sugarRushCart')||'{}');
+const grid=document.getElementById('grid'), drawer=document.getElementById('drawer'),
+ overlay=document.getElementById('overlay'), itemsEl=document.getElementById('drawerItems'),
+ countEl=document.getElementById('cartCount'), totalEl=document.getElementById('grandTotal'),
+ footEl=document.getElementById('drawerFoot'), miniEl=document.getElementById('cartTotalMini'),
+ toastEl=document.getElementById('toast');
+const money=n=>'$'+n.toFixed(2);
+function save(){localStorage.setItem('sugarRushCart',JSON.stringify(cart))}
+function totals(){let n=0,t=0;for(const p of PRODUCTS){const q=cart[p.id]||0;n+=q;t+=q*p.price}return{n,t}}
+grid.innerHTML=PRODUCTS.map(p=>`
+ <div class="card">
+  <div class="candy-art">${p.art}</div>
+  <h3>${p.name}</h3><div class="desc">${p.desc}</div>
+  <div class="price">${money(p.price)}</div>
+  <button class="add-btn" data-id="${p.id}">Add to Cart 🍬</button>
+ </div>`).join('');
+grid.addEventListener('click',e=>{
+ const b=e.target.closest('.add-btn'); if(!b)return;
+ cart[b.dataset.id]=(cart[b.dataset.id]||0)+1; save(); render();
+ flyToCart(b);
+ showToast('Added to your stash! 🍬');
+});
+function render(){
+ const {n,t}=totals();
+ countEl.textContent=n; miniEl.textContent=n?money(t):'';
+ totalEl.textContent=money(t);
+ if(!n){itemsEl.innerHTML='<div class="empty">🍭<br>Your stash is empty.<br>Fix that below!</div>';footEl.style.display='none';return}
+ footEl.style.display='block';
+ itemsEl.innerHTML=PRODUCTS.filter(p=>cart[p.id]).map(p=>`
+  <div class="item">
+   <div class="art">${p.art}</div>
+   <div class="item-info"><b>${p.name}</b><div class="p">${money(p.price)} each</div></div>
+   <div class="qty">
+    <button data-a="dec" data-id="${p.id}">−</button><span>${cart[p.id]}</span><button data-a="inc" data-id="${p.id}">+</button>
+   </div>
+  </div>`).join('');
+}
+itemsEl.addEventListener('click',e=>{
+ const b=e.target.closest('button'); if(!b)return;
+ const id=b.dataset.id;
+ cart[id]=(cart[id]||0)+(b.dataset.a==='inc'?1:-1);
+ if(cart[id]<=0)delete cart[id];
+ save(); render();
+});
+function flyToCart(fromEl){
+ const dot=document.createElement('div'); dot.className='fly-dot';
+ const r1=fromEl.getBoundingClientRect(), r2=document.getElementById('cartBtn').getBoundingClientRect();
+ const x1=r1.left+r1.width/2, y1=r1.top+r1.height/2, x2=r2.left+r2.width/2, y2=r2.top+r2.height/2;
+ dot.style.left=x1+'px'; dot.style.top=y1+'px'; document.body.appendChild(dot);
+ const dx=x2-x1, dy=y2-y1;
+ dot.animate([
+  {transform:'translate(0,0) scale(1)',opacity:1},
+  {transform:`translate(${dx*0.5}px,${dy-140}px) scale(1.2)`,opacity:1,offset:.5},
+  {transform:`translate(${dx}px,${dy}px) scale(.4)`,opacity:.6}
+ ],{duration:650,easing:'cubic-bezier(.3,.7,.4,1)'}).onfinish=()=>{
+  dot.remove();
+  const cb=document.getElementById('cartBtn');
+  cb.animate([{transform:'scale(1)'},{transform:'scale(1.15)'},{transform:'scale(1)'}],{duration:300});
+ };
+}
+function openDrawer(){drawer.classList.add('open');overlay.classList.add('show')}
+function closeDrawer(){drawer.classList.remove('open');overlay.classList.remove('show')}
+document.getElementById('cartBtn').onclick=openDrawer;
+document.getElementById('closeBtn').onclick=closeDrawer;
+overlay.onclick=closeDrawer;
+document.getElementById('checkoutBtn').onclick=()=>{
+ const {n,t}=totals(); if(!n)return;
+ const order='SR-'+Math.floor(100000+Math.random()*900000);
+ itemsEl.innerHTML=`<div class="confirm"><div class="big">🎉</div>
+  <h3>Order confirmed!</h3>
+  <p>Order <b>${order}</b><br>${n} sweet item${n>1?'s':''} · ${money(t)}<br>Arriving in 3–5 days. Try not to drool on the box.</p>
+  <button class="add-btn" onclick="document.getElementById('closeBtn').click()">Keep Shopping</button></div>`;
+ footEl.style.display='none'; cart={}; save();
+ countEl.textContent='0'; miniEl.textContent='';
+};
+let toastT;
+function showToast(msg){toastEl.textContent=msg;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('show'),1800)}
+/* reviews */
+const REVIEWS=[
+ ['⭐⭐⭐⭐⭐','"The Midnight Truffles ruined all other chocolate for me. Worth it."','— Dana K.'],
+ ['⭐⭐⭐⭐⭐','"Ordered Tuesday, devoured by Friday. The Sour Zappers are elite."','— Marcus T.'],
+ ['⭐⭐⭐⭐⭐','"Sent Cloud Mallows to my sister. She cried. Then I ate half the box."','— Priya S.'],
+];
+document.getElementById('reviews').innerHTML=REVIEWS.map(r=>`
+ <div class="card" style="cursor:default"><div style="font-size:1.1rem">${r[0]}</div>
+ <div class="desc" style="font-style:italic;margin-top:8px">${r[1]}</div><b>${r[2]}</b></div>`).join('');
+render();
+</script>
+</body>
+</html>

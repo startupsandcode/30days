@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Azure Line Cruises — explore Caribbean, Mediterranean and Alaska itineraries. Pick your cabin, choose a sailing date, and get an instant fare estimate.">
+<title>Azure Line Cruises — Itinerary Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--deep:#062a4a;--ocean:#0e5a8a;--sky:#38b6d3;--foam:#e8f7fc;--sand:#f5c97b;--ink:#0b2237}
+body{font-family:'Jost',sans-serif;background:linear-gradient(180deg,#e8f7fc,#d3eefb);color:var(--ink);min-height:100vh}
+.back-link{position:fixed;top:14px;left:14px;z-index:2000;background:#fff;color:var(--deep);border-radius:999px;
+  padding:8px 16px;font-weight:700;font-size:.85rem;text-decoration:none;box-shadow:0 4px 14px rgba(6,42,74,.25)}
+.hero{background:linear-gradient(180deg,#062a4a 0%,#0e5a8a 70%,#157a9e 100%);color:#fff;text-align:center;
+  padding:90px 22px 70px;position:relative;overflow:hidden}
+.wave{position:absolute;bottom:-2px;left:0;width:100%;height:70px}
+.hero .ship{font-size:4.5rem;filter:drop-shadow(0 8px 16px rgba(0,0,0,.3));animation:bob 4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+.hero h1{font-family:'Marcellus',serif;font-size:clamp(2.4rem,7vw,4.2rem);letter-spacing:3px;margin:12px 0 8px}
+.hero p{color:#bfe3f2;font-size:1.15rem;max-width:600px;margin:0 auto}
+main{max-width:1040px;margin:0 auto;padding:40px 20px 90px}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.tab{border:2px solid var(--ocean);background:#fff;color:var(--ocean);border-radius:999px;padding:12px 28px;
+  font-family:'Jost';font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}
+.tab.active,.tab:hover{background:var(--ocean);color:#fff;box-shadow:0 6px 18px rgba(14,90,138,.35)}
+.panel{display:none}
+.panel.active{display:block;animation:fade .4s}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.itin-head{text-align:center;margin-bottom:24px}
+.itin-head h2{font-family:'Marcellus',serif;font-size:2rem;color:var(--deep)}
+.itin-head p{color:#3d6a86;font-weight:500}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:40px}
+.day{background:#fff;border-radius:16px;padding:18px;border-left:6px solid var(--sky);box-shadow:0 4px 14px rgba(6,42,74,.08);transition:transform .18s}
+.day:hover{transform:translateY(-4px)}
+.day.sea{border-left-color:var(--sand);background:#fffdf6}
+.day .dnum{font-size:.78rem;font-weight:700;letter-spacing:2px;color:var(--ocean)}
+.day h4{font-size:1.12rem;margin:6px 0 4px;font-weight:700}
+.day p{font-size:.9rem;color:#4a6b80}
+.day .emoji{font-size:1.8rem}
+/* estimator */
+.est{background:#fff;border-radius:24px;box-shadow:0 12px 40px rgba(6,42,74,.15);overflow:hidden}
+.est-head{background:linear-gradient(120deg,var(--deep),var(--ocean));color:#fff;padding:26px 30px}
+.est-head h2{font-family:'Marcellus',serif;font-size:1.7rem;letter-spacing:1px}
+.est-head p{color:#bfe3f2}
+.est-body{padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.est-body h3{font-size:.85rem;letter-spacing:2px;color:#5b7f96;margin-bottom:12px;font-weight:700}
+.cabins{display:grid;gap:10px}
+.cabin{border:2px solid #d5e8f2;border-radius:14px;padding:14px 16px;cursor:pointer;transition:all .18s;display:flex;justify-content:space-between;align-items:center}
+.cabin:hover{border-color:var(--sky)}
+.cabin.sel{border-color:var(--ocean);background:#eef8fd;box-shadow:0 0 0 3px rgba(14,90,138,.15)}
+.cabin .cn{font-weight:700;font-size:1.02rem}
+.cabin .cd{font-size:.82rem;color:#5b7f96}
+.cabin .cp{font-weight:700;color:var(--ocean)}
+.dates{display:grid;gap:10px}
+.sdate{border:2px solid #d5e8f2;border-radius:14px;padding:12px 16px;cursor:pointer;transition:all .18s;display:flex;justify-content:space-between}
+.sdate:hover{border-color:var(--sky)}
+.sdate.sel{border-color:var(--ocean);background:#eef8fd;box-shadow:0 0 0 3px rgba(14,90,138,.15)}
+.sdate .peak{font-size:.78rem;color:#b45309;font-weight:700}
+.fare{background:linear-gradient(140deg,#062a4a,#0e5a8a);color:#fff;border-radius:18px;padding:28px;margin:0 30px 30px}
+.fare-row{display:flex;justify-content:space-between;padding:8px 0;font-size:1.02rem;color:#cfe8f5}
+.fare-row.total{border-top:2px solid rgba(255,255,255,.25);margin-top:8px;padding-top:14px;font-size:1.5rem;color:#fff;font-weight:700;font-family:'Marcellus',serif}
+.fare .note{font-size:.82rem;color:#9fc6da;margin-top:10px}
+.book-btn{display:block;width:100%;margin-top:16px;background:linear-gradient(90deg,var(--sand),#f0a840);border:none;
+  border-radius:999px;padding:16px;font-family:'Jost';font-weight:700;font-size:1.15rem;letter-spacing:1px;color:#4a2c00;cursor:pointer;transition:transform .15s}
+.book-btn:hover{transform:scale(1.02)}
+footer{text-align:center;padding:30px 20px;color:#5b7f96;font-size:.88rem}
+@media(max-width:760px){.est-body{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="back-link" href="../">← 30 Sites</a>
+
+<div class="hero">
+  <div class="ship">🛳️</div>
+  <h1>AZURE LINE</h1>
+  <p>Seven days. Endless horizon. Explore our itineraries and build your perfect voyage.</p>
+  <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none"><path d="M0,40 C240,70 480,10 720,35 C960,60 1200,15 1440,40 L1440,70 L0,70 Z" fill="#e8f7fc"/></svg>
+</div>
+
+<main>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-t="carib">🌴 Caribbean</button>
+    <button class="tab" data-t="med">🏛️ Mediterranean</button>
+    <button class="tab" data-t="alaska">🏔️ Alaska</button>
+  </div>
+  <div id="panels"></div>
+
+  <div class="est">
+    <div class="est-head"><h2>Fare Estimator</h2><p>Pick a cabin and sailing date — your total updates instantly, taxes included.</p></div>
+    <div class="est-body">
+      <div><h3>1 · CHOOSE YOUR CABIN</h3><div class="cabins" id="cabins"></div></div>
+      <div><h3>2 · CHOOSE YOUR SAILING</h3><div class="dates" id="dates"></div></div>
+    </div>
+    <div class="fare">
+      <div class="fare-row"><span id="fCabin">Balcony Stateroom</span><span id="fBase">$1,899</span></div>
+      <div class="fare-row"><span>Sailing date multiplier</span><span id="fMult">× 1.00</span></div>
+      <div class="fare-row"><span>Port taxes &amp; fees (12%)</span><span id="fTax">$227.88</span></div>
+      <div class="fare-row total"><span>Estimated total</span><span id="fTotal">$2,126.88</span></div>
+      <p class="note">Per person, double occupancy. Gratuities and shore excursions not included.</p>
+      <button class="book-btn" id="bookBtn">Reserve This Voyage ⚓</button>
+      <p class="note" id="bookMsg" style="text-align:center;min-height:1.4em"></p>
+    </div>
+  </div>
+</main>
+
+<footer>Azure Line Cruises · Sailing the world's bluest waters since 1987 · 🌊</footer>
+
+<script>
+const ITINS={
+ carib:{title:'7-Night Eastern Caribbean',sub:'Roundtrip from Miami aboard the Azure Serenade',
+  days:[
+   ['🛳️','Day 1 — Miami, Florida','Sail away at 4pm. Deck party, sail-away cocktails, sunset over Biscayne Bay.'],
+   ['🌊','Day 2 — At Sea','Pool day! Aqua park, spa specials, and the captain\'s welcome gala tonight.'],
+   ['🏝️','Day 3 — Nassau, Bahamas','Snorkel the coral reefs or stroll Bay Street\'s straw market. 8am–5pm.'],
+   ['🐠','Day 4 — Azure Cay (Private Island)','Our private island: beach BBQ, paddleboards, and the overwater swing bar.'],
+   ['🌊','Day 5 — At Sea','Brunch, trivia championships, and a Broadway-style show after dinner.'],
+   ['🏰','Day 6 — San Juan, Puerto Rico','Explore Old San Juan\'s forts and sip piña coladas where they were born.'],
+   ['🛳️','Day 7 — Miami, Florida','Farewell breakfast. Disembark with a tan and 400 new photos.']]},
+ med:{title:'7-Night Mediterranean Gems',sub:'Roundtrip from Barcelona aboard the Azure Meridian',
+  days:[
+   ['🛳️','Day 1 — Barcelona, Spain','Embark by 3pm. Tapas on the lido deck as the Sagrada Família fades astern.'],
+   ['🏛️','Day 2 — Marseille, France','Provençal markets, bouillabaisse, and the stunning Notre-Dame de la Garde.'],
+   ['🍋','Day 3 — Naples / Capri, Italy','Pizza in its birthplace or a ferry to Capri\'s Blue Grotto.'],
+   ['🏟️','Day 4 — Rome (Civitavecchia), Italy','The Colosseum, the Vatican, gelato — the eternal city in one epic day.'],
+   ['🌊','Day 5 — At Sea','Italian cooking class, wine tasting, and stargazing on the top deck.'],
+   ['⛵','Day 6 — Palma de Mallorca, Spain','Cathedral spires, hidden coves, and the island\'s famous ensaïmadas.'],
+   ['🛳️','Day 7 — Barcelona, Spain','One last café con leche on Las Ramblas before disembarkation.']]},
+ alaska:{title:'7-Night Glacier Discovery',sub:'Vancouver to Seward aboard the Azure Frontier',
+  days:[
+   ['🛳️','Day 1 — Vancouver, Canada','Sail under the Lions Gate Bridge at sunset. Keep binoculars handy!'],
+   ['🐋','Day 2 — Inside Passage','Whale watching from the panoramic lounge — humpbacks guaranteed (almost).'],
+   ['🏔️','Day 3 — Tracy Arm Fjord','Glacier calving up close. Hot cocoa on deck as icebergs drift by.'],
+   ['⛏️','Day 4 — Juneau, Alaska','Mendenhall Glacier, salmon bakes, and gold-rush history.'],
+   ['🐻','Day 5 — Skagway, Alaska','Ride the White Pass railway or mush a sled-dog team.'],
+   ['🦅','Day 6 — Ketchikan, Alaska','Totem poles, lumberjack shows, and the salmon capital of the world.'],
+   ['🛳️','Day 7 — Seward, Alaska','Disembark beneath snow-capped peaks. The frontier stays with you.']]}
+};
+const CABINS=[
+ {id:'int',name:'Interior Stateroom',desc:'Cozy, quiet, dream-dark',mult:1.0},
+ {id:'ocv',name:'Oceanview Stateroom',desc:'Picture window to the sea',mult:1.35},
+ {id:'bal',name:'Balcony Stateroom',desc:'Private veranda, sunrise coffee',mult:1.9},
+ {id:'ste',name:'Azure Suite',desc:'Butler service + priority everything',mult:3.1},
+];
+const BASE={carib:999,med:1299,alaska:1149};
+const DATES={
+ carib:[['Nov 14, 2026',1.0],['Dec 12, 2026',1.25,'🎄 Holiday peak'],['Jan 16, 2027',1.0],['Feb 13, 2027',1.15]],
+ med:[['May 8, 2027',1.0],['Jun 19, 2027',1.2,'☀️ Summer peak'],['Sep 4, 2027',1.0],['Oct 2, 2027',0.9,'🍂 Shoulder deal']],
+ alaska:[['May 22, 2027',1.0],['Jul 10, 2027',1.25,'🐋 Whale season'],['Aug 21, 2027',1.1],['Sep 11, 2027',0.9,'🍂 Shoulder deal']],
+};
+let region='carib', cabin=CABINS[2], dateMult=1.0, dateLabel='';
+const panels=document.getElementById('panels'), money=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function renderPanels(){
+ panels.innerHTML=Object.entries(ITINS).map(([k,v])=>`
+  <div class="panel ${k===region?'active':''}">
+   <div class="itin-head"><h2>${v.title}</h2><p>${v.sub}</p></div>
+   <div class="days">${v.days.map(d=>`
+    <div class="day ${d[1].includes('At Sea')?'sea':''}">
+     <div class="emoji">${d[0]}</div><div class="dnum">${d[1].split(' — ')[0].toUpperCase()}</div>
+     <h4>${d[1].split(' — ')[1]}</h4><p>${d[2]}</p>
+    </div>`).join('')}</div>
+  </div>`).join('');
+}
+document.getElementById('tabs').addEventListener('click',e=>{
+ const t=e.target.closest('.tab'); if(!t)return;
+ region=t.dataset.t;
+ document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
+ renderPanels(); renderDates(); updateFare();
+});
+function renderCabins(){
+ const el=document.getElementById('cabins');
+ el.innerHTML=CABINS.map(c=>`<div class="cabin ${c.id===cabin.id?'sel':''}" data-id="${c.id}">
+   <div><div class="cn">${c.name}</div><div class="cd">${c.desc}</div></div>
+   <div class="cp">×${c.mult.toFixed(2)}</div></div>`).join('');
+ el.querySelectorAll('.cabin').forEach(d=>d.onclick=()=>{cabin=CABINS.find(c=>c.id===d.dataset.id);renderCabins();updateFare();});
+}
+function renderDates(){
+ const el=document.getElementById('dates');
+ const list=DATES[region];
+ if(!list.some(d=>d[1]===dateMult)){dateMult=list[0][1];dateLabel=list[0][0];}
+ el.innerHTML=list.map(d=>`<div class="sdate ${d[1]===dateMult&&d[0]===dateLabel?'sel':''}" data-m="${d[1]}" data-l="${d[0]}">
+   <div><b>${d[0]}</b>${d[2]?` <span class="peak">${d[2]}</span>`:''}</div><div>×${d[1].toFixed(2)}</div></div>`).join('');
+ el.querySelectorAll('.sdate').forEach(s=>s.onclick=()=>{dateMult=+s.dataset.m;dateLabel=s.dataset.l;renderDates();updateFare();});
+}
+function updateFare(){
+ const base=BASE[region]*cabin.mult*dateMult, tax=base*0.12, total=base+tax;
+ document.getElementById('fCabin').textContent=cabin.name+' — '+ITINS[region].title;
+ document.getElementById('fBase').textContent=money(base);
+ document.getElementById('fMult').textContent='× '+(cabin.mult*dateMult).toFixed(2);
+ document.getElementById('fTax').textContent=money(tax);
+ document.getElementById('fTotal').textContent=money(total);
+ document.getElementById('bookMsg').textContent='';
+}
+document.getElementById('bookBtn').onclick=()=>{
+ const total=document.getElementById('fTotal').textContent;
+ document.getElementById('bookMsg').textContent=`🎉 Stateroom held! ${cabin.name} · ${dateLabel} · ${total} — check your email to complete booking.`;
+};
+dateLabel=DATES.carib[0][0];
+renderPanels(); renderCabins(); renderDates(); updateFare();
+</script>
+</body>
+</html>
