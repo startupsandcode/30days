@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The General Store — small-batch goods, honest prices, delivered with a smile. Shop pantry, home, and outdoor staples.">
+<title>The General Store — Small-Batch Goods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#faf6ef;--ink:#2b2118;--accent:#b5541f;--accent2:#2e6b4f;--card:#fffdf8;--line:#e7dcc8;--muted:#7c6f5c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--paper);color:var(--ink);padding-bottom:4rem}
+.back{position:fixed;top:12px;left:12px;z-index:200;background:#2b2118;color:#faf6ef;text-decoration:none;font-size:.8rem;font-weight:600;padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+header{background:linear-gradient(135deg,#b5541f,#8a3f12);color:#fff;padding:4.2rem 1.5rem 3rem;text-align:center}
+header h1{font-family:Fraunces,serif;font-size:clamp(2rem,6vw,3.4rem);letter-spacing:.5px}
+header p{opacity:.92;margin-top:.6rem;max-width:34rem;margin-inline:auto}
+main{max-width:1100px;margin:0 auto;padding:0 1rem}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:2rem 0 1.5rem}
+.chip{border:2px solid var(--line);background:var(--card);padding:.5rem 1.1rem;border-radius:999px;cursor:pointer;font-weight:600;font-size:.9rem;color:var(--ink);transition:.2s}
+.chip:hover{border-color:var(--accent)}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(43,33,24,.12)}
+.art{height:130px;display:flex;align-items:center;justify-content:center;font-size:3.4rem;background:linear-gradient(135deg,#f3e9d4,#e2d2b0)}
+.body{padding:1rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.cat{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.name{font-family:Fraunces,serif;font-size:1.15rem}
+.desc{font-size:.86rem;color:var(--muted);flex:1}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:.5rem}
+.price{font-weight:800;font-size:1.1rem}
+.add{background:var(--accent2);color:#fff;border:none;border-radius:10px;padding:.55rem 1rem;font-weight:700;cursor:pointer;transition:.2s}
+.add:hover{background:#245a41;transform:scale(1.04)}
+.cartbtn{position:fixed;bottom:20px;right:20px;z-index:150;background:var(--accent);color:#fff;border:none;border-radius:999px;padding:.9rem 1.4rem;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(181,84,31,.45);transition:.2s}
+.cartbtn:hover{transform:scale(1.05)}
+.drawer{position:fixed;top:0;right:-380px;width:min(360px,92vw);height:100%;background:var(--card);z-index:300;transition:right .3s ease;box-shadow:-8px 0 30px rgba(0,0,0,.2);display:flex;flex-direction:column;border-left:1px solid var(--line)}
+.drawer.open{right:0}
+.dhead{padding:1.2rem;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.dhead h2{font-family:Fraunces,serif}
+.close{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted)}
+.items{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem}
+.item{display:flex;gap:.8rem;align-items:center;border:1px solid var(--line);border-radius:12px;padding:.6rem}
+.item .art2{font-size:2rem;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#f3e9d4;border-radius:10px}
+.item .info{flex:1}
+.item .info b{font-size:.9rem}
+.qty{display:flex;align-items:center;gap:.4rem}
+.qty button{width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:700}
+.qty span{min-width:20px;text-align:center;font-weight:700}
+.empty{text-align:center;color:var(--muted);padding:2rem 0}
+.dfoot{padding:1.2rem;border-top:1px solid var(--line)}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin-bottom:.8rem}
+.checkout{width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:.9rem;font-size:1rem;font-weight:700;cursor:pointer}
+.checkout:hover{background:#9a4a19}
+.overlay{position:fixed;inset:0;background:rgba(43,33,24,.55);z-index:400;display:none;align-items:center;justify-content:center;padding:1rem}
+.overlay.show{display:flex}
+.modal{background:var(--card);border-radius:18px;max-width:420px;width:100%;padding:2rem;position:relative}
+.modal h2{font-family:Fraunces,serif;margin-bottom:1rem}
+.modal label{display:block;font-size:.82rem;font-weight:600;margin:.7rem 0 .3rem}
+.modal input{width:100%;padding:.65rem;border:1.5px solid var(--line);border-radius:10px;font-size:1rem}
+.place{width:100%;margin-top:1.2rem;background:var(--accent2);color:#fff;border:none;border-radius:12px;padding:.9rem;font-size:1rem;font-weight:700;cursor:pointer}
+.conf{text-align:center}
+.conf .big{font-size:4rem;margin-bottom:.5rem}
+.conf h2{font-family:Fraunces,serif;margin-bottom:.5rem}
+.conf p{color:var(--muted);margin-bottom:.4rem}
+.ordernum{background:#eef6f0;border:1px dashed var(--accent2);border-radius:10px;padding:.7rem;margin:1rem 0;font-weight:800;letter-spacing:.06em;color:var(--accent2)}
+@media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+<header>
+  <h1>🏪 The General Store</h1>
+  <p>Small-batch pantry goods, home staples &amp; outdoor favorites — stocked daily since 2026.</p>
+</header>
+<main>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<button class="cartbtn" id="cartbtn">🛒 Cart · <span id="count">0</span></button>
+<aside class="drawer" id="drawer" aria-label="Shopping cart">
+  <div class="dhead"><h2>Your Cart</h2><button class="close" id="closeDrawer">✕</button></div>
+  <div class="items" id="items"></div>
+  <div class="dfoot">
+    <div class="tot"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+    <button class="checkout" id="checkoutBtn">Checkout →</button>
+  </div>
+</aside>
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+<script>
+const PRODUCTS=[
+{id:1,name:"Wildflower Honey",price:12.50,cat:"Pantry",emoji:"🍯",desc:"Raw, unfiltered, straight from the hive."},
+{id:2,name:"Stone-Ground Coffee",price:16.00,cat:"Pantry",emoji:"☕",desc:"Dark roast beans, ground weekly."},
+{id:3,name:"Sea Salt Caramels",price:9.75,cat:"Pantry",emoji:"🍬",desc:"Chewy, buttery, dusted with flake salt."},
+{id:4,name:"Sourdough Starter Kit",price:24.00,cat:"Pantry",emoji:"🍞",desc:"Everything you need to bake like a pro."},
+{id:5,name:"Beeswax Candle Trio",price:18.50,cat:"Home",emoji:"🕯️",desc:"Slow-burning, honey-scented glow."},
+{id:6,name:"Wool Throw Blanket",price:58.00,cat:"Home",emoji:"🧶",desc:"Chunky knit, cabin-approved cozy."},
+{id:7,name:"Cedar Soap Dish",price:11.00,cat:"Home",emoji:"🧼",desc:"Hand-cut cedar, drains like a dream."},
+{id:8,name:"Enamel Camp Mug",price:14.25,cat:"Outdoors",emoji:"🥤",desc:"Indestructible classic for the trail."},
+{id:9,name:"Trail Mix — Big Bag",price:8.99,cat:"Outdoors",emoji:"🥜",desc:"Nuts, berries, chocolate. Gone by noon."},
+{id:10,name:"Canvas Field Tote",price:32.00,cat:"Outdoors",emoji:"👜",desc:"Waxed canvas, leather straps, built to last."},
+{id:11,name:"Lantern & Flint Set",price:27.50,cat:"Outdoors",emoji:"🏮",desc:"Old-school light for new-school nights."},
+{id:12,name:"Herb Garden Kit",price:21.00,cat:"Home",emoji:"🌿",desc:"Basil, thyme & mint. Just add sunshine."}];
+const cats=["All",...new Set(PRODUCTS.map(p=>p.cat))];
+let activeCat="All";
+let cart=JSON.parse(localStorage.getItem("gs_cart")||"{}");
+const $=id=>document.getElementById(id);
+const money=n=>"$"+n.toFixed(2);
+function save(){localStorage.setItem("gs_cart",JSON.stringify(cart));renderCart();}
+function renderChips(){$("chips").innerHTML=cats.map(c=>`<button class="chip ${c===activeCat?'active':''}" data-c="${c}">${c}</button>`).join("");
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{activeCat=b.dataset.c;renderChips();renderGrid();});}
+function renderGrid(){const list=PRODUCTS.filter(p=>activeCat==="All"||p.cat===activeCat);
+$("grid").innerHTML=list.map(p=>`<div class="card"><div class="art">${p.emoji}</div><div class="body"><span class="cat">${p.cat}</span><div class="name">${p.name}</div><div class="desc">${p.desc}</div><div class="row"><span class="price">${money(p.price)}</span><button class="add" data-id="${p.id}">Add</button></div></div></div>`).join("");
+document.querySelectorAll(".add").forEach(b=>b.onclick=()=>{const id=b.dataset.id;cart[id]=(cart[id]||0)+1;save();flashCartBtn();});}
+function cartItems(){return Object.entries(cart).map(([id,q])=>({...PRODUCTS.find(p=>p.id==id),qty:q})).filter(i=>i.name);}
+function renderCart(){const items=cartItems();const n=Object.values(cart).reduce((a,b)=>a+b,0);$("count").textContent=n;
+const box=$("items");
+if(!items.length){box.innerHTML=`<div class="empty">🛒<br>Your cart is empty.<br>Go find something good!</div>`;}
+else{box.innerHTML=items.map(i=>`<div class="item"><div class="art2">${i.emoji}</div><div class="info"><b>${i.name}</b><br><span>${money(i.price)} each</span></div><div class="qty"><button data-a="-" data-id="${i.id}">−</button><span>${i.qty}</span><button data-a="+" data-id="${i.id}">+</button></div></div>`).join("");
+box.querySelectorAll(".qty button").forEach(b=>b.onclick=()=>{const id=b.dataset.id;cart[id]=(cart[id]||0)+(b.dataset.a==="+"?1:-1);if(cart[id]<=0)delete cart[id];save();});}
+const sub=items.reduce((s,i)=>s+i.price*i.qty,0);$("subtotal").textContent=money(sub);}
+function flashCartBtn(){const b=$("cartbtn");b.style.transform="scale(1.15)";setTimeout(()=>b.style.transform="",180);}
+$("cartbtn").onclick=()=>{$("drawer").classList.add("open");};
+$("closeDrawer").onclick=()=>$("drawer").classList.remove("open");
+$("checkoutBtn").onclick=()=>{
+if(!cartItems().length){alert("Your cart is empty!");return;}
+const sub=cartItems().reduce((s,i)=>s+i.price*i.qty,0);
+$("modal").innerHTML=`<h2>Checkout</h2>
+<label>Full name</label><input id="f_name" placeholder="Jane Doe">
+<label>Street address</label><input id="f_addr" placeholder="123 Main St">
+<label>City, State ZIP</label><input id="f_city" placeholder="Springfield, IL 62701">
+<p style="margin-top:1rem;font-weight:700">Total due: ${money(sub)} <span style="font-weight:400;color:#7c6f5c">(free shipping!)</span></p>
+<button class="place" id="placeBtn">Place Order</button>`;
+$("overlay").classList.add("show");
+$("placeBtn").onclick=()=>{const n=$("f_name").value.trim()||"Friend";
+const order="GS-"+Math.floor(100000+Math.random()*900000);
+cart={};save();$("drawer").classList.remove("open");
+$("modal").innerHTML=`<div class="conf"><div class="big">🎉</div><h2>Thanks, ${n}!</h2><p>Your order is confirmed and being packed with care.</p><div class="ordernum">Order ${order}</div><p>Estimated delivery: 3–5 days</p><button class="place" id="doneBtn">Keep Shopping</button></div>`;
+$("doneBtn").onclick=()=>$("overlay").classList.remove("show");};}
+$("overlay").onclick=e=>{if(e.target===$("overlay"))$("overlay").classList.remove("show");};
+renderChips();renderGrid();renderCart();
+</script>
+</body>
+</html>

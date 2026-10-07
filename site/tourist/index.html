@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Visit NYC — explore iconic attractions and build your perfect day in New York City with the interactive itinerary builder.">
+<title>Visit NYC — Build Your Perfect Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1e33;--taxi:#ffc72c;--sky:#eaf3fb;--ink:#17233a;--muted:#64748b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Work Sans",system-ui,sans-serif;background:var(--sky);color:var(--ink);padding-bottom:4rem}
+.back{position:fixed;top:12px;left:12px;z-index:200;background:#0f1e33;color:#fff;text-decoration:none;font-size:.8rem;font-weight:600;padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.hero{background:linear-gradient(180deg,#0f1e33 0%,#1e3a63 70%,#2b5285 100%);color:#fff;padding:4.5rem 1.5rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:"🌃";position:absolute;font-size:8rem;opacity:.12;bottom:-1.5rem;right:1rem;transform:rotate(-8deg)}
+.hero h1{font-family:"Bebas Neue",sans-serif;font-size:clamp(3rem,10vw,5.5rem);letter-spacing:.04em}
+.hero h1 span{color:var(--taxi)}
+.hero p{opacity:.9;max-width:36rem;margin:.5rem auto 0}
+main{max-width:1100px;margin:0 auto;padding:0 1rem}
+h2.section{font-family:"Bebas Neue",sans-serif;font-size:2rem;letter-spacing:.03em;margin:2.5rem 0 1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.1rem}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 14px rgba(15,30,51,.08);display:flex;flex-direction:column;transition:.2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 10px 26px rgba(15,30,51,.16)}
+.art{height:120px;display:flex;align-items:center;justify-content:center;font-size:3.2rem}
+.meta{padding:1rem;display:flex;flex-direction:column;gap:.3rem;flex:1}
+.meta .hood{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.meta h3{font-size:1.1rem}
+.meta .deets{font-size:.85rem;color:var(--muted)}
+.meta p{font-size:.88rem;line-height:1.5;flex:1}
+.meta .row{display:flex;justify-content:space-between;align-items:center;margin-top:.6rem}
+.price{font-weight:700}
+.addbtn{background:var(--navy);color:var(--taxi);border:none;border-radius:10px;padding:.55rem 1rem;font-weight:700;cursor:pointer;transition:.2s}
+.addbtn:hover{background:#1e3a63;transform:scale(1.05)}
+.addbtn.added{background:#16a34a;color:#fff}
+.builder{background:#fff;border-radius:18px;padding:1.6rem;box-shadow:0 4px 20px rgba(15,30,51,.1);border-top:6px solid var(--taxi)}
+.totals{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem;font-weight:600}
+.totals b{color:var(--navy);font-size:1.15rem}
+.itin{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.stop{display:flex;align-items:center;gap:.8rem;background:var(--sky);border-radius:12px;padding:.7rem .9rem}
+.stop .num{background:var(--navy);color:var(--taxi);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.stop .info{flex:1}
+.stop .info b{font-size:.95rem}
+.stop .info span{font-size:.8rem;color:var(--muted);display:block}
+.ctrl{display:flex;gap:.3rem}
+.ctrl button{width:30px;height:30px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;font-size:.95rem}
+.ctrl button:hover{border-color:var(--navy)}
+.empty{color:var(--muted);text-align:center;padding:1.5rem;border:2px dashed #cbd5e1;border-radius:12px}
+.tip{margin-top:1rem;font-size:.85rem;color:var(--muted);background:#fffbeb;border-radius:10px;padding:.7rem 1rem}
+@media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+<div class="hero">
+  <h1>VISIT <span>NYC</span></h1>
+  <p>The city that never sleeps has 8.3 million stories. Start with ten of the best — then build your perfect day below.</p>
+</div>
+<main>
+  <h2 class="section">🗽 Attractions</h2>
+  <div class="grid" id="grid"></div>
+  <h2 class="section">🗓️ Build My Day</h2>
+  <div class="builder">
+    <div class="totals">
+      <div>⏱️ Total time: <b id="t_time">0 hrs</b></div>
+      <div>💵 Est. cost: <b id="t_cost">$0</b></div>
+      <div>📍 Stops: <b id="t_n">0</b></div>
+    </div>
+    <ul class="itin" id="itin"></ul>
+    <div class="tip">💡 Tip: budget 30 minutes between stops for subway rides, pretzels, and spontaneous detours.</div>
+  </div>
+</main>
+<script>
+const ATTR=[
+{id:1,name:"Summit One Vanderbilt",hood:"Midtown East",emoji:"🏙️",bg:"linear-gradient(135deg,#bcd7f5,#7fa8d9)",hours:"9am–10pm",price:43,time:2.5,desc:"Glass-floor observation deck 1,401 ft up. The skyline — and your knees — will never be the same."},
+{id:2,name:"The High Line",hood:"Chelsea",emoji:"🌿",bg:"linear-gradient(135deg,#c8e6c0,#8fce9a)",hours:"7am–10pm",price:0,time:2,desc:"A mile-long park floating above the streets, built on old rail tracks. Free, green, glorious."},
+{id:3,name:"Tenement Museum",hood:"Lower East Side",emoji:"🏠",bg:"linear-gradient(135deg,#e8d3b8,#c9a876)",hours:"10am–6pm",price:30,time:1.5,desc:"Walk through restored 19th-century apartments and meet the immigrant families who lived in them."},
+{id:4,name:"The Met Rooftop",hood:"Upper East Side",emoji:"🎨",bg:"linear-gradient(135deg,#f5d5b8,#e0a96f)",hours:"10am–5:30pm",price:30,time:3,desc:"World-class art, then cocktails above Central Park. Suggested admission — pay what you can if you're a NY resident."},
+{id:5,name:"Brooklyn Bridge Walk",hood:"DUMBO / FiDi",emoji:"🌉",bg:"linear-gradient(135deg,#d4e2f0,#9db8d4)",hours:"Always open",price:0,time:1.5,desc:"Stroll the wooden promenade as the sun drops behind Manhattan. Bring a camera. Trust us."},
+{id:6,name:"American Museum of Natural History",hood:"Upper West Side",emoji:"🦕",bg:"linear-gradient(135deg,#e5d9c5,#bfa87e)",hours:"10am–5:30pm",price:28,time:3.5,desc:"Dinosaurs, the blue whale, and the Hayden Planetarium. A full day if you let it be."},
+{id:7,name:"Smalls Jazz Club",hood:"West Village",emoji:"🎷",bg:"linear-gradient(135deg,#d9c2e8,#a37fc4)",hours:"7:30pm–late",price:30,time:2.5,desc:"Basement jazz the way it was meant to be heard: close, loud, and a little bit magic."},
+{id:8,name:"Chelsea Market",hood:"Chelsea",emoji:"🌮",bg:"linear-gradient(135deg,#f7e3b8,#e6b96a)",hours:"8am–9pm",price:0,time:1.5,desc:"A food hall in a former cookie factory. Come hungry; leave with a tote bag full of regrets (the good kind)."},
+{id:9,name:"Staten Island Ferry",hood:"Financial District",emoji:"⛴️",bg:"linear-gradient(135deg,#c2e3f0,#7fb8d4)",hours:"Runs 24/7",price:0,time:1,desc:"The best free boat ride on Earth: Statue of Liberty views, zero dollars, runs all night."},
+{id:10,name:"The Cloisters",hood:"Washington Heights",emoji:"🏰",bg:"linear-gradient(135deg,#d5e0c8,#a3b98a)",hours:"10am–5:15pm",price:30,time:2.5,desc:"A medieval monastery reassembled in Fort Tryon Park. Unicorn tapestries included."}];
+let day=JSON.parse(localStorage.getItem("nyc_day")||"[]");
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem("nyc_day",JSON.stringify(day));renderAll();}
+function renderAll(){renderGrid();renderItin();}
+function renderGrid(){$("grid").innerHTML=ATTR.map(a=>{const inDay=day.includes(a.id);
+return `<div class="card"><div class="art" style="background:${a.bg}">${a.emoji}</div><div class="meta"><span class="hood">${a.hood}</span><h3>${a.name}</h3><div class="deets">🕐 ${a.hours} · ${a.price? "$"+a.price+" admission":"Free"} · ~${a.time}h</div><p>${a.desc}</p><div class="row"><span class="price">${a.price?"$"+a.price:"Free"}</span><button class="addbtn ${inDay?'added':''}" data-id="${a.id}">${inDay?"✓ Added":"Add to day"}</button></div></div></div>`;}).join("");
+document.querySelectorAll(".addbtn").forEach(b=>b.onclick=()=>{const id=+b.dataset.id;day=day.includes(id)?day.filter(x=>x!==id):[...day,id];save();});}
+function renderItin(){const box=$("itin");
+if(!day.length){box.innerHTML=`<div class="empty">Your day is empty — add some attractions above! ☝️</div>`;}
+else{box.innerHTML=day.map((id,i)=>{const a=ATTR.find(x=>x.id===id);
+return `<li class="stop"><div class="num">${i+1}</div><div class="info"><b>${a.emoji} ${a.name}</b><span>${a.hood} · ~${a.time}h · ${a.price?"$"+a.price:"Free"}</span></div><div class="ctrl"><button data-a="up" data-i="${i}" ${i===0?"disabled":""}>↑</button><button data-a="dn" data-i="${i}" ${i===day.length-1?"disabled":""}>↓</button><button data-a="rm" data-i="${i}">✕</button></div></li>`;}).join("");
+box.querySelectorAll("button").forEach(b=>b.onclick=()=>{const i=+b.dataset.i,a=b.dataset.a;
+if(a==="up"&&i>0)[day[i-1],day[i]]=[day[i],day[i-1]];
+if(a==="dn"&&i<day.length-1)[day[i+1],day[i]]=[day[i],day[i+1]];
+if(a==="rm")day.splice(i,1);save();});}
+const cost=day.reduce((s,id)=>s+ATTR.find(a=>a.id===id).price,0);
+const time=day.reduce((s,id)=>s+ATTR.find(a=>a.id===id).time,0);
+$("t_time").textContent=time.toFixed(1).replace(/\.0$/,"")+" hrs";$("t_cost").textContent="$"+cost;$("t_n").textContent=day.length;}
+renderAll();
+</script>
+</body>
+</html>

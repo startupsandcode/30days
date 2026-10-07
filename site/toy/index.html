@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Wonder Toys — the happiest toy shop on the internet. Bouncy toys, wobbly cards, and sparkles that follow your cursor!">
+<title>Wonder Toys — The Happiest Toy Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ff5d8f;--yellow:#ffd93d;--blue:#4fc3f7;--green:#7bed9f;--purple:#a55eea;--ink:#3d2b56}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Nunito,system-ui,sans-serif;background:linear-gradient(180deg,#fff7d6,#ffeef5 40%,#e8f7ff);color:var(--ink);min-height:100vh;padding-bottom:4rem;overflow-x:hidden}
+.back{position:fixed;top:12px;left:12px;z-index:500;background:#3d2b56;color:#fff;text-decoration:none;font-size:.8rem;font-weight:700;padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+#sparkle{position:fixed;inset:0;pointer-events:none;z-index:400}
+header{text-align:center;padding:4.5rem 1rem 1.5rem;position:relative}
+header h1{font-family:"Baloo 2",cursive;font-size:clamp(2.6rem,9vw,4.5rem);color:var(--pink);text-shadow:3px 3px 0 var(--yellow);transform:rotate(-2deg);display:inline-block}
+header p{font-weight:700;margin-top:.8rem;font-size:1.05rem}
+.cart{position:fixed;top:12px;right:12px;z-index:500;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:.55rem 1.1rem;font-size:1.1rem;font-weight:800;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .15s}
+.cart.bounce{animation:cbounce .5s}
+@keyframes cbounce{0%{transform:scale(1)}30%{transform:scale(1.35) rotate(-6deg)}60%{transform:scale(.92)}100%{transform:scale(1)}}
+.count{position:absolute;top:-10px;right:-6px;background:var(--pink);color:#fff;border:2px solid #fff;min-width:28px;height:28px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.count.pop{animation:pop .4s}
+@keyframes pop{50%{transform:scale(1.6)}}
+main{max-width:1050px;margin:0 auto;padding:0 1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.3rem;margin-top:1.5rem}
+.card{background:#fff;border:4px solid var(--ink);border-radius:22px;padding:1.2rem;text-align:center;box-shadow:5px 5px 0 rgba(61,43,86,.18);transition:transform .25s;position:relative}
+.card:nth-child(odd){transform:rotate(-1.5deg)}
+.card:nth-child(even){transform:rotate(1.5deg)}
+.card:hover{animation:wiggle .45s;transform:rotate(0) scale(1.05);z-index:5}
+@keyframes wiggle{0%{transform:rotate(-3deg)}25%{transform:rotate(3deg) scale(1.03)}50%{transform:rotate(-3deg)}75%{transform:rotate(2deg)}100%{transform:rotate(0) scale(1.05)}}
+.toy{font-size:3.6rem;margin-bottom:.4rem;filter:drop-shadow(0 4px 4px rgba(0,0,0,.12))}
+.card h3{font-family:"Baloo 2",cursive;font-size:1.25rem;margin-bottom:.2rem}
+.card .p{font-size:.88rem;color:#7a6a99;margin-bottom:.6rem;min-height:2.6em}
+.price{font-family:"Baloo 2",cursive;font-size:1.4rem;color:var(--purple);margin-bottom:.6rem}
+.buy{background:var(--yellow);border:3px solid var(--ink);border-radius:999px;padding:.55rem 1.4rem;font-family:"Baloo 2",cursive;font-size:1.05rem;font-weight:800;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:.15s}
+.buy:hover{background:var(--pink);color:#fff;transform:translateY(-2px)}
+.buy:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.overlay{position:fixed;inset:0;background:rgba(61,43,86,.6);z-index:600;display:none;align-items:center;justify-content:center;padding:1rem}
+.overlay.show{display:flex}
+.modal{background:#fff;border:5px solid var(--ink);border-radius:26px;max-width:420px;width:100%;padding:2rem;text-align:center;box-shadow:8px 8px 0 rgba(0,0,0,.25);animation:popin .35s}
+@keyframes popin{0%{transform:scale(.7) rotate(-4deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.modal h2{font-family:"Baloo 2",cursive;font-size:1.8rem;margin-bottom:.5rem}
+.modal .items{text-align:left;margin:1rem 0;max-height:220px;overflow-y:auto}
+.modal .items div{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:2px dotted #eee}
+.modal .tot{font-family:"Baloo 2",cursive;font-size:1.4rem;margin:1rem 0}
+.modal button{background:var(--green);border:3px solid var(--ink);border-radius:999px;padding:.7rem 2rem;font-family:"Baloo 2",cursive;font-size:1.1rem;font-weight:800;cursor:pointer;box-shadow:3px 3px 0 var(--ink);margin:.3rem}
+.modal button.ghost{background:#fff}
+.celebrate .big{font-size:4.5rem;animation:cbounce .6s infinite}
+footer{text-align:center;margin-top:3rem;font-weight:600;color:#7a6a99}
+@media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+<canvas id="sparkle"></canvas>
+<div class="cart" id="cartBtn">🛒<span class="count" id="count">0</span></div>
+<header>
+  <h1>🌈 Wonder Toys 🌈</h1>
+  <p>Move your mouse — sparkles follow you here! ✨</p>
+</header>
+<main><div class="grid" id="grid"></div></main>
+<footer>Wonder Toys · where every day is a play day 🧸</footer>
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<script>
+const TOYS=[
+{n:"Giggly Robot",e:"🤖",p:"Best buddy. Beeps when you tickle it.",price:24.99,c:"#ffe0ec"},
+{n:"Super Bounce Ball",e:"🏀",p:"Bounces 3x higher. Science can't explain it.",price:7.99,c:"#fff3c4"},
+{n:"Captain Cuddles Bear",e:"🧸",p:"Extra squishy. Professional hugger.",price:19.99,c:"#e3f2fd"},
+{n:"Dino Roar Set",e:"🦕",p:"5 dinosaurs. 100% roar guaranteed.",price:16.49,c:"#d9f7d0"},
+{n:"Magic Doodle Pad",e:"🎨",p:"Draw, shake, start over. Endless art!",price:12.99,c:"#f3e5f5"},
+{n:"Rocket Racer Car",e:"🚀",p:"Vroom vroom. Goes zoom zoom.",price:14.99,c:"#e0f7fa"},
+{n:"Unicorn Plush",e:"🦄",p:"Sparkles included. Obviously.",price:21.99,c:"#fce4ec"},
+{n:"Building Blocks 100pc",e:"🧱",p:"Build a castle. Then a bigger castle.",price:29.99,c:"#fff9c4"},
+{n:"Pirate Ship Playset",e:"🏴‍☠️",p:"Ahoy! Treasure map sold separately.",price:34.99,c:"#e8eaf6"},
+{n:"Bubble Blaster",e:"🫧",p:"500 bubbles per minute. Pure joy.",price:9.99,c:"#e1f5fe"}];
+let cart=JSON.parse(localStorage.getItem("wt_cart")||"{}");
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem("wt_cart",JSON.stringify(cart));updateCount();}
+function updateCount(){const n=Object.values(cart).reduce((a,b)=>a+b,0);$("count").textContent=n;}
+$("grid").innerHTML=TOYS.map((t,i)=>`<div class="card"><div class="toy" style="background:${t.c};border-radius:18px;padding:.5rem">${t.e}</div><h3>${t.n}</h3><div class="p">${t.p}</div><div class="price">$${t.price.toFixed(2)}</div><button class="buy" data-i="${i}">Add to Cart!</button></div>`).join("");
+document.querySelectorAll(".buy").forEach(b=>b.onclick=()=>{const i=b.dataset.i;cart[i]=(cart[i]||0)+1;save();
+const c=$("cartBtn");c.classList.remove("bounce");void c.offsetWidth;c.classList.add("bounce");
+const n=$("count");n.classList.remove("pop");void n.offsetWidth;n.classList.add("pop");});
+$("cartBtn").onclick=()=>{const items=Object.entries(cart);
+if(!items.length){alert("Your cart is empty — go grab some fun! 🎈");return;}
+const total=items.reduce((s,[i,q])=>s+TOYS[i].price*q,0);
+$("modal").innerHTML=`<h2>🛒 Your Toy Box</h2><div class="items">${items.map(([i,q])=>`<div><span>${TOYS[i].e} ${TOYS[i].n} × ${q}</span><b>$${(TOYS[i].price*q).toFixed(2)}</b></div>`).join("")}</div><div class="tot">Total: $${total.toFixed(2)}</div><button id="okBtn">🎉 Order Placed!</button><button class="ghost" id="xBtn">Keep Shopping</button>`;
+$("overlay").classList.add("show");
+$("xBtn").onclick=()=>$("overlay").classList.remove("show");
+$("okBtn").onclick=()=>{const order="WT-"+Math.floor(100000+Math.random()*900000);cart={};save();
+$("modal").innerHTML=`<div class="celebrate"><div class="big">🎊</div><h2>Order placed!</h2><p>Order <b>${order}</b> is on its way.<br>Someone's getting awesome toys! 🥳</p><button id="yayBtn">Yay!</button></div>`;
+confettiBurst();$("yayBtn").onclick=()=>$("overlay").classList.remove("show");};};
+// sparkle cursor trail
+const cv=$("sparkle"),ctx=cv.getContext("2d");let parts=[];
+function size(){cv.width=innerWidth;cv.height=innerHeight;}size();addEventListener("resize",size);
+const COLORS=["#ff5d8f","#ffd93d","#4fc3f7","#7bed9f","#a55eea","#ff8c42"];
+addEventListener("pointermove",e=>{for(let k=0;k<3;k++)parts.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3-1,life:1,size:2+Math.random()*4,color:COLORS[Math.random()*COLORS.length|0],rot:Math.random()*Math.PI});});
+function confettiBurst(){for(let k=0;k<120;k++)parts.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*14,vy:Math.random()*-10-2,life:1.4,size:3+Math.random()*5,color:COLORS[Math.random()*COLORS.length|0],rot:Math.random()*Math.PI});}
+(function loop(){ctx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.life>0);
+for(const p of parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.06;p.life-=.02;p.rot+=.08;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=Math.max(p.life,0);ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);ctx.restore();}
+requestAnimationFrame(loop);})();
+updateCount();
+</script>
+</body>
+</html>

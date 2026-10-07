@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Steady — a calm, encouraging weight tracker. Log your weight, watch your hand-drawn chart, and celebrate small wins.">
+<title>Steady — A Calm Weight Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--ink:#3e4a45;--teal:#4a9b8e;--teal2:#357a70;--card:#fffdf9;--soft:#e9e4d8;--muted:#8a948f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Nunito,system-ui,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:4rem}
+.back{position:fixed;top:12px;left:12px;z-index:200;background:#3e4a45;color:#f4f1ea;text-decoration:none;font-size:.8rem;font-weight:600;padding:.5rem .9rem;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+header{text-align:center;padding:4rem 1.5rem 1.5rem}
+header h1{font-family:Caveat,cursive;font-size:clamp(2.8rem,9vw,4.2rem);color:var(--teal2)}
+header p{color:var(--muted);max-width:30rem;margin:.3rem auto 0}
+main{max-width:760px;margin:0 auto;padding:0 1rem}
+.card{background:var(--card);border-radius:18px;padding:1.6rem;margin:1.2rem 0;box-shadow:0 3px 14px rgba(62,74,69,.07);border:1px solid var(--soft)}
+.card h2{font-family:Caveat,cursive;font-size:1.9rem;margin-bottom:.8rem;color:var(--teal2)}
+.logrow{display:flex;gap:.7rem;flex-wrap:wrap;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:.3rem}
+.field label{font-size:.78rem;font-weight:700;color:var(--muted)}
+.field input{padding:.7rem .9rem;border:2px solid var(--soft);border-radius:12px;font-size:1.05rem;font-family:inherit;background:#fff}
+.field input:focus{outline:none;border-color:var(--teal)}
+.logbtn{background:var(--teal);color:#fff;border:none;border-radius:12px;padding:.75rem 1.6rem;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s}
+.logbtn:hover{background:var(--teal2);transform:translateY(-1px)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.9rem}
+.stat{background:#eef7f4;border-radius:14px;padding:1rem;text-align:center}
+.stat .v{font-family:Caveat,cursive;font-size:2rem;color:var(--teal2)}
+.stat .l{font-size:.78rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+#chart{width:100%;height:300px;display:block}
+.entries{list-style:none;display:flex;flex-direction:column;gap:.5rem;max-height:280px;overflow-y:auto}
+.entries li{display:flex;align-items:center;gap:.8rem;padding:.65rem .9rem;background:#fff;border:1px solid var(--soft);border-radius:12px}
+.entries li .d{font-weight:700}
+.entries li .w{margin-left:auto;font-family:Caveat,cursive;font-size:1.4rem;color:var(--teal2)}
+.entries li .delta{font-size:.82rem;color:var(--muted);min-width:70px;text-align:right}
+.del{background:none;border:none;color:#c47b7b;font-size:1.1rem;cursor:pointer;padding:.2rem .4rem;border-radius:8px}
+.del:hover{background:#fbeeee}
+.enc{text-align:center;color:var(--muted);font-family:Caveat,cursive;font-size:1.5rem;margin-top:.5rem}
+@media(max-width:500px){.logrow .field{flex:1}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← 30 Sites</a>
+<header>
+  <h1>🌿 Steady</h1>
+  <p>Small steps, tracked gently. No judgment — just a friendly line going where you want it to go.</p>
+</header>
+<main>
+  <div class="card">
+    <h2>Log today's weight</h2>
+    <div class="logrow">
+      <div class="field"><label>Date</label><input type="date" id="d"></div>
+      <div class="field"><label>Weight (lb)</label><input type="number" id="w" step="0.1" min="50" max="600" placeholder="165.0"></div>
+      <button class="logbtn" id="log">Log it ✓</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Your progress</h2>
+    <div class="stats">
+      <div class="stat"><div class="v" id="s_change">–</div><div class="l">Total change</div></div>
+      <div class="stat"><div class="v" id="s_avg">–</div><div class="l">7-day average</div></div>
+      <div class="stat"><div class="v" id="s_n">–</div><div class="l">Check-ins</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>The journey, sketched</h2>
+    <canvas id="chart"></canvas>
+    <div class="enc" id="enc"></div>
+  </div>
+  <div class="card">
+    <h2>History</h2>
+    <ul class="entries" id="entries"></ul>
+  </div>
+</main>
+<script>
+const KEY="steady_weights";
+function seed(){const today=new Date();const arr=[];let w=172.4;
+for(let i=5;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);
+arr.push({date:d.toISOString().slice(0,10),weight:+(w+ (Math.random()*.6-.5)).toFixed(1)});w-=.5;}
+return arr;}
+let entries=JSON.parse(localStorage.getItem(KEY)||"null");
+if(!Array.isArray(entries)){entries=seed();localStorage.setItem(KEY,JSON.stringify(entries));}
+const $=id=>document.getElementById(id);
+const fmt=d=>{const[x,y,z]=d.split("-");return new Date(x,y-1,z).toLocaleDateString(undefined,{month:"short",day:"numeric"});};
+function save(){localStorage.setItem(KEY,JSON.stringify(entries));render();}
+function render(){entries.sort((a,b)=>a.date<b.date?-1:1);
+$("s_n").textContent=entries.length;
+if(entries.length>=2){const ch=entries[entries.length-1].weight-entries[0].weight;
+$("s_change").textContent=(ch<=0?"":"+")+ch.toFixed(1)+" lb";
+$("s_change").style.color=ch<=0?"#4a9b8e":"#b5541f";}
+else $("s_change").textContent="–";
+const recent=entries.slice(-7);const avg=recent.reduce((s,e)=>s+e.weight,0)/recent.length;
+$("s_avg").textContent=entries.length?avg.toFixed(1)+" lb":"–";
+$("enc").textContent=entries.length<2?"Log a few entries and watch your line take shape ✏️":
+entries[entries.length-1].weight<entries[0].weight?"Lovely — the trend is heading your way. Keep going! 🌱":
+"Every check-in is a win. Consistency beats perfection. 💪";
+$("entries").innerHTML=entries.slice().reverse().map((e,i)=>{const prev=entries[entries.indexOf(e)-1];
+const d=prev?(e.weight-prev.weight):0;const dl=prev?((d<=0?"":"+")+d.toFixed(1)):"—";
+return `<li><span class="d">${fmt(e.date)}</span><span class="delta">${dl} lb</span><span class="w">${e.weight} lb</span><button class="del" data-d="${e.date}" title="Delete">🗑</button></li>`;}).join("");
+document.querySelectorAll(".del").forEach(b=>b.onclick=()=>{entries=entries.filter(e=>e.date!==b.dataset.d);save();});
+drawChart();}
+function drawChart(){const cv=$("chart"),ctx=cv.getContext("2d");
+const W=cv.clientWidth,H=cv.clientHeight,dpr=devicePixelRatio||1;
+cv.width=W*dpr;cv.height=H*dpr;ctx.scale(dpr,dpr);
+ctx.clearRect(0,0,W,H);
+const pad={l:44,r:14,t:16,b:30};const iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+ctx.font="11px Nunito";ctx.fillStyle="#8a948f";
+if(entries.length===1){ctx.fillStyle="#8a948f";ctx.font="15px Caveat";ctx.fillText("Add one more entry to draw your line ✏️",pad.l,60);return;}
+const ws=entries.map(e=>e.weight);let mn=Math.min(...ws),mx=Math.max(...ws);
+if(mx-mn<2){mn-=1;mx+=1;}const span=mx-mn;
+const X=i=>pad.l+iw*(entries.length===1?.5:i/(entries.length-1));
+const Y=w=>pad.t+ih*(1-(w-mn)/span);
+// gridlines + labels
+for(let g=0;g<=4;g++){const v=mn+span*g/4,y=Y(v);
+ctx.strokeStyle="#e9e4d8";ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+ctx.fillText(v.toFixed(0)+" lb",6,y+4);}
+ctx.fillText(fmt(entries[0].date),pad.l-6,H-10);
+ctx.fillText(fmt(entries[entries.length-1].date),W-pad.r-44,H-10);
+// sketchy wobbly line
+ctx.strokeStyle="#4a9b8e";ctx.lineWidth=2.6;ctx.lineCap="round";ctx.beginPath();
+const N=40;
+for(let i=0;i<entries.length-1;i++){for(let k=0;k<=N;k++){const t=k/N;
+const jx=X(i)+(X(i+1)-X(i))*t,jy=Y(entries[i].weight)+(Y(entries[i+1].weight)-Y(entries[i].weight))*t;
+const wob=(Math.random()-.5)*2.2;
+const px=jx+wob,py=jy+(Math.random()-.5)*2.2;
+if(i===0&&k===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}}
+ctx.stroke();
+// dots
+for(let i=0;i<entries.length;i++){ctx.beginPath();ctx.arc(X(i),Y(entries[i].weight),5,0,7);
+ctx.fillStyle="#fffdf9";ctx.fill();ctx.lineWidth=2.6;ctx.strokeStyle="#357a70";ctx.stroke();}}
+$("log").onclick=()=>{const d=$("d").value||new Date().toISOString().slice(0,10);
+const w=parseFloat($("w").value);
+if(!w||w<50||w>600){alert("Please enter a realistic weight in pounds.");return;}
+entries=entries.filter(e=>e.date!==d);entries.push({date:d,weight:+w.toFixed(1)});$("w").value="";save();};
+$("d").value=new Date().toISOString().slice(0,10);
+$("w").addEventListener("keydown",e=>{if(e.key==="Enter")$("log").click();});
+render();
+addEventListener("resize",drawChart);
+</script>
+</body>
+</html>
